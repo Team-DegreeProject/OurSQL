@@ -20,7 +20,6 @@ import java.security.NoSuchAlgorithmException;
 public class SqlController {
     @PostMapping(value="/Guest/command")
     public String GetDesText(@RequestParam("command") String text) throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, ParseException {
-        System.out.println("ssssssssssssssssssss");
         InputStream target = new ByteArrayInputStream(text.getBytes());
         SqlParser parser = new SqlParser(target);
         String result=parser.parse();
