@@ -1,4 +1,4 @@
-package storage.Lock_regulator;
+package com.ucd.oursql.sql.storage.Lock_regulator;
 
 import java.util.ArrayList;
 

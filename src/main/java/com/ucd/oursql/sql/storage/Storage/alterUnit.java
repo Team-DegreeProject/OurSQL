@@ -1,7 +1,7 @@
-package storage.Storage;
+package com.ucd.oursql.sql.storage.Storage;
 
 
-import table.BTree.BPlusTree;
+import com.ucd.oursql.sql.table.BTree.BPlusTree;
 
 public class alterUnit {
     private String tableName;

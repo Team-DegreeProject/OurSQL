@@ -1,12 +1,12 @@
-package storage.Storage;
+package com.ucd.oursql.sql.storage.Storage;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import table.BTree.BPlusTree;
-import table.BTree.CglibBean;
-import table.BTree.LeafNode;
+import com.ucd.oursql.sql.table.BTree.BPlusTree;
+import com.ucd.oursql.sql.table.BTree.CglibBean;
+import com.ucd.oursql.sql.table.BTree.LeafNode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -66,7 +66,7 @@ public class TreeSaver {
                             String varName = fields[h].getName().substring(12);
 //                        System.out.println("the varName is :"+varName);
                             //获取每个方法名
-                            Method m = (Method) c.getMethod("get" + XMLUtils.getMethodName(varName));
+                            Method m = (Method) c.getMethod("get" + storage.Storage.XMLUtils.getMethodName(varName));
                             //获取这个方法返回的值，然后一起存起来
                             String varVal = (String) m.invoke(cglbObject).toString();
 //                        System.out.println("the value of the data is: "+varVal);
@@ -75,7 +75,7 @@ public class TreeSaver {
                         }
 
 
-                        Element entity = new Element(XMLUtils.convertToLetter(className));
+                        Element entity = new Element(storage.Storage.XMLUtils.convertToLetter(className));
                         table.addContent(entity);
 
                         //利用迭代器来遍历hashmap

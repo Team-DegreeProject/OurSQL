@@ -1,4 +1,4 @@
-package login;
+package com.ucd.oursql.sql.login;
 
 
 import org.jdom2.Document;

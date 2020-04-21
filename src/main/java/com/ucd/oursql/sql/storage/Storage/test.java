@@ -1,7 +1,7 @@
-package storage.Storage;
+package com.ucd.oursql.sql.storage.Storage;
 
-import storage.Configuration.Configuration;
-import table.BTree.BPlusTree;
+import com.ucd.oursql.sql.storage.Configuration.Configuration;
+import com.ucd.oursql.sql.table.BTree.BPlusTree;
 
 import javax.sound.midi.Soundbank;
 import java.util.ArrayList;

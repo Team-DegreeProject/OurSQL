@@ -1,4 +1,4 @@
-package login;
+package com.ucd.oursql.sql.login;
 
 import java.security.MessageDigest;
 

@@ -1,4 +1,6 @@
-package login;
+package com.ucd.oursql.sql.login;
+
+import com.ucd.oursql.sql.login.RegristrationFunc;
 
 public class test {
     public static void main(String[] args) {

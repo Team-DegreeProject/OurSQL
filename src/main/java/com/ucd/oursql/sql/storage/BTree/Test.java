@@ -1,14 +1,14 @@
-package storage.BTree;
+package com.ucd.oursql.sql.storage.BTree;
 
 import java.awt.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import storage.Storage.TreeLoader;
-import storage.Storage.TreeSaver;
-import table.BTree.BPlusTree;
-import table.BTree.CglibBean;
+import com.ucd.oursql.sql.storage.Storage.TreeLoader;
+import com.ucd.oursql.sql.storage.Storage.TreeSaver;
+import com.ucd.oursql.sql.table.BTree.BPlusTree;
+import com.ucd.oursql.sql.table.BTree.CglibBean;
 
 public class Test {
     private static String getMethodName(String fildeName) throws Exception {
@@ -25,7 +25,7 @@ public class Test {
         propertyMap.put("id", Class.forName("java.lang.Integer"));
         propertyMap.put("name", Class.forName("java.lang.String"));
         propertyMap.put("address", Class.forName("java.lang.String"));
-        BPlusTree<CglibBean, Integer> b = new table.BTree.BPlusTree<>(4);
+        BPlusTree<CglibBean, Integer> b = new BPlusTree<>(4);
 //        Product p;
 
         long time1 = System.nanoTime();

@@ -1,6 +1,6 @@
-package storage.Lock_regulator;
+package com.ucd.oursql.sql.storage.Lock_regulator;
 
-import table.type.PrimaryKey;
+import com.ucd.oursql.sql.table.type.PrimaryKey;
 
 import java.util.ArrayList;
 

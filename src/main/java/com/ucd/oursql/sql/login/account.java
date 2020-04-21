@@ -1,4 +1,4 @@
-package login;
+package com.ucd.oursql.sql.login;
 
 public class account {
     private String userId;

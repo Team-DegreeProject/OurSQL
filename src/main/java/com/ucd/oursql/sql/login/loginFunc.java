@@ -1,4 +1,4 @@
-package login;
+package com.ucd.oursql.sql.login;
 
 import net.sf.cglib.reflect.FastClass;
 import org.jdom2.Document;

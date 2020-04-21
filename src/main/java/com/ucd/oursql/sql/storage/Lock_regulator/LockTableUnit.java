@@ -1,4 +1,4 @@
-package storage.Lock_regulator;
+package com.ucd.oursql.sql.storage.Lock_regulator;
 
 public class LockTableUnit {
     String name;

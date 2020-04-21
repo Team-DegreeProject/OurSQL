@@ -1,12 +1,12 @@
-package storage.Storage;
+package com.ucd.oursql.sql.storage.Storage;
 
 
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import table.BTree.BPlusTree;
-import table.BTree.CglibBean;
+import com.ucd.oursql.sql.table.BTree.BPlusTree;
+import com.ucd.oursql.sql.table.BTree.CglibBean;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +29,8 @@ public class TreeLoader {
         for (File file2 : files) {
             if (file2.isDirectory()) {
                 //System.out.println("文件夹:" + file2.getPath().substring(4));
-                File datafile = new File(file2.getPath()+XMLUtils.getFileName(file2.getPath())+".txt");
-                String filepath = file2.getPath()+XMLUtils.getFileName(file2.getPath())+".xml";
+                File datafile = new File(file2.getPath()+ storage.Storage.XMLUtils.getFileName(file2.getPath())+".txt");
+                String filepath = file2.getPath()+ storage.Storage.XMLUtils.getFileName(file2.getPath())+".xml";
                 System.out.println("filepath is : "+filepath);
                 resultList.add(loadFromFile(filepath));
             } else {

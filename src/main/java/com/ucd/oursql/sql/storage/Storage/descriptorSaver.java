@@ -1,15 +1,15 @@
-package storage.Storage;
+package com.ucd.oursql.sql.storage.Storage;
 
 
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import table.BTree.BPlusTree;
-import table.TableDescriptor;
-import table.column.ColumnDescriptor;
-import table.column.DataTypeDescriptor;
-import table.ColumnDescriptorList;
+import com.ucd.oursql.sql.table.BTree.BPlusTree;
+import com.ucd.oursql.sql.table.TableDescriptor;
+import com.ucd.oursql.sql.table.column.ColumnDescriptor;
+import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -64,9 +64,9 @@ public class descriptorSaver {
             }
             Format format=Format.getCompactFormat();
             format.setIndent("");
-            //Éú³É²»Ò»ÑùµÄ±àÂë
+            //ï¿½ï¿½ï¿½É²ï¿½Ò»ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
             format.setEncoding("GBK");
-            //4.´´½¨XMLOutputterµÄ¶ÔÏó
+            //4.ï¿½ï¿½ï¿½ï¿½XMLOutputterï¿½Ä¶ï¿½ï¿½ï¿½
             XMLOutputter outputter=new XMLOutputter(format);
             outputter.output(document, new FileOutputStream(new File("data/"+tableName+"/"+tableName+"PropertyMap.xml")));
         }
@@ -87,33 +87,33 @@ public class descriptorSaver {
         Element lockGranularityElement = new Element("lockGranularity").setText(String.valueOf(lockGranularity));
         Document document = new Document(table);
 
-        //½«Ç°±ßËùÓÐµÄelementÌí¼Óµ½tableÀï±ß
+        //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½elementï¿½ï¿½Óµï¿½tableï¿½ï¿½ï¿½
         table.addContent(tableNameElement);
         table.addContent(tableSchemaElement);
         table.addContent(lockGranularityElement);
 
         Element primaryELement = new Element("primaryKey");
         table.addContent(primaryELement);
-        //´æprimarykeyµÄÃû×Ö
+        //ï¿½ï¿½primarykeyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         for(int j = 0 ; j < tabledescriptor.getPrimaryKey().size(); j++){
             String primaryColumnName = tabledescriptor.getPrimaryKey().get(j).getColumnName();
             Element primaryColumnNameELement = new Element("primaryColumnName").setText(primaryColumnName);
             primaryELement.addContent(primaryColumnNameELement);
         }
 
-        //»ñÈ¡ËùÓÐµÄcolumnDescriptor
+        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ðµï¿½columnDescriptor
         ColumnDescriptorList allDescriptor = tabledescriptor.getColumnDescriptorList();
         for (int i = 0; i < allDescriptor.size(); i++) {
             //columELement
             Element columnElement = new Element("columnDescriptor");
-            //»ñÈ¡Ã¿Ò»ÁÐµÄdescriptor
+            //ï¿½ï¿½È¡Ã¿Ò»ï¿½Ðµï¿½descriptor
             ColumnDescriptor singleColumn = allDescriptor.getColumnDescriptor(i);
             String columnName = singleColumn.getColumnName();
             Element columnNameElement = new Element("columnName").setText(columnName);
             int columnPosition = singleColumn.getPosition();
             Element columnPositionElement = new Element("columnPosition").setText(String.valueOf(columnPosition));
 
-            //dataTypedescriptorÀï±ßµÄËùÓÐµÄÊôÐÔ
+            //dataTypedescriptorï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
             DataTypeDescriptor typeDescriptor = singleColumn.getType();
             Element DataTypeDescriptorElement = new Element("DataTypeDescriptor");
             int typeId = typeDescriptor.getTypeId();
@@ -132,7 +132,7 @@ public class descriptorSaver {
             Element isPrimaryKeyElement = new Element("isPrimaryKey").setText(String.valueOf(isPrimaryKey));
             DataTypeDescriptorElement.addContent(isPrimaryKeyElement);
 
-            //½«dataDEscriptorELementÌí¼Óµ½tableElementÀï±ß
+            //ï¿½ï¿½dataDEscriptorELementï¿½ï¿½Óµï¿½tableElementï¿½ï¿½ï¿½
             columnElement.addContent(DataTypeDescriptorElement);
 
             long autoincStart = singleColumn.getAutoincStart();
@@ -151,12 +151,12 @@ public class descriptorSaver {
             Element columnDefaultValueElement = new Element("columnDefaultValue").setText(String.valueOf(columnDefaultValue));
             columnElement.addContent(columnDefaultValueElement);
         }
-        //½«ÏÖÓÐµÄtable´æ³Éxml
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½tableï¿½ï¿½ï¿½xml
         Format format=Format.getCompactFormat();
         format.setIndent("");
-        //Éú³É²»Ò»ÑùµÄ±àÂë
+        //ï¿½ï¿½ï¿½É²ï¿½Ò»ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
         format.setEncoding("GBK");
-        //4.´´½¨XMLOutputterµÄ¶ÔÏó
+        //4.ï¿½ï¿½ï¿½ï¿½XMLOutputterï¿½Ä¶ï¿½ï¿½ï¿½
         XMLOutputter outputter=new XMLOutputter(format);
         outputter.output(document, new FileOutputStream(new File("data/"+tableName+"/"+tableName+"Descriptor.xml")));
 
