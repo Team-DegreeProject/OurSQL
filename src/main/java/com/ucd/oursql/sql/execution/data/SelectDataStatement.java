@@ -23,7 +23,7 @@ public class SelectDataStatement {
     }
 
     public String selectDataImpl() throws ClassNotFoundException {
-        HashMap from=getFrom();
+//        HashMap from=getFrom();
 
         List<List<Token>> tablenames= (List<List<Token>>) statement.get(3);
 //        String tablename= tablenames.get(0).get(0).image;
@@ -31,13 +31,15 @@ public class SelectDataStatement {
         Table table= dealWithFrom();
 
         List distinctNames=checkDistinct();
-        Table show= DistinctStatement.distinctImpl(table,distinctNames);
-//        table.printTable(null);
+        table.printTable(null);
+        Table show=DistinctStatement.distinctImpl(table,distinctNames);
+        table.printTable(null);
 //        show.printTable(null);
 
+        table.printTable(null);
         List<List<Token>> columns= getColumns();
         show=table.selectSomeColumns(tablenames,columns);
-
+table.printTable(null);
 
 
         List<List<Token>> orderbys=getOrderByLists();
@@ -193,8 +195,13 @@ public class SelectDataStatement {
             List<Token> name= (List<Token>) iit.next();
             List<Token> on= (List<Token>) inner.get(name);
             Table t2= FromStatement.from(name.get(0).image);
+//            System.out.println("++++++++++++++"+on.size());
+//            for(int i=0;i<on.size();i++){
+//                System.out.println(on.get(i).image);
+//            }
             table=InnerJoinStatement.innerJoinImpl(table,t2,on);
         }
+//        table.printTable(null);
         return table;
 
     }

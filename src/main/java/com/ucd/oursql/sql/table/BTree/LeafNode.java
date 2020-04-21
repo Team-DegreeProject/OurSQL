@@ -49,11 +49,12 @@ public class LeafNode <T, V extends Comparable<V>> extends Node<T, V> {
             if(middle==low){
 //                System.out.println("low:"+low+"up:"+up+"middle: "+middle);
                 middleKey=(V) this.keys[middle];
+//                System.out.println(key+" "+this.values[middle+1]);
                 if(key.compareTo(middleKey) == 0){
 //                    System.out.println("case4");
                     return (T) this.values[middle];
                 }
-                else if(key.compareTo((V)this.values[middle+1]) == 0){
+                else if(key.compareTo((V)this.keys[middle+1]) == 0){
                     return (T)this.values[middle+1];
                 }else{
                     break;
