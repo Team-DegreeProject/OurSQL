@@ -43,8 +43,9 @@ public class InnerJoinStatement {
         for(int i=0;i<on.size();i++){
             Token t=on.get(i);
             if(t.kind!=EQ){
-                String name=on.get(i).image;
-                String[] temp=name.split(".");
+                String name=t.image;
+                String[] temp=name.split("\\.");
+//                System.out.println(name+"--->"+temp.length+"---------->"+temp.toString());
                 if(temp[0].equals(tablename)){
                     hashMap.put(2,temp[1]);
                 }else{
@@ -111,11 +112,13 @@ public class InnerJoinStatement {
         List<String> columns=td.getColumnNamesList();
         List<CglibBean> l1=b1.getDatas();
         List<CglibBean> l2=b2.getDatas();
-//        System.out.println("size:"+l1.size());
+//        System.out.println("size:"+l1.size()+","+l2.size());
         for(int i=0;i<l1.size();i++){
             CglibBean c1=l1.get(i);
-            Comparable pk= (Comparable) c1.getValue("primary key");
-            System.out.println("====================="+b2.select(pk)+pk);
+//            System.out.println("====================="+c1);
+            Comparable pk= (Comparable) (c1.getValue("primary key"));
+//            System.out.println("====================="+pk);
+//            System.out.println(b2.select(pk)+"=============");
             CglibBean c2= (CglibBean) b2.select(pk);
             if(c2!=null){
                 CglibBean cn=new CglibBean(t3.getPropertyMap());
@@ -131,10 +134,14 @@ public class InnerJoinStatement {
 
                 }
                 cn.setValue("primary key",pk);
+//                System.out.println(cn+"=============="+pk);
                 b3.insert(cn, pk);
             }
         }
+//        t3.printTable(null);
         DMLTool.updateColumnPosition(t3);
+//        t3.printTable(null);
+//        t3.setTree(b3);
         return t3;
 
     }
