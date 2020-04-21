@@ -1,0 +1,2180 @@
+options {
+    static=false;
+    IGNORE_CASE=true;
+}
+
+PARSER_BEGIN(SqlParser)
+
+package com.ucd.oursql.sql.parsing;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.InputStream;
+import com.ucd.oursql.sql.execution.ExecuteStatement;
+import com.ucd.oursql.sql.execution.database.DatabaseStatements;
+import com.ucd.oursql.sql.execution.table.TableStatements;
+
+public class SqlParser {
+
+    private List<Object> sql = new ArrayList<Object>(); // sql最外层语句
+    private List<Object> subquerySql = new ArrayList<Object>();//subquery 存储子select
+    private List<Object> list = new ArrayList<Object>();//内一层
+    private List<Object> alist = new ArrayList<Object>();//子内一层
+    private List<Object> templist = new ArrayList<Object>();
+    ArrayList<Object> atemplist = new ArrayList<Object>();
+
+    public static void main(String[] args) throws Exception {
+
+//        InputStream input = System.in;
+//        InputStream input1;
+//        input1 = input;
+//        BufferedReader br = new BufferedReader(new InputStreamReader(input));
+//        String str;
+//        str = br.readLine();
+        System.out.println("INPUT THE SQL SENTENCE");
+        System.out.println("-----------------------------------------------------------");
+
+//        SqlParser parser = new SqlParser(input);
+//        parser.parse();
+//        System.out.println("sql is correct!");
+
+        while(true)
+        {
+
+            SqlParser parser = new SqlParser(System.in);
+            String result=parser.parse();
+            System.out.println("result: "+result);
+            System.out.println("sql is correct!");
+            System.out.println();
+            System.out.println("-----------------------------------------------------------");
+            System.out.println();
+            System.out.println();
+
+
+        }
+
+
+    }
+}
+PARSER_END(SqlParser)
+
+SKIP :
+{
+ " "|"\t"|"\r"|"\n"|"\f"|"  "
+}
+
+MORE :
+{
+ "//" : IN_SINGLE_LINE_COMMENT
+|
+ "/*" : IN_MULTI_LINE_COMMENT
+}
+
+<IN_SINGLE_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+    <SINGLE_LINE_COMMENT : "/r" | "/n" | "/r/n"> : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+<MULTI_LINE_COMMENT : "*/"> : DEFAULT
+}
+<IN_SINGLE_LINE_COMMENT,IN_MULTI_LINE_COMMENT>
+MORE :
+{
+<~[]>
+}
+
+TOKEN [IGNORE_CASE]:
+{
+<ADD: "add">
+|	<ALL: "all">
+|	<ALLOCATE: "allocate">
+|	<ALTER: "alter">
+|	<AND: "and">
+|	<ANY: "any">
+|	<ARE: "are">
+|	<AS: "as">
+|	<ASC: "asc">
+|	<ASSERTION: "assertion">
+|	<AT: "at">
+|	<AUTHORIZATION: "authorization">
+|	<AVG: "avg">
+|	<BEGIN: "begin">
+|	<BETWEEN: "between">
+|	<BINARY: "binary">
+|	<BIT: "bit">
+|	<BOTH: "both">
+|	<BY: "by">
+|	<CASCADE: "cascade">
+|	<CASCADED: "cascaded">
+|	<CASE: "case">
+|	<CAST: "cast">
+|	<CHAR: "char">
+|	<CHARACTER: "character">
+|	<CHARACTER_LENGTH: "character_length">
+|	<CHECK: "check">
+|	<CLOSE: "close">
+|	<COALESCE: "coalesce">
+|	<COLLATE: "collate">
+|	<COLLATION: "collation">
+|	<COLUMN: "column">
+|	<COMMIT: "commit">
+|	<CONNECT: "connect">
+|	<CONNECTION: "connection">
+|	<CONSTRAINT: "constraint">
+|	<CONSTRAINTS: "constraints">
+|	<CONTINUE: "continue">
+|	<CONVERT: "convert">
+|	<CORRESPONDING: "corresponding">
+|	<COUNT: "count">
+|	<CREATE: "create">
+|	<CROSS: "cross">
+|	<CURRENT: "current">
+|	<CURRENT_DATE: "current_date">
+|	<CURRENT_TIME: "current_time">
+|	<CURRENT_TIMESTAMP: "current_timestamp">
+|	<CURRENT_USER: "current_user">
+|	<CURSOR: "cursor">
+|	<D: "d">
+|	<DEALLOCATE: "deallocate">
+|	<DEC: "dec">
+|	<DECIMAL: "decimal">
+|	<DECLARE: "declare">
+|	<_DEFAULT: "default">
+|	<DEFERRABLE: "deferrable">
+|	<DEFERRED: "deferred">
+|	<DELETE: "delete">
+|	<DESC: "desc">
+|	<DESCRIBE: "describe">
+|	<DIAGNOSTICS: "diagnostics">
+|	<DISCONNECT: "disconnect">
+|	<DISTINCT: "distinct">
+|	<DOUBLE: "double">
+|	<DROP: "drop">
+|	<ELSE: "else">
+|	<ENDEXEC: "end-exec">
+|	<ESCAPE: "escape">
+|	<EXCEPT: "except">
+|	<EXCEPTION: "exception">
+|	<EXEC: "exec">
+|	<EXECUTE: "execute">
+|	<EXISTS: "exists">
+|	<EXTERNAL: "external">
+|	<FALSE: "false">
+|	<FETCH: "fetch">
+|	<FIRST: "first">
+|	<FLOAT: "float">
+|	<FOR: "for">
+|	<FOREIGN: "foreign">
+|	<FOUND: "found">
+|	<FROM: "from">
+|	<FULL: "full">
+|	<FUNCTION: "function">
+|	<GET: "get">
+|	<GLOBAL: "global">
+|	<GO: "go">
+|	<GOTO: "goto">
+|	<GRANT: "grant">
+|	<GROUP: "group">
+|	<HAVING: "having">
+|	<HOUR: "hour">
+|	<IDENTITY: "identity">
+|	<IMMEDIATE: "immediate">
+|	<IN: "in">
+|	<INDICATOR: "indicator">
+|	<INITIALLY: "initially">
+|	<INNER: "inner">
+|	<INPUT: "input">
+|	<INSENSITIVE: "insensitive">
+|	<INSERT: "insert">
+|	<INT: "int">
+|	<INTEGER: "integer">
+|	<INTERSECT: "intersect">
+|	<INTO: "into">
+|	<IS: "is">
+|	<ISOLATION: "isolation">
+|	<JOIN: "join">
+|	<KEY: "key">
+|	<LAST: "last">
+|	<LEADING: "leading">
+|	<LEFT: "left">
+|	<LIKE: "like">
+|	<LOWER: "lower">
+|	<MATCH: "match">
+|	<MAX: "max">
+|	<MIN: "min">
+|	<MINUTE: "minute">
+|	<MODULE: "module">
+|	<NATIONAL: "national">
+|	<NATURAL: "natural">
+|	<NCHAR: "nchar">
+|	<NEXT: "next">
+|	<NO: "no">
+|	<NOT: "not">
+|	<NULL: "null">
+|	<NULLIF: "nullif">
+|	<NUMERIC: "numeric">
+|	<OF: "of">
+|	<ON: "on">
+|	<ONLY: "only">
+|	<OPEN: "open">
+|	<OPTION: "option">
+|	<OR: "or">
+|	<ORDER: "order">
+|	<OUTER: "outer">
+|	<OUTPUT: "output">
+|	<OVERLAPS: "overlaps">
+|	<PAD: "pad">
+|	<PARTIAL: "partial">
+|	<PREPARE: "prepare">
+|	<PRESERVE: "preserve">
+|	<PRIMARY: "primary">
+|	<PRIOR: "prior">
+|	<PRIVILEGES: "privileges">
+|	<PROCEDURE: "procedure">
+|	<PUBLIC: "public">
+|	<READ: "read">
+|	<REAL: "real">
+|	<REFERENCES: "references">
+|	<RELATIVE: "relative">
+|	<RESTRICT: "restrict">
+|	<REVOKE: "revoke">
+|   <RENAME:"rename">
+|   <USE:"use">
+|   <SHOW :"show">
+|	<RIGHT: "right">
+|	<ROLLBACK: "rollback">
+|	<ROWS: "rows">
+|	<SCHEMA: "schema">
+|	<SCROLL: "scroll">
+|	<SECOND: "second">
+|	<SELECT: "select">
+|	<SESSION_USER: "session_user">
+|	<SET: "set">
+|	<SMALLINT: "smallint">
+|	<SOME: "some">
+|	<SPACE: "space">
+|	<SQL: "sql">
+|	<SQLCODE: "sqlcode">
+|	<SQLERROR: "sqlerror">
+|	<SQLSTATE: "sqlstate">
+|	<SUBSTRING: "substring">
+|	<SUM: "sum">
+|	<SYSTEM_USER: "system_user">
+|	<T: "t">
+|	<TABLE: "table">
+|	<TEMPORARY: "temporary">
+|	<TIMEZONE_HOUR: "timezone_hour">
+|	<TIMEZONE_MINUTE: "timezone_minute">
+|	<TO: "to">
+|	<TRANSACTION: "transaction">
+|	<TRANSLATE: "translate">
+|	<TRANSLATION: "translation">
+|	<TRAILING: "trailing">
+|	<TRIM: "trim">
+|	<TRUE: "true">
+|	<TS: "ts">
+|	<UNION: "union">
+|	<UNIQUE: "unique">
+|	<UNKNOWN: "unknown">
+|	<UPDATE: "update">
+|	<UPPER: "upper">
+|	<USER: "user">
+|	<USING: "using">
+|	<VALUE: "value">
+|	<VALUES: "values">
+|	<VARBINARY: "varbinary">
+|	<VARCHAR: "varchar">
+|	<VARYING: "varying">
+|	<VIEW: "view">
+|	<WHENEVER: "whenever">
+|	<WHERE: "where">
+|   <WINDOW: "window">
+|	<WITH: "with">
+|	<WORK: "work">
+|	<WRITE: "write">
+|	<YEAR: "year">
+|	<WEEK: "week">
+|	<NOW: "now">
+|	<SYSDATE: "sysdate">
+|	<CURDATE: "curdate">
+|	<DATEDIFF: "datediff">
+|	<DATE_FORMAT: "date_fromat">
+|   <FLOOR:"floor">
+
+
+}
+TOKEN [IGNORE_CASE] :
+{
+    <ABS: "abs">
+|    <ABSVAL: "absval">
+|	<ACTION: "action">
+|	<ALWAYS: "always">
+|<AFTER:"after">
+|	<BLOB: "blob">
+  |	<C: "c">
+  | <CALLED: "called">
+|	<CLOB: "clob">
+  |	<COBOL: "cobol">
+|	<COMMITTED: "committed">
+|   <COMMENT:"comment">
+|   <CONCAT: "concat">
+|	<CONTAINS: "contains">
+|	<CYCLE: "cycle">
+|	<DATA: "data">
+|	<DATE: "date">
+|	<DAY: "day">
+|	<DEFINER: "definer">
+|	<DETERMINISTIC: "deterministic">
+|   <DYNAMIC: "dynamic">
+|   <ENFORCED: "enforced">
+|	<FORTRAN: "fortran">
+|   <GENERATED: "generated">
+|	<IDENTITY_VAL_LOCAL: "identity_val_local">
+|	<INCREMENT: "increment">
+|	<INITIAL: "initial">
+|   <INOUT: "inout">
+|	<INTERVAL: "interval">
+|	<INVOKER: "invoker">
+|	<LANGUAGE: "language">
+|	<LARGE: "large">
+|	<LENGTH: "length">
+|	<LEVEL: "level">
+|	<LIMIT: "limit">
+|	<LOCKS: "locks">
+|	<LOCKSIZE: "locksize">
+|	<LOGGED: "logged">
+|	<MATCHED: "matched">
+|	<MAXVALUE: "maxvalue">
+|	<MERGE: "merge">
+|	<MINVALUE: "minvalue">
+|       <MOD: "mod">
+|	<MODIFIES: "modifies">
+|	<MODIFY: "modify">
+|	<MONTH: "month">
+|	<_MORE: "more">
+|	<MUMPS: "mumps">
+|	<NCLOB: "nclob">
+|	<NULLABLE: "nullable">
+|	<NULLS: "nulls">
+|	<OBJECT: "object">
+|	<OFFSET: "offset">
+|	<PASCAL: "pascal">
+|	<PLI: "pli">
+|	<PRECISION: "precision">
+|	<RELEASE: "release">
+|	<REPEATABLE: "repeatable">
+|	<RESTART: "restart">
+|	<RETURNS: "returns">
+|	<ROLLUP: "rollup">
+|	<ROW: "row">
+|	<SAVEPOINT: "savepoint">
+|	<SCALE: "scale">
+|	<SECURITY: "security">
+|	<SERIALIZABLE: "serializable">
+|	<SQL_TSI_FRAC_SECOND: "sql_tsi_frac_second">
+|	<SQL_TSI_SECOND: "sql_tsi_second">
+|	<SQL_TSI_MINUTE: "sql_tsi_minute">
+|	<SQL_TSI_HOUR: "sql_tsi_hour">
+|	<SQL_TSI_DAY: "sql_tsi_day">
+|	<SQL_TSI_WEEK: "sql_tsi_week">
+|	<SQL_TSI_MONTH: "sql_tsi_month">
+|	<SQL_TSI_QUARTER: "sql_tsi_quarter">
+|	<SQL_TSI_YEAR: "sql_tsi_year">
+|	<START: "start">
+|	<STATEMENT: "statement">
+|	<SYNONYM: "synonym">
+|	<THEN: "then">
+|	<TIME: "time">
+|	<TIMESTAMP: "timestamp">
+|	<TIMESTAMPADD: "timestampadd">
+|	<TIMESTAMPDIFF: "timestampdiff">
+|	<TRUNCATE: "truncate">
+|	<TYPE: "type">
+|	<UNCOMMITTED: "uncommitted">
+|	<USAGE: "usage">
+|	<WHEN: "when">
+|	<DERBYPLAN: "--sqlkvplan">
+|   <AUTO_INCREMENT:"auto_increment">
+|   <INDEX:"index">
+}
+TOKEN [IGNORE_CASE]:
+{
+<GROUP_BY : "group" ([" "])+ "by">
+|<ORDER_BY : "order" ([" "])+ "by">
+|<PRIMARY_KEY: "primary" ([" "])+ "key">
+|<NOT_NULL: "not" ([" "])+ "null">
+}
+
+TOKEN :
+{
+<LBRACKET : "(">
+|<RBRACKET : ")">
+|<EQ : "=">
+|<GT : ">=">
+|<LT : "<=">
+|<LQ : ">">
+|<RQ : "<">
+|<NE : "!=">
+|<PERCENT: "%">
+|<AMPERSAND: "&">
+|<QUOTE: "'" | "\"">
+|<LEFT_BRACE: "{">
+|<RIGHT_BRACE: "}">
+|<ASTERISK: "*">
+|<HASH: "#">
+|<PLUS_SIGN: "+">
+|<COMMA: ",">
+|<MINUS_SIGN: "-">
+|<DOT: ".">
+|<SOLIDUS: "/">
+|<COLON: ":">
+|<DOUBLE_COLON: "::">
+|	<NOT_EQUALS_OPERATOR: "<>">
+|	<QUESTION_MARK: "?">
+|	<UNDERSCORE: "_">
+|	<VERTICAL_BAR: "|">
+|	<LEFT_BRACKET: "[">
+|	<RIGHT_BRACKET: "]">
+|	<CONCATENATION_OPERATOR: "||">
+|	<FIELD_REFERENCE: "->">
+|	<ELLIPSIS: "...">
+}
+
+TOKEN [IGNORE_CASE] :
+{
+	<BOOLEAN: "boolean">
+|	<CALL: "call">
+|	<CURRENT_ROLE: "current_role">
+|	<CURTIME: "curtime">
+|   <DATABASE: "database">
+|	<GET_CURRENT_CONNECTION: "getCurrentConnection">
+|	<EXPLAIN: "explain">
+|   <BIGINT: "bigint">
+|	<LONG: "long">
+|	<LTRIM: "ltrim">
+|	<NONE: "none">
+|	<OVER: "over">
+|	<ROLE: "role">
+|	<ROWNUMBER: "row_number">
+|	<RTRIM: "rtrim">
+|	<SUBSTR:	"substr">
+|	<XML:	"xml">
+|	<XMLEXISTS:	"xmlexists">
+|	<XMLPARSE:	"xmlparse">
+|	<XMLQUERY:	"xmlquery">
+|	<XMLSERIALIZE:	"xmlserialize">
+}
+
+TOKEN :
+{
+
+<ID :  <LETTER> (<LETTER>|<DIGIT>)*>
+
+|
+<NAME: <ID> ( "." <ID>)?>
+|
+<NUMBER: (<DIGIT>)+ (<DOT>(<DIGIT>)*)?>
+|
+<#LETTER : ["a"-"z","A"-"Z","_"]>
+|
+<#DIGIT : ["0"-"9"]>
+|
+<STRING : "/'" (~["/"])* ("///'")? (~["/"])* "/'">
+|
+<TEXT : <QUOTE> (<LETTER>|<DIGIT>) (<LETTER>|<DIGIT>|(" "))* <QUOTE> >
+|
+<TIMEORDATE: <QUOTE>( (<DIGIT>) (<DIGIT>|("-")|"_"|":"|" ")*   )<QUOTE>   >
+|
+<LIKETEXT:<QUOTE>   ("%"|("_")+)?  (<LETTER>|<DIGIT>) (<LETTER>|<DIGIT>)*   ("%"|("_")+)? <QUOTE>>
+//|
+//<DATATYPE : (<VARCHAR>|<CHAR>)  (<LBRACKET><NUMBER><RBRACKET>)?|<BLOB>
+//    |(<INT>|<BIGINT>)   (<LBRACKET><NUMBER><RBRACKET>)?|<REAL>
+//    | <FLOAT>|(<DOUBLE>|<DECIMAL>)(<LBRACKET><NUMBER><COMMA><NUMBER><RBRACKET>)?
+//    |<DATE>|<TIMESTAMP>|<TIME>|<YEAR>  >
+//|
+//<COLUMN_CONSTRATION:<NOT><NULL>|<PRIMARY><KEY>|<AUTO_INCREMENT>|<INCREMENT>|<COMMENT>>
+//|
+//<TABLE_CONSTRATION>
+}
+
+TOKEN :
+{
+<STATEMENT_END : ";">
+|
+<END : "!!">
+}
+
+String parse() :
+{
+    Token t;
+    sql = new ArrayList<Object>();
+    String result=null;
+}
+{
+ (
+    //***************1	CREATE ************************************************
+    //1.1.1	CREATE DATABASE testdb；
+    //1.1.1	CREATE TABLE table_name	();
+    t = <CREATE>   {result=create(t);}
+
+    //***************2	DROP***************************************************
+    //2.1.1	DROP DATABSE databse_name;
+    |t = <DROP>   drop(t)
+
+    //***************3	RENAME*************************************************
+    //3.1.1	RENAME DATABSE old_name TO new_name
+    |t = <RENAME>   rename(t)
+
+    //***************4	USE****************************************************
+    //4.1.1	USE database_name
+    |t = <USE>   use(t)
+
+    //***************5 SHOW**************************************************
+    //5.1.1	SHOW DATABASE
+    |t = <SHOW>   show(t)
+
+    //***************6 SELECT**************************************************
+    |t = <SELECT> select(t)
+
+    //***************ALTER*******************************************************
+    |t = <ALTER>    alter(t)
+
+    //***************INSERT*******************************************************
+    |
+    //only support simple insert statement
+    t = <INSERT>    insert(t)
+
+
+    //***************UPDATE*******************************************************
+    |t = <UPDATE>   update(t)
+
+    //***************DELETE*******************************************************
+    |t = <DELETE>   delete(t)
+     //***************TRUNCATE*******************************************************
+    |t = <TRUNCATE>   truncate(t)
+ )
+    {return result;}
+
+}
+
+void select(Token d):
+{
+    Token t;
+    sql = new ArrayList<Object>();
+    t=d;
+    System.out.println("------SELECT METHOD --------");
+    saveTokenInSQL(t);
+}
+{
+//    t =<DATABASE>   {saveTokenInSQL(t);}
+
+    (
+       (t =<ALL>      {saveTokenInSQL(t);}
+        | t =<ASTERISK> {saveTokenInSQL(t);}
+        )
+        t =<FROM>   {saveTokenInSQL(t);}
+        fromTables()
+        (Join())*
+        (where())?
+        (groupBy() ) ?
+        (orderBy() ) ?
+    )?
+    (
+        selectResultList()
+        t =<FROM>   {saveTokenInSQL(t);}
+        fromTables()
+        (Join())*
+        (where())?
+        (groupBy() ) ?
+        (orderBy() ) ?
+    )?
+
+
+
+    showStructure()
+    (<STATEMENT_END> | <END>)
+
+        {ExecuteStatement.select(sql);} // %%
+        //    {test.testWhereAnd(sql);} // %%
+
+
+}
+void subquerySelect(Token d):
+{
+    subquerySql = new ArrayList<Object>();
+    Token t;
+    t = d;
+    saveTokenInList(t,subquerySql);
+
+
+}
+{
+   // t =<SELECT>   {saveTokenInList(t,list);}
+   (
+     (
+              t =<ALL>      {saveTokenInList(t,subquerySql);}
+            | t =<ASTERISK> {saveTokenInList(t,subquerySql);}
+     )
+     |
+     (
+        subquerySelectResultList()
+     )
+   )
+        t =<FROM>   {saveTokenInList(t,subquerySql);}
+        subqueryFromTables()
+        (subqueryJoin())*
+        (subqueryWhere())?
+        (subqueryGroupBy() ) ?
+        (subqueryOrderBy() ) ?
+
+
+
+
+    //{   showStructure(); }
+    //(<STATEMENT_END> | <END>)
+
+}
+
+//把Token存到sql里
+void saveTokenInSQL(Token a) :
+{
+    Token t;
+}
+{
+    {
+        t = a;
+        System.out.println(t.image+" : "+t.kind);
+        sql.add(t);
+    }
+}
+
+//把list存到sql里
+void saveListInSQL(List<Object> a) :
+{}
+{
+    {
+        sql.add(a);
+    }
+}
+
+//把Token存到list里
+void saveTokenInList(Token a,List<Object> l) :
+{
+    Token t;
+}
+{
+    {
+        t = a;
+        System.out.println("------->"+t.image+" : "+t.kind);
+        l.add(t);
+    }
+}
+
+//把TempList存到list里
+void saveTempListInList(List<Object> temp,List<Object> l) :
+{}
+{
+    {
+        //System.out.print("  list is : ");
+//        for (Object object : temp)
+//        {
+//            System.out.println(object);
+//        }
+//        System.out.println("");
+
+        l.add(temp);
+    }
+}
+
+
+void showStructure() :
+{}
+{
+    {
+        System.out.println();
+        System.out.println("----------STRUCTURE----------");
+        for (Object object : sql)
+        {
+            System.out.println(object);
+        }
+    }
+}
+void insert(Token d) :
+{
+    Token t;
+    sql = new ArrayList<Object>();
+    list = new ArrayList<Object>();
+    int i = 0;//用于标记column的数量，用于和后面的value个数匹配判断
+}
+{
+    {
+        t=d;
+        System.out.println("------INSERT METHOD --------");
+        saveTokenInSQL(t);
+    }
+    (       //2.1.1	INSERT INTO table1 (column1, coulumn2,…) VALUES (value1, value2 , …);//value = number or text;
+            t =<INTO>
+            {
+                saveTokenInSQL(t);
+            }
+            t =<ID> //TABLE NAME
+            {
+                 saveTokenInSQL(t);
+            }
+            (
+                <LBRACKET>
+                    (t =<NAME>{saveTokenInList(t,list);i++;}|t =<ID>{saveTokenInList(t,list);i++;})
+
+                    (   ","
+                        (t =<NAME>{saveTokenInList(t,list);i++;}|t =<ID>{saveTokenInList(t,list);i++;})
+                    )*
+                <RBRACKET>
+            )?  //2.1.2	INSERT INTO table1 VALUES (value1, value2,…)
+                //没有明确table的插入column名字时，默认全插，valuse的个数需要和table的column数目统一
+                //需要接口获得个数，暂时不做这个判断
+            //{saveTempListInList(templist,list);}
+            {saveTempListInList(list,sql);}
+           (
+            (
+                t =<VALUES>
+                {
+                  saveTokenInSQL(t);
+                }
+                //<LBRACKET>
+                 multivalues(i)
+                //<RBRACKET>
+            )
+            |
+            (
+                t=<SELECT>
+                subquerySelect(t)
+                {
+                   saveTempListInList(subquerySql,sql);
+                }
+            )
+           )
+            (<STATEMENT_END> | <END>)
+    )
+
+    {   showStructure(); }
+    //(<STATEMENT_END> | <END>)
+
+   {ExecuteStatement.insert(sql);}// %%
+    // {test.testWhereAnd(sql);} // %%
+
+}
+
+String create(Token d) :
+{
+    Token t;
+    sql = new ArrayList<Object>();
+}
+{
+    {
+        t=d;
+        System.out.println("------CREATE METHOD --------");
+        saveTokenInSQL(t);
+    }
+    (       ////1.1.1	CREATE DATABASE testdb；
+            t =<DATABASE>
+            {
+                saveTokenInSQL(t);
+            }
+            t = <ID>
+            {
+                saveTokenInSQL(t);
+            }
+
+        |   t =<TABLE>
+            {
+                saveTokenInSQL(t);
+            }
+            t = <ID>
+            {
+                 saveTokenInSQL(t);
+
+            }
+            createTable()
+    )
+
+    {   showStructure(); }
+    (<STATEMENT_END> | <END>)
+
+    {System.out.println("------ test interface position --------");}
+
+
+ {
+    String a = ExecuteStatement.create(sql);// %%
+    System.out.println("result: ----------"+a);
+    return a;
+ }
+    // {test.testWhereAnd(sql);} // %%
+
+}
+
+////1.1.1	CREATE TABLE table_name
+//  //( 	column_name_1 data_type default value column_constraint,
+//  //column_name_2 data_type default value column_constraint,
+//  //...,
+//  //table_constraint	 );
+void createTable() :
+{Token t;
+
+}
+{
+    <LBRACKET>
+
+        (createLine())
+        (
+            (",")
+            (
+                createLine()
+                |
+                (   table_constration() )*
+            )
+
+        )*  //|(table_constration())?
+
+    <RBRACKET>
+    {saveTempListInList(list,sql);}
+}
+
+void createLine():
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+    t=<ID>        {saveTokenInList(t,templist);}
+    dataType()
+
+    (columnConstration())?
+
+    {saveTempListInList(templist,list);}
+}
+void createLine1(Token d):
+{
+    Token t;
+    t = d;
+    templist = new ArrayList<Object>();
+    saveTokenInList(t,templist);
+}
+{
+    t=<ID>        {saveTokenInList(t,templist);}
+    dataType()
+
+    (columnConstration())?
+
+    {saveTempListInList(templist,list);}
+}
+
+void dataType():
+{
+    Token t;
+}
+{
+     (  t = <VARCHAR> {saveTokenInList(t,templist);}|t = <CHAR> {saveTokenInList(t,templist);})
+            (   t = <LBRACKET>
+                t = <NUMBER>    {saveTokenInList(t,templist);}
+                t = <RBRACKET>
+            )?
+     |t = <BLOB>    {saveTokenInList(t,templist);}
+     |(t = <INT>{saveTokenInList(t,templist);}|t = <BIGINT>{saveTokenInList(t,templist);})
+            (   t = <LBRACKET>
+                t = <NUMBER>{saveTokenInList(t,templist);}
+                t = <RBRACKET>
+            )?
+     |t = <REAL>    {saveTokenInList(t,templist);}
+     |t = <FLOAT>   {saveTokenInList(t,templist);}
+     |(t = <DOUBLE> {saveTokenInList(t,templist);}|t = <DECIMAL>{saveTokenInList(t,templist);})
+            (   t = <LBRACKET>
+                t = <NUMBER>    {saveTokenInList(t,templist);}
+                t = <COMMA>
+                t = <NUMBER>    {saveTokenInList(t,templist);}
+                t = <RBRACKET>
+            )?
+     |t = <DATE>        {saveTokenInList(t,templist);}
+     |t = <TIMESTAMP>   {saveTokenInList(t,templist);}
+     |t = <TIME>        {saveTokenInList(t,templist);}
+     |t = <YEAR>        {saveTokenInList(t,templist);}
+
+    //{saveTempListInList(templist1,templist);}
+
+
+}
+
+void columnConstration():
+{Token t;}
+{
+    (
+     t = <NOT_NULL>{saveTokenInList(t,templist);}
+    |t = <PRIMARY_KEY>{saveTokenInList(t,templist);}
+    |t = <AUTO_INCREMENT>{saveTokenInList(t,templist);}
+    |t = <INCREMENT>{saveTokenInList(t,templist);}
+    |
+    (
+        t = <COMMENT>{saveTokenInList(t,templist);}
+         (t=<TEXT>|t=<NUMBER>){saveTokenInList(t,templist);}
+    )
+
+    )+
+
+}
+void table_constration():
+{Token t;
+templist = new ArrayList<Object>();}
+{
+
+    t = <INDEX>     {saveTokenInList(t,templist);}
+
+    |t = <PRIMARY_KEY> {saveTokenInList(t,templist);}
+
+    ("("
+        (
+            (t = <ID>|t = <NAME>)   {saveTokenInList(t,templist);}
+
+            (<COMMA> (t = <ID>|t = <NAME>)   {saveTokenInList(t,templist);})*
+        )
+    ")")?
+    {saveTempListInList(templist,list);}
+}
+
+void delete(Token d) :
+{
+    Token t;
+    sql = new ArrayList<Object>();
+}
+{
+    {
+        t=d;
+        System.out.println("------DELETE METHOD --------");
+        saveTokenInSQL(t);
+    }
+    t =<FROM>
+    {
+        saveTokenInSQL(t);
+    }
+
+    t = <ID>
+    {    saveTokenInSQL(t);  }
+
+    (where() )?
+    (groupBy() ) ?
+    (orderBy() ) ?
+
+    showStructure()
+    (<STATEMENT_END> | <END>)
+
+
+
+     {ExecuteStatement.delete(sql);}// %%
+
+//    {test.testWhereAnd(sql);} // %%
+
+}
+void truncate(Token d) :
+{
+    Token t;
+    sql = new ArrayList<Object>();
+}
+{
+    {
+        t=d;
+        System.out.println("------TRUNCATE METHOD --------");
+        saveTokenInSQL(t);
+    }
+
+   ( t = <ID>| t = <NAME>)
+   {    saveTokenInSQL(t);  }
+
+
+
+    showStructure()
+    (<STATEMENT_END> | <END>)
+
+
+
+   {ExecuteStatement.truncate(sql);} // %%
+
+//    {test.testWhereAnd(sql);} // %%
+
+}
+
+//2.1.1	DROP DATABSE databse_name;
+void drop(Token d):
+{
+     Token t;
+     sql = new ArrayList<Object>();
+     t=d;
+     System.out.println("------DROP METHOD --------");
+     saveTokenInSQL(t);
+}
+{
+    (
+         t =<DATABASE>{ saveTokenInSQL(t);}
+
+        (
+            t = <ID>{ saveTokenInSQL(t);}
+        )
+
+        |t =<TABLE>{ saveTokenInSQL(t);}
+        (
+            name()
+            (   ","
+            //(t = <ID>|t = <NAME>){ saveTokenInSQL(t);})*
+                name()
+            )*
+
+            {list =templist;}
+//        {saveTempListInList(templist,list);}
+            {saveTempListInList(list,sql);}
+        )
+        (<STATEMENT_END> | <END>)
+        showStructure()
+    )
+
+
+    {System.out.println("------&&&&&&&&&&&&&&&&7--------");}
+
+
+     {ExecuteStatement.drop(sql);} // %%
+    //    {test.testWhereAnd(sql);} // %%
+}
+
+//3.1.1	RENAME DATABSE old_name TO new_name
+void rename(Token d):
+{
+    Token t;
+    sql = new ArrayList<Object>();}
+{
+    {
+         t=d;
+         System.out.println("------RENAME METHOD --------");
+         saveTokenInSQL(t);
+     }
+    (t =<DATABASE> {saveTokenInSQL(t);})?
+    t = <ID>        {saveTokenInSQL(t);}
+    t = <TO>        {saveTokenInSQL(t);}
+    t = <ID>        {saveTokenInSQL(t);}
+
+    {   showStructure(); }
+    (<STATEMENT_END> | <END>)
+
+    {ExecuteStatement.rename(sql);} // %%
+        //    {test.testWhereAnd(sql);} // %%
+
+}
+//5.1.1	SHOW DATABASE;
+void show(Token d):
+{
+    Token t;
+    sql = new ArrayList<Object>();}
+{
+    {
+         t=d;
+         System.out.println("------SHWO METHOD --------");
+         saveTokenInSQL(t);
+    }
+    t =<DATABASE>   {saveTokenInSQL(t);}
+
+    {   showStructure(); }
+    (<STATEMENT_END> | <END>)
+
+    {ExecuteStatement.show(sql);}// %%
+        //    {test.testWhereAnd(sql);} // %%
+
+
+}
+//4.1.1	USE database_name
+void use(Token d):
+{
+    Token t;
+    sql = new ArrayList<Object>();}
+{
+    {
+         t=d;
+         System.out.println("------USE METHOD --------");
+         saveTokenInSQL(t);
+    }
+
+    t = <ID>    {saveTokenInSQL(t);}
+
+    {   showStructure(); }
+        (<STATEMENT_END> | <END>)
+
+    {ExecuteStatement.use(sql);}// %%
+    //    {test.testWhereAnd(sql);} // %%
+}
+
+//3	UPDATE
+  //3.1	UPDATE table SET column1 = value1, column2 = value2 WHERE condition;
+  //3.2	UPDATE table SET column1 =	(SELECT a From b WHERE c = “e”);
+  //3.3	UPDATE table INNER JOIN table1 ON table.column1 = table2.column1 SET table.column2 = table1.coulmn2,… (WHERE);
+void update(Token d):
+{
+    Token t;
+    sql = new ArrayList<Object>();}
+{
+    {
+         t=d;
+         System.out.println("------UPDATE METHOD --------");
+         saveTokenInSQL(t);
+     }
+
+    t = <ID>        {saveTokenInSQL(t);}
+    ( Join() )?
+    t = <SET>        {saveTokenInSQL(t);}
+    sets()
+    ( where() )?
+
+    {   showStructure(); }
+    (<STATEMENT_END> | <END>)
+
+     {ExecuteStatement.update(sql);}// %%
+        //    {test.testWhereAnd(sql);} // %%
+
+}
+
+void alter(Token d):
+{
+    Token t;
+    sql = new ArrayList<Object>();}
+{
+    {
+         t=d;
+         System.out.println("------ALTER METHOD --------");
+         saveTokenInSQL(t);
+     }
+
+    t = <TABLE>                 {saveTokenInSQL(t);}
+    (
+        (t = <NAME> |t = <ID> )       {saveTokenInSQL(t);}
+
+       ( t = <ADD>                 //{saveTokenInSQL(t);}
+            (
+                (createLine1(t))
+                (
+                    ","
+                    t = <ADD>                // {saveTokenInSQL(t);}
+                    (createLine1(t))
+
+                 )*
+            )
+            {saveTempListInList(list,sql);}
+        |
+
+        t = <MODIFY>                 {saveTokenInSQL(t);}
+        (
+            (createLine())
+        )
+        //{saveTempListInList(list,sql);}
+        (
+            ","
+             t = <MODIFY>                 //{saveTokenInSQL(t);}
+             (
+                //{list = new ArrayList<Object>();}
+                 (createLine()) //{saveTempListInList(list,sql);}
+             )
+            //{saveTempListInList(list,sql);}
+        )*
+        {saveTempListInList(list,sql);}
+
+        |
+        t = <DROP>  dropColumn(t)
+        (
+            (
+                ","
+                t = <DROP>
+                dropColumn(t)
+
+            )*
+        )
+         {saveTempListInList(list,sql);}
+        |
+        t = <RENAME> {saveTokenInSQL(t);}
+            t = <ID>        {saveTokenInSQL(t);}
+            t = <TO>        {saveTokenInSQL(t);}
+            t = <ID>        {saveTokenInSQL(t);}
+       )
+       // {saveTempListInList(list,sql);}
+    )
+    //{saveTempListInList(templist,sql);}
+
+    {   showStructure(); }
+    (<STATEMENT_END> | <END>)
+
+{ExecuteStatement.alter(sql);}// %%
+        //    {test.testWhereAnd(sql);} // %%
+
+}
+void dropColumn(Token d):
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+        {   t=d;
+            saveTokenInList(t,templist);}
+       t =<COLUMN>{   saveTokenInList(t,templist);}
+       (
+           ( t = <ID>|t = <NAME>){   saveTokenInList(t,templist);}
+       )
+       {saveTempListInList(templist,list);}
+}
+
+
+void add():
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+
+        t = <NAME> |t = <ID>        {saveTokenInSQL(t);}
+        (dataType())?
+        (   columnConstration())?
+        (
+            t = <AFTER>                 {saveTokenInSQL(t);}
+            (t = <NAME> |t = <ID>  )      {saveTokenInSQL(t);}
+        )?
+}
+
+
+void Join():
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+    (t = <INNER>|t=<LEFT>|t =<FULL>|t=<CROSS>)                 {saveTokenInSQL(t);}
+    t = <JOIN>                  {saveTokenInSQL(t);}
+    (t = <NAME>|t = <ID>)       {saveTokenInSQL(t);}
+    t = <ON>                    {saveTokenInSQL(t);}
+    (t = <NAME>|t = <ID>)       {saveTokenInList(t,templist);}
+    t = <EQ>                    {saveTokenInList(t,templist);}
+    (t = <NAME>|t = <ID>)       {saveTokenInList(t,templist);}
+    {saveTempListInList(templist,sql);}
+
+}
+void subqueryJoin():
+{
+    Token t;
+    atemplist = new ArrayList<Object>();
+}
+{
+    (t = <INNER>|t=<LEFT>|t =<FULL>|t=<CROSS>)      {saveTokenInList(t,subquerySql);}
+    t = <JOIN>                  {saveTokenInList(t,subquerySql);}
+    (t = <NAME>|t = <ID>)       {saveTokenInList(t,subquerySql);}
+    t = <ON>                    {saveTokenInList(t,subquerySql);}
+
+    (t = <NAME>|t = <ID>)       {saveTokenInList(t,atemplist);}
+    t = <EQ>                    {saveTokenInList(t,atemplist);}
+    (t = <NAME>|t = <ID>)       {saveTokenInList(t,atemplist);}
+    {saveTempListInList(atemplist,subquerySql);}
+
+}
+
+
+//where语句
+void where() :
+{Token t;}
+{
+    t = <WHERE>
+    {   saveTokenInSQL(t);   }
+    multiCondition()
+}
+
+void subqueryWhere() :
+{Token t;}
+{
+    t = <WHERE>
+    {saveTokenInList(t,subquerySql);}
+    subqueryMultiCondition()
+}
+
+// 多条件并列的时候
+void multiCondition() :
+{
+    Token t;
+    int i = 0;// i = 0 表示只有一个condition；=1 表示有多个condition
+    list = new ArrayList<Object>();
+}
+{
+
+ (
+    //好多个小条件
+    condition()
+    |
+    "(" condition() ")"
+ )
+
+ (
+    // 和或并好多个小条件
+    (     t = <AND>  {   saveTokenInList(t,list); i = 1; }
+        | t = <OR>   {   saveTokenInList(t,list); i = 1;}
+    )
+    (
+        condition() | "(" condition() ")"
+    )
+ )*
+
+    {
+        if( i == 0)
+        {
+         //  list = templist;
+           saveListInSQL(list);
+           System.out.println("Only one condition");
+        }
+        else
+        {
+           saveListInSQL(list);
+        }
+    }
+
+}
+
+void subqueryMultiCondition() :
+{
+    Token t;
+    int i = 0;// i = 0 表示只有一个condition；=1 表示有多个condition
+    alist = new ArrayList<Object>();
+}
+{
+
+ (
+    //好多个小条件
+    subqueryCondition()
+    |
+    "(" subqueryCondition() ")"
+ )
+
+ (
+    // 和或并好多个小条件
+    (     t = <AND>  {   saveTokenInList(t,alist); i = 1; }
+        | t = <OR>   {   saveTokenInList(t,alist); i = 1;}
+    )
+
+    (
+        subqueryCondition() | "(" subqueryCondition() ")"
+    )
+ )*
+    {
+        if( i == 0)
+        {
+           alist = atemplist;
+           {saveTempListInList(alist,subquerySql);}
+           System.out.println("Only one condition");
+        }
+        else
+        {
+           {saveTempListInList(alist,subquerySql);}
+        }
+    }
+
+}
+
+
+//小情况；小条件
+void condition() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+ name()
+ (
+    (t=<NOT>    {saveTokenInList(t,templist);})?
+    //加减乘除+right   // between & and // in(a,b,c,...)
+    (simpleCondition()|betweenCondition()|in()|like()|is())
+ )
+}
+//小情况；小条件
+void subqueryCondition() :
+{
+    Token t;
+    atemplist = new ArrayList<Object>();
+}
+{
+    (t = <ID>|t =<NAME>|t =<TEXT>)      {saveTokenInList(t,atemplist);}
+   (
+        t = <AS>                           {saveTokenInList(t,atemplist);}
+        (t = <NAME>|t = <ID>)              {saveTokenInList(t,atemplist);}
+   )?
+ (
+    (t=<NOT>    {saveTokenInList(t,atemplist);})?
+    //加减乘除+right   // between & and // in(a,b,c,...)
+    (subquerysimpleCondition()|subqueryBetweenCondition()|subqueryin()|subquerylike()|subqueryis())
+ )
+}
+
+// Between ...  AND ... 条件语句
+void betweenCondition() :
+{Token t;}
+{
+
+    t = <BETWEEN>   {saveTokenInList(t,templist);}
+        (       t=<TEXT>       {saveTokenInList(t,templist);}
+            |   t =<NUMBER>    {saveTokenInList(t,templist);}
+        )
+    t = <AND>   {saveTokenInList(t,templist);}
+        (       t=<TEXT>       {saveTokenInList(t,templist);}
+            |   t =<NUMBER>    {saveTokenInList(t,templist);}
+        )
+}
+void subqueryBetweenCondition() :
+{Token t;}
+{
+
+    t = <BETWEEN>   {saveTokenInList(t,atemplist);}
+        (       t=<TEXT>       {saveTokenInList(t,atemplist);}
+            |   t =<NUMBER>    {saveTokenInList(t,atemplist);}
+        )
+    t = <AND>   {saveTokenInList(t,atemplist);}
+        (       t=<TEXT>       {saveTokenInList(t,atemplist);}
+            |   t =<NUMBER>    {saveTokenInList(t,atemplist);}
+        )
+}
+
+void like():
+{ Token t;}
+{
+    t =  <LIKE>    {   saveTokenInList(t,templist);   }
+    t = <LIKETEXT> {   saveTokenInList(t,templist);   }
+
+}
+void subquerylike():
+{ Token t;}
+{
+    t =  <LIKE>    {   saveTokenInList(t,atemplist);   }
+    t = <LIKETEXT> {   saveTokenInList(t,atemplist);   }
+
+}
+
+void is():
+{ Token t;}
+{
+   t =  <IS>    {   saveTokenInList(t,templist);   }
+   (
+        t = <NOT_NULL> {   saveTokenInList(t,templist);   }
+        |
+        t =  <NULL>    {   saveTokenInList(t,templist);   }
+   )
+
+
+}
+void subqueryis():
+{ Token t;}
+{
+   t =  <IS>    {   saveTokenInList(t,atemplist);   }
+   (
+        t = <NOT_NULL> {   saveTokenInList(t,atemplist);   }
+        |
+        t =  <NULL>    {   saveTokenInList(t,atemplist);   }
+   )
+
+
+}
+
+void in () :
+{
+    Token t;
+    // 新建一个临时的templist1存放小括号内容（）    --->templist1
+    // a in （templiste1）    --->condition ----> templist
+    //condition存放在templist中 conditon
+    //只有一个condition的时候 list = templist
+    //muticondition ---> list 放在sql中
+    List<Object>templist1 = new ArrayList<Object>();
+}
+{
+
+    t = <IN>
+    {
+        //templist.add(t);
+        saveTokenInList(t,templist);
+    }
+    //{
+                //templist.add(t);
+             //saveTempListInList(templist1,templist);
+//             saveTempListInList(templist,list);
+    //    }
+
+    <LBRACKET>
+    (
+        (
+
+            (
+                (     t=<TEXT>       {saveTokenInList(t,templist1);}
+                    |   t =<NUMBER>    {saveTokenInList(t,templist1);}
+                )
+                    (<COMMA>)?
+            )+
+
+//            {
+//                  saveTempListInList(templist1,templist);
+//                  saveTempListInList(templist,list);
+//            }
+        )
+        |
+        (
+
+            t=<SELECT>
+            {System.out.println("SUB-SELECT!!");}
+            subquerySelect(t)
+
+           // {saveTempListInList(subquerySql,list);}
+           {
+            saveTempListInList(subquerySql,templist1);
+//            saveTempListInList(templist1,templist);
+//            saveTempListInList(templist,list);
+            }
+
+        )
+    )
+    <RBRACKET>
+    {
+            //templist.add(t);
+         saveTempListInList(templist1,templist);
+         saveTempListInList(templist,list);
+    }
+}
+void subqueryin () :
+{
+    Token t;
+    // 新建一个临时的templist1存放小括号内容（）    --->templist1
+    // a in （templiste1）    --->condition ----> templist
+    //condition存放在templist中 conditon
+    //只有一个condition的时候 list = templist
+    //muticondition ---> list 放在sql中
+    List<Object>templist2 = new ArrayList<Object>();
+}
+{
+
+    t = <IN>
+    {
+        //templist.add(t);
+        saveTokenInList(t,atemplist);
+    }
+    //{
+                //templist.add(t);
+             //saveTempListInList(templist1,templist);
+//             saveTempListInList(templist,list);
+    //    }
+
+    <LBRACKET>
+    (
+        (
+
+            (
+                (     t=<TEXT>       {saveTokenInList(t,templist2);}
+                    |   t =<NUMBER>    {saveTokenInList(t,templist2);}
+                )
+                    (<COMMA>)?
+            )+
+
+//            {
+//                  saveTempListInList(templist1,templist);
+//                  saveTempListInList(templist,list);
+//            }
+        )
+//
+    )
+    <RBRACKET>
+    {
+            //templist.add(t);
+         saveTempListInList(templist2,atemplist);
+         saveTempListInList(atemplist,list);
+    }
+}
+
+// 用于
+void name() :
+{Token t;}
+{
+
+//  (<YEAR>)?
+//  ("(")?
+(
+  (singlefunction())
+  |
+  (t = <ID>|t =<NAME>|t =<TEXT>) {   saveTokenInList(t,templist);}
+ )
+  ( t = <AS>  {saveTokenInList(t,templist);}
+    (t = <NAME>|t = <ID>) {saveTokenInList(t,templist);}
+  )?
+
+
+
+}
+
+//简单条件
+void simpleCondition() :
+{Token t;}
+{
+    //判断条件
+    (t = <EQ>       {   saveTokenInList(t,templist);   }    |   t =  <GT> {   saveTokenInList(t,templist);   }
+    |t =  <LT>      {   saveTokenInList(t,templist);   }    |   t =  <NE> {   saveTokenInList(t,templist);   }
+    |t =  <LQ>      {   saveTokenInList(t,templist);   }    |   t =  <RQ> {   saveTokenInList(t,templist);   }
+    )
+    rightCondition()
+}
+void subquerysimpleCondition() :
+{Token t;}
+{
+    //判断条件
+    (t = <EQ>       {   saveTokenInList(t,atemplist);   }    |   t =  <GT> {   saveTokenInList(t,atemplist);   }
+    |t =  <LT>      {   saveTokenInList(t,atemplist);   }    |   t =  <NE> {   saveTokenInList(t,atemplist);   }
+    |t =  <LQ>      {   saveTokenInList(t,atemplist);   }    |   t =  <RQ> {   saveTokenInList(t,atemplist);   }
+    )
+    subqueryrightCondition()
+}
+
+void rightCondition() :
+{Token t;}
+{
+    // “/” ，数字，功能
+      t = <TEXT>
+          {
+              saveTokenInList(t,templist);
+              saveTempListInList(templist,list);
+          }
+    | t = <NUMBER>
+          {
+               saveTokenInList(t,templist);
+               saveTempListInList(templist,list);
+          }
+    | t = <NAME>
+          {
+               saveTokenInList(t,templist);
+               saveTempListInList(templist,list);
+          }
+
+    | function()
+}
+
+void subqueryrightCondition() :
+{Token t;}
+{
+    // “/” ，数字，功能
+      t = <TEXT>
+          {
+              saveTokenInList(t,atemplist);
+              saveTempListInList(atemplist,alist);
+          }
+    | t = <NUMBER>
+          {
+               saveTokenInList(t,atemplist);
+               saveTempListInList(atemplist,alist);
+          }
+    | t = <NAME>
+          {
+               saveTokenInList(t,atemplist);
+               saveTempListInList(atemplist,alist);
+          }
+
+    //| function()
+}
+
+//功能方法
+void function() :
+{Token t;}
+{
+    //  id (（多）参数 )
+     t = <ID>
+     {
+        saveTokenInList(t,templist);
+        saveTempListInList(templist,list);
+
+     }
+     (<LBRACKET> arguments() <RBRACKET>)?
+}
+
+
+
+
+//（多）参数函数
+void arguments() :
+{Token t;}
+{
+ (
+    argument()// 一组参数
+    (
+        ","
+     argument()
+    )* // 或者多组参数
+ )?
+}
+
+// 一组参数
+void argument() :
+{Token t;}
+{
+    // id ("/"或数字)
+ <ID>
+ (
+    <STRING>|<NUMBER>
+ )
+}
+
+void selectResultList() :
+{
+    Token t;
+    //list = new ArrayList<Object>();
+    list = new ArrayList<Object>();
+
+}
+{
+    //{   System.out.println("------SELECT METHOD --------"); }
+    selectResult()
+    (
+    ","
+    selectResult()
+    )*
+    {saveTempListInList(list,sql);}
+}
+
+void subquerySelectResultList() :
+{
+    Token t;
+    alist = new ArrayList<Object>();
+    //subquerySql = new ArrayList<Object>();
+}
+{
+    //{   System.out.println("------SELECT METHOD --------"); }
+    subquerySelectResult()
+    (
+    ","
+    subquerySelectResult()
+    )*
+    {saveTempListInList(alist,subquerySql);}
+}
+
+void selectResult() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+    //<ID>(<DOT><ID>)?
+    (   t =<DISTINCT>   {saveTokenInList(t,templist);})?
+    (
+      (
+        doublefunction()
+
+      )
+      |
+      (
+         singlefunction()
+      )
+      |
+        (t = <ID>|t = <NAME>){saveTokenInList(t,templist);}
+    )
+
+
+    (   t = <AS>{saveTokenInList(t,templist);}
+        (t = <ID>|t = <NAME>)  {saveTokenInList(t,templist);}
+    )?
+    {saveTempListInList(templist,list);}
+}
+
+void subquerySelectResult() :
+{
+    Token t;
+    ArrayList<Object> atemplist = new ArrayList<Object>();
+}
+{
+    //<ID>(<DOT><ID>)?
+    (   t =<DISTINCT>   {saveTokenInList(t,atemplist);})?
+    (t = <ID>|t = <NAME>){saveTokenInList(t,atemplist);}
+    (   t = <AS>{saveTokenInList(t,atemplist);}
+        (t = <ID>|t = <NAME>)  {saveTokenInList(t,atemplist);}
+    )?
+    {saveTempListInList(atemplist,alist);}
+}
+
+
+void subqueryFromTables() :
+{
+    Token t;
+    alist = new ArrayList<Object>();
+}
+{
+ subqueryTable()
+ (
+    ","
+    subqueryTable()
+ )*
+ {saveTempListInList(alist,subquerySql);}
+
+}
+
+
+void fromTables() :
+{
+    Token t;
+    list = new ArrayList<Object>();
+}
+{
+ table()
+ (
+    ","
+    table()
+ )*
+ {saveTempListInList(list,sql);}
+}
+
+void table() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+  (t =<NAME>|t =<ID>)    {saveTokenInList(t,templist);}
+  (
+    (t =<NAME>|t =<ID>) {saveTokenInList(t,templist);}
+    |   (t =<AS>{saveTokenInList(t,templist);}
+             (t =<NAME>|t =<ID>){saveTokenInList(t,templist);}
+        )
+ )?
+ {saveTempListInList(templist,list);}
+}
+void subqueryTable() :
+{
+    Token t;
+    ArrayList<Object> atemplist = new ArrayList<Object>();
+}
+{
+  (t =<NAME>|t =<ID>)    {saveTokenInList(t,atemplist);}
+  (
+    (t =<NAME>|t =<ID>) {saveTokenInList(t,atemplist);}
+    |   (t =<AS>{saveTokenInList(t,atemplist);}
+             (t =<NAME>|t =<ID>){saveTokenInList(t,atemplist);}
+        )
+ )?
+ {saveTempListInList(atemplist,alist);}
+}
+
+
+
+
+//void arguments() :
+//{}
+//{
+// (
+//    argument()
+//    (
+//        ","
+//     argument()
+//    )*
+// )?
+//}
+
+void multivalues(int a) ://2.2.1	INSERT INTO table1 VALUES (value1, value2,…), (value1, value2,…),…;
+{int i;}
+{
+    {i = a;}
+    values(i){saveTempListInList(list,sql);}
+
+    (
+        (",")
+        values(i)       {saveTempListInList(list,sql);}
+    )*
+
+}
+
+void values(int a) ://2.2.1	INSERT INTO table1 VALUES (value1, value2,…);
+{
+    list = new ArrayList<Object>();
+    int i  = 0;
+    int k =a;
+
+}
+{
+    (<LBRACKET>)//?
+    value(){saveTempListInList(templist,list); i++;}
+    (
+        (",")
+        value(){saveTempListInList(templist,list);i++;}
+    )*
+    (<RBRACKET>)//?
+
+    {
+        System.out.println("coulmn number："+k);
+        System.out.println("value number："+i);
+        if(k!=0 & k!=i)
+        {
+            jj_consume_token(COMMA);
+            System.out.println("INSDERT GRAMMAR WRONG");
+        }
+    }
+
+}
+
+void value() :
+{Token t;
+templist = new ArrayList<Object>();}
+{
+    t = <TEXT>{saveTokenInList(t,templist);}
+    |t = <NUMBER>{saveTokenInList(t,templist);}
+    | t = <TIMEORDATE>{saveTokenInList(t,templist);}
+}
+
+void groupBy() :
+{Token t;list = new ArrayList<Object>();}
+{
+    t = <GROUP_BY>               {   saveTokenInSQL(t);   }
+    //(t = <ID>|t = <NAME>)        {    saveTokenInSQL(t);  }
+    groupsub()
+        (
+            ","
+           groupsub()
+        )*
+        {saveTempListInList(list,sql);}
+}
+void subqueryGroupBy() :
+{Token t;   alist = new ArrayList<Object>();}
+{
+    t = <GROUP_BY>              {saveTokenInList(t,subquerySql);}
+    subquerygroupsub()
+    (
+        ","
+        subquerygroupsub()
+    )*
+    {saveTempListInList(alist,subquerySql);}
+    //{saveTempListInList(subquerySql,list);}
+}
+
+
+void orderBy() :
+{   Token t;
+    list = new ArrayList<Object>();
+
+}
+{
+    t = <ORDER_BY>  {   saveTokenInSQL(t);   }
+    ordersub()
+    (
+        ","
+        ordersub()
+    )*
+
+
+    {saveTempListInList(list,sql);}
+
+
+}
+void subqueryOrderBy() :
+{   Token t;
+    alist = new ArrayList<Object>();
+
+}
+{
+    t = <ORDER_BY>  {saveTokenInList(t,subquerySql);}
+    subqueryordersub()
+    (
+        ","
+        subqueryordersub()
+    )*
+    {saveTempListInList(alist,subquerySql);}
+}
+
+//void innerJoinMethod() :
+//{   Token t;
+//    list = new ArrayList<Object>();
+//
+//}
+//{
+//    t = <INNER>             {   saveTokenInSQL(t);   }
+//    t = <JOIN>              {   saveTokenInSQL(t);   }
+//    (t = <NAME>|t = <ID>)   {   saveTokenInSQL(t);   }
+//    t = <ON>                {   saveTokenInSQL(t);   }
+//    (t = <NAME>|t = <ID>)   {   saveTokenInSQL(t);   }
+//    t = <EQ>                {   saveTokenInSQL(t);   }
+//    (t = <NAME>|t = <ID>)   {   saveTokenInSQL(t);   }
+//    //{saveTempListInList(list,sql);}
+//
+//}
+
+void ordersub() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+    (t = <ID>|t = <NAME>)  {saveTokenInList(t,templist);}
+
+    (
+            t =<LIMIT>  {saveTokenInList(t,templist);}
+            t=<NUMBER>  {saveTokenInList(t,templist);}
+            (
+                t = <OFFSET>{saveTokenInList(t,templist);}
+                t=<NUMBER>  {saveTokenInList(t,templist);}
+            )?
+            (   t =<ROWS>  {saveTokenInList(t,templist);})?
+            (
+                t =<FETCH>  {saveTokenInList(t,templist);}
+                t =<NEXT>   {saveTokenInList(t,templist);}
+                t =<NUMBER> {saveTokenInList(t,templist);}
+                t =<ROWS>   {saveTokenInList(t,templist);}
+                t =<ONLY>   {saveTokenInList(t,templist);}
+             )?
+
+        )?
+
+    (t = <ASC>{saveTokenInList(t,templist);}
+        |t = <DESC>{saveTokenInList(t,templist);}
+    )?
+    {saveTempListInList(templist,list);}
+}
+void subqueryordersub() :
+{
+    Token t;
+    //templist = new ArrayList<Object>();
+}
+{
+    (t = <ID>|t = <NAME>)  {saveTokenInList(t,list);}
+    (t = <ASC>{saveTokenInList(t,list);}
+        |t = <DESC>{saveTokenInList(t,list);}
+    )?
+    //{saveTempListInList(templist,list);}
+}
+
+void groupsub() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+    (t = <ID>|t = <NAME>)  {saveTokenInList(t,templist);}
+
+    {saveTempListInList(templist,list);}
+}
+void subquerygroupsub() :
+{
+    Token t;
+    //atemplist = new ArrayList<Object>();
+}
+{
+    (t = <ID>|t = <NAME>)
+    {saveTokenInList(t,alist);}
+
+    //{saveTempListInList(atemplist,alist);}
+}
+
+
+
+void sets() :
+{
+    Token t;
+    int i = 0;// i = 0 表示只有一个condition；=1 表示有多个condition
+    list = new ArrayList<Object>();
+}
+{
+ set()
+ (
+    ","
+    set() {i = 1;}
+ )*
+
+ {
+         if( i == 0)
+         {
+            list = templist;
+            saveListInSQL(list);
+            System.out.println("Only one set");
+         }
+         else
+         {
+            saveListInSQL(list);
+         }
+     }
+}
+
+void set() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+    (t = <ID>|t = <NAME>)     {saveTokenInList(t,templist);}
+    t = <EQ>     {saveTokenInList(t,templist);}
+    rightCondition()
+}
+
+
+void purefunction() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+
+    (
+       t = <NOW>  |t = <CURDATE> |t = <SYSDATE> //（0-6）  //直接加空括号（）
+    )
+    "("  ")"
+
+
+    {saveTokenInList(t,templist);}
+}
+
+void singlefunction() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+    (
+        t = <AVG>|t = <COUNT>|t = <MAX>|t = <MIN>|t = <SUM>|t = <FLOOR>
+        |
+        t = <YEAR>|t = <MONTH>|t = <WEEK>|t = <DAY>
+    )
+    {saveTokenInList(t,templist);}
+    "(" //+id+")"
+        (
+            ((t = <ID>|t = <NAME>){saveTokenInList(t,templist);})
+            |
+            (doublefunction())
+        )
+    ")"
+}
+void doublefunction() :
+{
+    Token t;
+    templist = new ArrayList<Object>();
+}
+{
+
+    (
+        t = <DATEDIFF>//(xxx,xxx)
+        |t = <DATE_FORMAT>//暂时不写
+    )
+    "(" //+xx +, +xx +")"
+    (
+
+                    singlefunction()
+                    |
+                    purefunction()
+                    |
+                    (t = <ID>|t = <NAME>)
+    )
+
+    ","
+
+    (
+                    singlefunction()
+                    |
+                    purefunction()
+                    |
+                    (t = <ID>|t = <NAME>)
+    )
+
+    ")"
+
+
+    {saveTokenInList(t,templist);}
+}
