@@ -1,6 +1,7 @@
 package com.ucd.oursql.sql.execution.data;
 
 import com.ucd.oursql.sql.execution.DistinctStatement;
+import com.ucd.oursql.sql.execution.FromStatement;
 import com.ucd.oursql.sql.execution.InnerJoinStatement;
 import com.ucd.oursql.sql.execution.OrderByStatement;
 import com.ucd.oursql.sql.parsing.Token;
@@ -8,6 +9,7 @@ import com.ucd.oursql.sql.table.Table;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
@@ -26,7 +28,7 @@ public class SelectDataStatement {
         List<List<Token>> tablenames= (List<List<Token>>) statement.get(3);
 //        String tablename= tablenames.get(0).get(0).image;
 //        Table table= FromStatement.from(tablename);
-        Table table= InnerJoinStatement.innerJoinImpl(tablenames);
+        Table table= dealWithFrom();
 
         List distinctNames=checkDistinct();
         Table show= DistinctStatement.distinctImpl(table,distinctNames);
@@ -133,12 +135,12 @@ public class SelectDataStatement {
 
     public HashMap getJoin(int s){
         HashMap hashMap=new HashMap();
-        List names=new ArrayList();
+//        List names=new ArrayList();
         HashMap inner= new HashMap();
         HashMap left= new HashMap();
         HashMap right= new HashMap();
-        List start= (List) ((List) statement.get(s+1)).get(0);
-        names.add(start);
+        List start= (List) statement.get(s+1);
+//        names.add(start);
 
         for(int i=s+2;i<statement.size();i++){
             Object o=statement.get(i);
@@ -149,26 +151,26 @@ public class SelectDataStatement {
                     List rl=new ArrayList();
                     rl.add(nt);
                     List on= (List) statement.get(i+4);
-                    names.add(rl);
+//                    names.add(rl);
                     inner.put(rl,on);
                 }else if(t.kind==LEFT){
                     Token nt= (Token) statement.get(i+2);
                     List rl=new ArrayList();
                     rl.add(nt);
                     List on= (List) statement.get(i+4);
-                    names.add(rl);
+//                    names.add(rl);
                     left.put(rl,on);
                 }else if(t.kind==RIGHT){
                     Token nt= (Token) statement.get(i+2);
                     List rl=new ArrayList();
                     rl.add(nt);
                     List on= (List) statement.get(i+4);
-                    names.add(rl);
+//                    names.add(rl);
                     right.put(rl,on);
                 }
             }
         }
-        hashMap.put("names",names);
+//        hashMap.put("names",names);
         hashMap.put("start",start);
         hashMap.put("inner",inner);
         hashMap.put("left",left);
@@ -176,12 +178,25 @@ public class SelectDataStatement {
         return hashMap;
     }
 
-    public void dealWithFrom(HashMap from){
+    public Table dealWithFrom() throws ClassNotFoundException {
+        HashMap from=getFrom();
         List<List<Token>> names= (List<List<Token>>) from.get("names");
-        List<Token> start= (List<Token>) from.get("start");
+        List<List<Token>> start= (List<List<Token>>) from.get("start");
         HashMap inner= (HashMap) from.get("inner");
         HashMap left= (HashMap) from.get("left");
         HashMap right= (HashMap) from.get("right");
+        Table table= InnerJoinStatement.innerJoinStartImpl(start);
+        Iterator iit= inner.keySet().iterator();
+        Iterator lit=left.keySet().iterator();
+        Iterator rit=right.keySet().iterator();
+        while(iit.hasNext()){
+            List<Token> name= (List<Token>) iit.next();
+            List<Token> on= (List<Token>) inner.get(name);
+            Table t2= FromStatement.from(name.get(0).image);
+            table=InnerJoinStatement.innerJoinImpl(table,t2,on);
+        }
+        return table;
+
     }
 
 
