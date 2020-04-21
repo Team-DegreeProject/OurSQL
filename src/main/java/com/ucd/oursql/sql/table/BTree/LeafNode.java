@@ -1,6 +1,6 @@
 package com.ucd.oursql.sql.table.BTree;
 
-class LeafNode <T, V extends Comparable<V>> extends Node<T, V> {
+public class LeafNode <T, V extends Comparable<V>> extends Node<T, V> {
 
     protected Object values[];
     protected LeafNode left;
@@ -294,4 +294,8 @@ class LeafNode <T, V extends Comparable<V>> extends Node<T, V> {
         return this;
     }
 
+
+    public Object[] getValues() {
+        return values;
+    }
 }
