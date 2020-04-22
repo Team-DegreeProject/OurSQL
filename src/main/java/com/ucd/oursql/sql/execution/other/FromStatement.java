@@ -1,5 +1,6 @@
-package com.ucd.oursql.sql.execution;
+package com.ucd.oursql.sql.execution.other;
 
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.BPlusTreeTool;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
@@ -26,7 +27,7 @@ public class FromStatement {
 
     public static Table from(String name) throws ClassNotFoundException {
         Table database= ExecuteStatement.db.getDatabase();
-        Table t= (Table) ((CglibBean)((List)WhereStatament.compare(database,"tablename",EQ,name).getTree().getDatas()).get(0)).getValue("table");
+        Table t= (Table) ((CglibBean)((List) WhereStatament.compare(database,"tablename",EQ,name).getTree().getDatas()).get(0)).getValue("table");
         return t;
     }
 

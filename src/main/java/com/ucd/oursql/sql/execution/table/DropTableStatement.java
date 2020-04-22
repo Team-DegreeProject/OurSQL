@@ -1,7 +1,7 @@
 package com.ucd.oursql.sql.execution.table;
 
 import com.ucd.oursql.sql.execution.ExecuteStatement;
-import com.ucd.oursql.sql.execution.WhereStatament;
+import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.Table;
 

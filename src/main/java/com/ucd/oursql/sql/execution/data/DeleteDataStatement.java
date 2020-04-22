@@ -1,13 +1,11 @@
 package com.ucd.oursql.sql.execution.data;
 
-import com.ucd.oursql.sql.execution.FromStatement;
-import com.ucd.oursql.sql.execution.WhereStatament;
+import com.ucd.oursql.sql.execution.other.FromStatement;
+import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.Table;
 
 import java.util.List;
-
-import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
 
 //1.2 删除表中的多个行记录
 //1.2.1 DELETE FROM departments WHERE employee_id IN ( 100, 101, 102);

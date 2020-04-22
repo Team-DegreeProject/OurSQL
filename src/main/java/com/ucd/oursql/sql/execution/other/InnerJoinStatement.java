@@ -1,5 +1,6 @@
-package com.ucd.oursql.sql.execution;
+package com.ucd.oursql.sql.execution.other;
 
+import com.ucd.oursql.sql.execution.DMLTool;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
@@ -53,7 +54,7 @@ public class InnerJoinStatement {
                 }
             }
         }
-        TableDescriptor newTD=DMLTool.changeTD(t1.getTd(),t2.getTd());
+        TableDescriptor newTD= DMLTool.changeTD(t1.getTd(),t2.getTd());
         Table t3=new Table();
         t3.setTd(newTD);
         t3.createTable();

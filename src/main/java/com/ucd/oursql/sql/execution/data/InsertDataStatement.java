@@ -1,6 +1,6 @@
 package com.ucd.oursql.sql.execution.data;
 
-import com.ucd.oursql.sql.execution.FromStatement;
+import com.ucd.oursql.sql.execution.other.FromStatement;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.Table;
 

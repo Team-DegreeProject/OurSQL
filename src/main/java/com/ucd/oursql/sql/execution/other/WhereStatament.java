@@ -1,5 +1,6 @@
-package com.ucd.oursql.sql.execution;
+package com.ucd.oursql.sql.execution.other;
 
+import com.ucd.oursql.sql.execution.DMLTool;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.BPlusTreeTool;
@@ -113,7 +114,7 @@ public class WhereStatament {
         String attribute=((Token)tokens.get(0)).image;
         int type=((Token)tokens.get(1)).kind;
         String str= ((Token) tokens.get(2)).image;
-        SqlType value=DMLTool.convertToValue(attribute,str,t.getPropertyMap(),t.getTableDescriptor().getColumnDescriptorList());
+        SqlType value= DMLTool.convertToValue(attribute,str,t.getPropertyMap(),t.getTableDescriptor().getColumnDescriptorList());
         Table table=compare(t,attribute,type,value);
         return table;
     }

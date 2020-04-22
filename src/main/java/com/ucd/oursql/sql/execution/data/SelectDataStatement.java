@@ -1,9 +1,6 @@
 package com.ucd.oursql.sql.execution.data;
 
-import com.ucd.oursql.sql.execution.DistinctStatement;
-import com.ucd.oursql.sql.execution.FromStatement;
-import com.ucd.oursql.sql.execution.InnerJoinStatement;
-import com.ucd.oursql.sql.execution.OrderByStatement;
+import com.ucd.oursql.sql.execution.other.*;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.Table;
 
@@ -200,6 +197,18 @@ table.printTable(null);
 //                System.out.println(on.get(i).image);
 //            }
             table=InnerJoinStatement.innerJoinImpl(table,t2,on);
+        }
+        while(lit.hasNext()){
+            List<Token> name= (List<Token>) lit.next();
+            List<Token> on= (List<Token>) left.get(name);
+            Table t2= FromStatement.from(name.get(0).image);
+            table= LeftJoinStatement.leftJoinImpl(table,t2,on);
+        }
+        while(rit.hasNext()){
+            List<Token> name= (List<Token>) lit.next();
+            List<Token> on= (List<Token>) left.get(name);
+            Table t2= FromStatement.from(name.get(0).image);
+            table= RightJoinStatement.rightJoinImpl(table,t2,on);
         }
 //        table.printTable(null);
         return table;

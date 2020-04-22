@@ -1,4 +1,4 @@
-package com.ucd.oursql.sql.execution;
+package com.ucd.oursql.sql.execution.other;
 
 
 import com.ucd.oursql.sql.parsing.Token;
