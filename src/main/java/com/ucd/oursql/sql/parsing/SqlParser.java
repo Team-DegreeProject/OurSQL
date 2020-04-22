@@ -11,10 +11,10 @@ import com.ucd.oursql.sql.execution.table.TableStatements;
 
 public class SqlParser implements SqlParserConstants {
 
-    private List<Object> sql = new ArrayList<Object>(); // sql鏈?澶栧眰璇彞
-    private List<Object> subquerySql = new ArrayList<Object>();//subquery 瀛樺偍瀛恠elect
-    private List<Object> list = new ArrayList<Object>();//鍐呬竴灞?
-    private List<Object> alist = new ArrayList<Object>();//瀛愬唴涓?灞?
+    private List<Object> sql = new ArrayList<Object>(); // sql�?外层语句
+    private List<Object> subquerySql = new ArrayList<Object>();//subquery 存储子select
+    private List<Object> list = new ArrayList<Object>();//内一�?
+    private List<Object> alist = new ArrayList<Object>();//子内�?�?
     private List<Object> templist = new ArrayList<Object>();
     ArrayList<Object> atemplist = new ArrayList<Object>();
 
@@ -58,51 +58,51 @@ public class SqlParser implements SqlParserConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case CREATE:
       //***************1	CREATE ************************************************
-          //1.1.1	CREATE DATABASE testdb锛?
+          //1.1.1	CREATE DATABASE testdb�?
           //1.1.1	CREATE TABLE table_name	();
           t = jj_consume_token(CREATE);
                     result=create(t);
       break;
     case DROP:
       t = jj_consume_token(DROP);
-      drop(t);
+                   result=drop(t);
       break;
     case RENAME:
       t = jj_consume_token(RENAME);
-      rename(t);
+                     result=rename(t);
       break;
     case USE:
       t = jj_consume_token(USE);
-      use(t);
+                  result=use(t);
       break;
     case SHOW:
       t = jj_consume_token(SHOW);
-      show(t);
+                   result=show(t);
       break;
     case SELECT:
       t = jj_consume_token(SELECT);
-      select(t);
+                   result=select(t);
       break;
     case ALTER:
       t = jj_consume_token(ALTER);
-      alter(t);
+                     result=alter(t);
       break;
     case INSERT:
       //only support simple insert statement
           t = jj_consume_token(INSERT);
-      insert(t);
+                     result=insert(t);
       break;
     case UPDATE:
       t = jj_consume_token(UPDATE);
-      update(t);
+                     result=update(t);
       break;
     case DELETE:
       t = jj_consume_token(DELETE);
-      delete(t);
+                     result=delete(t);
       break;
     case TRUNCATE:
       t = jj_consume_token(TRUNCATE);
-      truncate(t);
+                       result=truncate(t);
       break;
     default:
       jj_la1[0] = jj_gen;
@@ -113,7 +113,7 @@ public class SqlParser implements SqlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public void select(Token d) throws ParseException {
+  final public String select(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
     t=d;
@@ -260,7 +260,9 @@ public class SqlParser implements SqlParserConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-         ExecuteStatement.select(sql);
+            String a = ExecuteStatement.select(sql);
+            {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
   final public void subquerySelect(Token d) throws ParseException {
@@ -340,7 +342,7 @@ public class SqlParser implements SqlParserConstants {
     }
   }
 
-//鎶奣oken瀛樺埌sql閲?
+//把Token存到sql�?
   final public void saveTokenInSQL(Token a) throws ParseException {
     Token t;
         t = a;
@@ -348,12 +350,12 @@ public class SqlParser implements SqlParserConstants {
         sql.add(t);
   }
 
-//鎶妉ist瀛樺埌sql閲?
+//把list存到sql�?
   final public void saveListInSQL(List<Object> a) throws ParseException {
         sql.add(a);
   }
 
-//鎶奣oken瀛樺埌list閲?
+//把Token存到list�?
   final public void saveTokenInList(Token a,List<Object> l) throws ParseException {
     Token t;
         t = a;
@@ -361,7 +363,7 @@ public class SqlParser implements SqlParserConstants {
         l.add(t);
   }
 
-//鎶奣empList瀛樺埌list閲?
+//把TempList存到list�?
   final public void saveTempListInList(List<Object> temp,List<Object> l) throws ParseException {
         //System.out.print("  list is : ");
 //        for (Object object : temp)
@@ -382,7 +384,7 @@ public class SqlParser implements SqlParserConstants {
         }
   }
 
-  final public void insert(Token d) throws ParseException {
+  final public String insert(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
     list = new ArrayList<Object>();
@@ -390,7 +392,7 @@ public class SqlParser implements SqlParserConstants {
         t=d;
         System.out.println("------INSERT METHOD --------");
         saveTokenInSQL(t);
-    //2.1.1	INSERT INTO table1 (column1, coulumn2,鈥?) VALUES (value1, value2 , 鈥?);//value = number or text;
+    //2.1.1	INSERT INTO table1 (column1, coulumn2,�?) VALUES (value1, value2 , �?);//value = number or text;
                 t = jj_consume_token(INTO);
                 saveTokenInSQL(t);
     t = jj_consume_token(ID);
@@ -474,7 +476,9 @@ public class SqlParser implements SqlParserConstants {
       throw new ParseException();
     }
         showStructure();
-    ExecuteStatement.insert(sql);
+    String a = ExecuteStatement.insert(sql);
+    {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
   final public String create(Token d) throws ParseException {
@@ -485,7 +489,7 @@ public class SqlParser implements SqlParserConstants {
         saveTokenInSQL(t);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case DATABASE:
-      ////1.1.1	CREATE DATABASE testdb锛?
+      ////1.1.1	CREATE DATABASE testdb�?
                   t = jj_consume_token(DATABASE);
                 saveTokenInSQL(t);
       t = jj_consume_token(ID);
@@ -862,7 +866,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-  final public void delete(Token d) throws ParseException {
+  final public String delete(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
         t=d;
@@ -909,10 +913,12 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-      ExecuteStatement.delete(sql);
+        String a = ExecuteStatement.delete(sql);
+        {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
-  final public void truncate(Token d) throws ParseException {
+  final public String truncate(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
         t=d;
@@ -944,11 +950,13 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-    ExecuteStatement.truncate(sql);
+        String a = ExecuteStatement.truncate(sql);
+        {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
 //2.1.1	DROP DATABSE databse_name;
-  final public void drop(Token d) throws ParseException {
+  final public String drop(Token d) throws ParseException {
      Token t;
      sql = new ArrayList<Object>();
      t=d;
@@ -1000,11 +1008,13 @@ templist = new ArrayList<Object>();
       throw new ParseException();
     }
      System.out.println("------&&&&&&&&&&&&&&&&7--------");
-      ExecuteStatement.drop(sql);
+        String a = ExecuteStatement.drop(sql);
+        {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
 //3.1.1	RENAME DATABSE old_name TO new_name
-  final public void rename(Token d) throws ParseException {
+  final public String rename(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1038,11 +1048,13 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-     ExecuteStatement.rename(sql);
+        String a = ExecuteStatement.rename(sql);
+        {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
 //5.1.1	SHOW DATABASE;
-  final public void show(Token d) throws ParseException {
+  final public String show(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1063,11 +1075,13 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-     ExecuteStatement.show(sql);
+        String a = ExecuteStatement.show(sql);
+        {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
 //4.1.1	USE database_name
-  final public void use(Token d) throws ParseException {
+  final public String use(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1088,14 +1102,16 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-     ExecuteStatement.use(sql);
+        String a = ExecuteStatement.use(sql);
+        {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
 //3	UPDATE
   //3.1	UPDATE table SET column1 = value1, column2 = value2 WHERE condition;
-  //3.2	UPDATE table SET column1 =	(SELECT a From b WHERE c = 鈥渆鈥?);
-  //3.3	UPDATE table INNER JOIN table1 ON table.column1 = table2.column1 SET table.column2 = table1.coulmn2,鈥? (WHERE);
-  final public void update(Token d) throws ParseException {
+  //3.2	UPDATE table SET column1 =	(SELECT a From b WHERE c = “e�?);
+  //3.3	UPDATE table INNER JOIN table1 ON table.column1 = table2.column1 SET table.column2 = table1.coulmn2,�? (WHERE);
+  final public String update(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1138,10 +1154,12 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-      ExecuteStatement.update(sql);
+        String a = ExecuteStatement.update(sql);
+        {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
-  final public void alter(Token d) throws ParseException {
+  final public String alter(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1249,7 +1267,9 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
- ExecuteStatement.alter(sql);
+        String a = ExecuteStatement.alter(sql);
+        {if (true) return a;}
+    throw new Error("Missing return statement in function");
   }
 
   final public void dropColumn(Token d) throws ParseException {
@@ -1487,7 +1507,7 @@ templist = new ArrayList<Object>();
      saveTempListInList(atemplist,subquerySql);
   }
 
-//where璇彞
+//where语句
   final public void where() throws ParseException {
  Token t;
     t = jj_consume_token(WHERE);
@@ -1502,10 +1522,10 @@ templist = new ArrayList<Object>();
     subqueryMultiCondition();
   }
 
-// 澶氭潯浠跺苟鍒楃殑鏃跺??
+// 多条件并列的时�??
   final public void multiCondition() throws ParseException {
     Token t;
-    int i = 0;// i = 0 琛ㄧず鍙湁涓?涓猚ondition锛?=1 琛ㄧず鏈夊涓猚ondition
+    int i = 0;// i = 0 表示只有�?个condition�?=1 表示有多个condition
     list = new ArrayList<Object>();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case AVG:
@@ -1599,7 +1619,7 @@ templist = new ArrayList<Object>();
 
   final public void subqueryMultiCondition() throws ParseException {
     Token t;
-    int i = 0;// i = 0 琛ㄧず鍙湁涓?涓猚ondition锛?=1 琛ㄧず鏈夊涓猚ondition
+    int i = 0;// i = 0 表示只有�?个condition�?=1 表示有多个condition
     alist = new ArrayList<Object>();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ID:
@@ -1671,7 +1691,7 @@ templist = new ArrayList<Object>();
         }
   }
 
-//灏忔儏鍐碉紱灏忔潯浠?
+//小情况；小条�?
   final public void condition() throws ParseException {
     Token t;
     templist = new ArrayList<Object>();
@@ -1713,7 +1733,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-//灏忔儏鍐碉紱灏忔潯浠?
+//小情况；小条�?
   final public void subqueryCondition() throws ParseException {
     Token t;
     atemplist = new ArrayList<Object>();
@@ -1792,7 +1812,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-// Between ...  AND ... 鏉′欢璇彞
+// Between ...  AND ... 条件语句
   final public void betweenCondition() throws ParseException {
  Token t;
     t = jj_consume_token(BETWEEN);
@@ -1923,11 +1943,11 @@ templist = new ArrayList<Object>();
 
   final public void in() throws ParseException {
     Token t;
-    // 鏂板缓涓?涓复鏃剁殑templist1瀛樻斁灏忔嫭鍙峰唴瀹癸紙锛?    --->templist1
-    // a in 锛坱empliste1锛?    --->condition ----> templist
-    //condition瀛樻斁鍦╰emplist涓? conditon
-    //鍙湁涓?涓猚ondition鐨勬椂鍊? list = templist
-    //muticondition ---> list 鏀惧湪sql涓?
+    // 新建�?个临时的templist1存放小括号内容（�?    --->templist1
+    // a in （templiste1�?    --->condition ----> templist
+    //condition存放在templist�? conditon
+    //只有�?个condition的时�? list = templist
+    //muticondition ---> list 放在sql�?
     List<Object>templist1 = new ArrayList<Object>();
     t = jj_consume_token(IN);
         //templist.add(t);
@@ -1993,11 +2013,11 @@ templist = new ArrayList<Object>();
 
   final public void subqueryin() throws ParseException {
     Token t;
-    // 鏂板缓涓?涓复鏃剁殑templist1瀛樻斁灏忔嫭鍙峰唴瀹癸紙锛?    --->templist1
-    // a in 锛坱empliste1锛?    --->condition ----> templist
-    //condition瀛樻斁鍦╰emplist涓? conditon
-    //鍙湁涓?涓猚ondition鐨勬椂鍊? list = templist
-    //muticondition ---> list 鏀惧湪sql涓?
+    // 新建�?个临时的templist1存放小括号内容（�?    --->templist1
+    // a in （templiste1�?    --->condition ----> templist
+    //condition存放在templist�? conditon
+    //只有�?个condition的时�? list = templist
+    //muticondition ---> list 放在sql�?
     List<Object>templist2 = new ArrayList<Object>();
     t = jj_consume_token(IN);
         //templist.add(t);
@@ -2043,7 +2063,7 @@ templist = new ArrayList<Object>();
          saveTempListInList(atemplist,list);
   }
 
-// 鐢ㄤ簬
+// 用于
   final public void name() throws ParseException {
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2108,7 +2128,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-//绠?鍗曟潯浠?
+//�?单条�?
   final public void simpleCondition() throws ParseException {
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2183,7 +2203,7 @@ templist = new ArrayList<Object>();
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case TEXT:
-      // 鈥?/鈥? 锛屾暟瀛楋紝鍔熻兘
+      // �?/�? ，数字，功能
             t = jj_consume_token(TEXT);
               saveTokenInList(t,templist);
               saveTempListInList(templist,list);
@@ -2212,7 +2232,7 @@ templist = new ArrayList<Object>();
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case TEXT:
-      // 鈥?/鈥? 锛屾暟瀛楋紝鍔熻兘
+      // �?/�? ，数字，功能
             t = jj_consume_token(TEXT);
               saveTokenInList(t,atemplist);
               saveTempListInList(atemplist,alist);
@@ -2234,10 +2254,10 @@ templist = new ArrayList<Object>();
     }
   }
 
-//鍔熻兘鏂规硶
+//功能方法
   final public void function() throws ParseException {
  Token t;
-    //  id (锛堝锛夊弬鏁? )
+    //  id (（多）参�? )
          t = jj_consume_token(ID);
         saveTokenInList(t,templist);
         saveTempListInList(templist,list);
@@ -2253,7 +2273,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-//锛堝锛夊弬鏁板嚱鏁?
+//（多）参数函�?
   final public void arguments() throws ParseException {
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2279,7 +2299,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-// 涓?缁勫弬鏁?
+// �?组参�?
   final public void argument() throws ParseException {
  Token t;
     jj_consume_token(ID);
@@ -2991,7 +3011,7 @@ templist = new ArrayList<Object>();
 
   final public void sets() throws ParseException {
     Token t;
-    int i = 0;// i = 0 琛ㄧず鍙湁涓?涓猚ondition锛?=1 琛ㄧず鏈夊涓猚ondition
+    int i = 0;// i = 0 表示只有�?个condition�?=1 表示有多个condition
     list = new ArrayList<Object>();
     set();
     label_28:

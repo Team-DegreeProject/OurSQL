@@ -524,45 +524,45 @@ String parse() :
 
     //***************2	DROP***************************************************
     //2.1.1	DROP DATABSE databse_name;
-    |t = <DROP>   drop(t)
+    |t = <DROP>   {result=drop(t);}
 
     //***************3	RENAME*************************************************
     //3.1.1	RENAME DATABSE old_name TO new_name
-    |t = <RENAME>   rename(t)
+    |t = <RENAME>   {result=rename(t);}
 
     //***************4	USE****************************************************
     //4.1.1	USE database_name
-    |t = <USE>   use(t)
+    |t = <USE>   {result=use(t);}
 
     //***************5 SHOW**************************************************
     //5.1.1	SHOW DATABASE
-    |t = <SHOW>   show(t)
+    |t = <SHOW>   {result=show(t);}
 
     //***************6 SELECT**************************************************
-    |t = <SELECT> select(t)
+    |t = <SELECT> {result=select(t);}
 
     //***************ALTER*******************************************************
-    |t = <ALTER>    alter(t)
+    |t = <ALTER>    {result=alter(t);}
 
     //***************INSERT*******************************************************
     |
     //only support simple insert statement
-    t = <INSERT>    insert(t)
+    t = <INSERT>    {result=insert(t);}
 
 
     //***************UPDATE*******************************************************
-    |t = <UPDATE>   update(t)
+    |t = <UPDATE>   {result=update(t);}
 
     //***************DELETE*******************************************************
-    |t = <DELETE>   delete(t)
+    |t = <DELETE>   {result=delete(t);}
      //***************TRUNCATE*******************************************************
-    |t = <TRUNCATE>   truncate(t)
+    |t = <TRUNCATE>   {result=truncate(t);}
  )
     {return result;}
 
 }
 
-void select(Token d):
+String select(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();
@@ -599,7 +599,10 @@ void select(Token d):
     showStructure()
     (<STATEMENT_END> | <END>)
 
-        {ExecuteStatement.select(sql);} // %%
+        {
+            String a = ExecuteStatement.select(sql);
+            return a;
+        } // %%
         //    {test.testWhereAnd(sql);} // %%
 
 
@@ -704,7 +707,7 @@ void showStructure() :
         }
     }
 }
-void insert(Token d) :
+String insert(Token d) :
 {
     Token t;
     sql = new ArrayList<Object>();
@@ -764,7 +767,9 @@ void insert(Token d) :
     {   showStructure(); }
     //(<STATEMENT_END> | <END>)
 
-   {ExecuteStatement.insert(sql);}// %%
+   {String a = ExecuteStatement.insert(sql);
+    return a;
+   }// %%
     // {test.testWhereAnd(sql);} // %%
 
 }
@@ -944,7 +949,7 @@ templist = new ArrayList<Object>();}
     {saveTempListInList(templist,list);}
 }
 
-void delete(Token d) :
+String delete(Token d) :
 {
     Token t;
     sql = new ArrayList<Object>();
@@ -972,12 +977,15 @@ void delete(Token d) :
 
 
 
-     {ExecuteStatement.delete(sql);}// %%
+     {
+        String a = ExecuteStatement.delete(sql);
+        return a;
+     }// %%
 
 //    {test.testWhereAnd(sql);} // %%
 
 }
-void truncate(Token d) :
+String truncate(Token d) :
 {
     Token t;
     sql = new ArrayList<Object>();
@@ -999,14 +1007,17 @@ void truncate(Token d) :
 
 
 
-   {ExecuteStatement.truncate(sql);} // %%
+   {
+        String a = ExecuteStatement.truncate(sql);
+        return a;
+   } // %%
 
 //    {test.testWhereAnd(sql);} // %%
 
 }
 
 //2.1.1	DROP DATABSE databse_name;
-void drop(Token d):
+String drop(Token d):
 {
      Token t;
      sql = new ArrayList<Object>();
@@ -1042,12 +1053,15 @@ void drop(Token d):
     {System.out.println("------&&&&&&&&&&&&&&&&7--------");}
 
 
-     {ExecuteStatement.drop(sql);} // %%
+     {
+        String a = ExecuteStatement.drop(sql);
+        return a;
+     } // %%
     //    {test.testWhereAnd(sql);} // %%
 }
 
 //3.1.1	RENAME DATABSE old_name TO new_name
-void rename(Token d):
+String rename(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1065,12 +1079,16 @@ void rename(Token d):
     {   showStructure(); }
     (<STATEMENT_END> | <END>)
 
-    {ExecuteStatement.rename(sql);} // %%
+    {
+        String a = ExecuteStatement.rename(sql);
+        return a;
+    }
+    // %%
         //    {test.testWhereAnd(sql);} // %%
 
 }
 //5.1.1	SHOW DATABASE;
-void show(Token d):
+String show(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1085,13 +1103,16 @@ void show(Token d):
     {   showStructure(); }
     (<STATEMENT_END> | <END>)
 
-    {ExecuteStatement.show(sql);}// %%
+    {
+        String a = ExecuteStatement.show(sql);
+        return a;
+    }// %%
         //    {test.testWhereAnd(sql);} // %%
 
 
 }
 //4.1.1	USE database_name
-void use(Token d):
+String use(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1107,7 +1128,10 @@ void use(Token d):
     {   showStructure(); }
         (<STATEMENT_END> | <END>)
 
-    {ExecuteStatement.use(sql);}// %%
+    {
+        String a = ExecuteStatement.use(sql);
+        return a;
+    }// %%
     //    {test.testWhereAnd(sql);} // %%
 }
 
@@ -1115,7 +1139,7 @@ void use(Token d):
   //3.1	UPDATE table SET column1 = value1, column2 = value2 WHERE condition;
   //3.2	UPDATE table SET column1 =	(SELECT a From b WHERE c = “e”);
   //3.3	UPDATE table INNER JOIN table1 ON table.column1 = table2.column1 SET table.column2 = table1.coulmn2,… (WHERE);
-void update(Token d):
+String update(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1135,12 +1159,15 @@ void update(Token d):
     {   showStructure(); }
     (<STATEMENT_END> | <END>)
 
-     {ExecuteStatement.update(sql);}// %%
+     {
+        String a = ExecuteStatement.update(sql);
+        return a;
+     }// %%
         //    {test.testWhereAnd(sql);} // %%
 
 }
 
-void alter(Token d):
+String alter(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1208,7 +1235,10 @@ void alter(Token d):
     {   showStructure(); }
     (<STATEMENT_END> | <END>)
 
-{ExecuteStatement.alter(sql);}// %%
+    {
+        String a = ExecuteStatement.alter(sql);
+        return a;
+    }// %%
         //    {test.testWhereAnd(sql);} // %%
 
 }
