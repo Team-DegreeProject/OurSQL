@@ -56,6 +56,8 @@ public class DataStatements {
             out=selectDataStatement.selectDataImpl();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return out;
     }

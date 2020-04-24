@@ -17,8 +17,10 @@ import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
 public class WhereStatament {
 
     public static Table whereAnd(Table t1,Table t2) throws ClassNotFoundException {
-        if(t1==null||t2==null){
-            return null;
+        if(t1==null){
+            return t2;
+        }else if (t2==null){
+            return t1;
         }
         BPlusTree b1=t1.getTree();
         BPlusTree b2=t2.getTree();
@@ -74,6 +76,33 @@ public class WhereStatament {
                     }
                 }
                 break;
+            case GT:
+                 for(int i=0;i<btree.size();i++){
+                     CglibBean temp= (CglibBean) btree.get(i);
+                     Comparable c= (Comparable) temp.getValue(attribute);
+                     if(c.compareTo(compare)>=0){
+                         returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                     }
+                 }
+                 break;
+            case LT:
+                for(int i=0;i<btree.size();i++){
+                    CglibBean temp= (CglibBean) btree.get(i);
+                    Comparable c= (Comparable) temp.getValue(attribute);
+                    if(c.compareTo(compare)<=0){
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                    }
+                }
+                break;
+            case NE:
+                for(int i=0;i<btree.size();i++){
+                    CglibBean temp= (CglibBean) btree.get(i);
+                    Comparable c= (Comparable) temp.getValue(attribute);
+                    if(c.compareTo(compare)!= 0){
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                    }
+                }
+                break;
         }
         Table t=new Table(table.getTableDescriptor(),returnTree);
         return t;
@@ -83,13 +112,35 @@ public class WhereStatament {
         String att=((Token)tokens.get(0)).image;
         HashMap propertyMap=t.getPropertyMap();
         Table change=null;
-        List<Token> conditions= (List) tokens.get(2);
-        for(int i=0;i<conditions.size();i++){
-            String str=conditions.get(i).image;
-            SqlType value=convertToValue(att,str,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
-            Table temp=compare(t, att, EQ, value);
-            change=WhereStatament.whereOr(change,temp);
+
+        //check not in
+        boolean in=true;
+        Token o= (Token) tokens.get(1);
+        if(o.kind==NOT){
+            in=false;
         }
+
+        if(in ==true){
+            System.out.println("IN");
+            List<Token> conditions= (List) tokens.get(2);
+            for(int i=0;i<conditions.size();i++){
+                String str=conditions.get(i).image;
+                SqlType value=convertToValue(att,str,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
+                Table temp=compare(t, att, EQ, value);
+                change=WhereStatament.whereOr(change,temp);
+            }
+        }else{
+            System.out.println("NOT IN");
+            List<Token> conditions= (List) tokens.get(3);
+            for(int i=0;i<conditions.size();i++){
+                String str=conditions.get(i).image;
+                SqlType value=convertToValue(att,str,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
+                Table temp=compare(t, att, NE, value);
+                change=WhereStatament.whereAnd(change,temp);
+                change.printTable(null);
+            }
+        }
+
         return change;
     }
 
@@ -120,10 +171,13 @@ public class WhereStatament {
     }
 
     public static Table whereImpl(Table table,List conditions) throws Exception {
+        if(conditions==null){
+            return table;
+        }
         Table change=null;
         Object first=conditions.get(0);
         if(first instanceof Token){
-            System.out.println("one condition==========");
+//            System.out.println("one condition==========");
             change=checkAType(conditions,table);
         }else if (first instanceof List){
             System.out.println("multiple condition==========");
@@ -148,27 +202,36 @@ public class WhereStatament {
             }
         }
         if(change==null){
-            throw new Exception("There is no change");
+            System.out.println("There is no change");
         }
-        change.printTable(null);
+//        change.printTable(null);
+        change.createTable();
         return change;
     }
 
     public static Table checkAType(List condition,Table table) throws Exception {
-        int type=((Token)condition.get(1)).kind;
         Table change=null;
-        if(type==IN){
-            System.out.println("In===========");
-            change=inCondition(table,condition);
-        }else if(type==EQ||type==LQ||type==RQ){
-            System.out.println("Basic===========");
-            change=basicCondition(table,condition);
-        }else if(type==BETWEEN){
-            System.out.println("Between===========");
-            change=betweenCondition(table,condition);
+        for(int i=0;i<condition.size();i++){
+            int type=((Token)condition.get(i)).kind;
+            if(type==IN){
+                System.out.println("In===========");
+                change=inCondition(table,condition);
+                break;
+            }else if(type==EQ||type==LQ||type==RQ||type==LT||type==GT||type==NE){
+                System.out.println("Basic===========");
+                change=basicCondition(table,condition);
+                break;
+            }else if(type==BETWEEN){
+                System.out.println("Between===========");
+                change=betweenCondition(table,condition);
+                break;
+            }
         }
+
         return change;
     }
+
+
 
 
 
