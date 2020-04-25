@@ -253,6 +253,7 @@ public class Table extends SqlConstantImpl {
             System.out.println("No update");
             return false;
         }
+//        t.getTableDescriptor().updatePriamryKey();
         ColumnDescriptorList columnDescriptors=td.getColumnDescriptorList();
         List list1=t.getTree().getDatas();
         for(int i=0;i<list1.size();i++){
@@ -272,7 +273,10 @@ public class Table extends SqlConstantImpl {
 
 
     public boolean updatePrimaryKey(){
+        td.updatePriamryKey();
         ColumnDescriptorList pkn=td.getPrimaryKey();
+//        System.out.println("update");
+//        td.printTableDescriptor();
         List list1=tree.getDatas();
         for(int i=0;i<list1.size();i++){
             CglibBean c= (CglibBean) list1.get(i);

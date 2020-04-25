@@ -27,6 +27,7 @@ public class OrderByStatement {
         System.out.println("case change");
         List datas = t.getTree().getDatas();
         datas=sortData(datas,lists);
+        t.printTable(datas);
         datas=returnDatas(table,datas);
 //        for(int i=0;i<lists.size();i++){
 //            String name=lists.get(i).get(0).image;
@@ -114,6 +115,7 @@ public class OrderByStatement {
     }
 
     public static List returnDatas(Table t,List data){
+        t.printTable(null);
         BPlusTree tree=t.getTree();
         List<CglibBean> list=new ArrayList<>();
         for(int i=0;i<data.size();i++){

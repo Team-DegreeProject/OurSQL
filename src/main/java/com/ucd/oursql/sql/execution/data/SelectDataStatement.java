@@ -3,7 +3,9 @@ package com.ucd.oursql.sql.execution.data;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.ucd.oursql.sql.execution.other.*;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.table.BTree.CglibBean;
 import com.ucd.oursql.sql.table.Table;
+import com.ucd.oursql.sql.table.type.PrimaryKey;
 import javafx.scene.control.Tab;
 import jdk.nashorn.internal.objects.annotations.Where;
 
@@ -29,10 +31,12 @@ public class SelectDataStatement {
 //        String tablename= tablenames.get(0).get(0).image;
 //        Table table= FromStatement.from(tablename);
         Table table= dealWithFrom();
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
 //        table.printTable(null);
 
         List<List<Token>> whereConsition=getWhhereToken();
         table=WhereStatament.whereImpl(table,whereConsition);
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
 //        table.printTable(null);
 
         List distinctNames=checkDistinct();
@@ -41,7 +45,7 @@ public class SelectDataStatement {
 //        table.printTable(null);
 //        show.printTable(null);
 
-        show.printTable(null);
+//        show.printTable(null);
         List<List<Token>> columns= getColumns();
         show=show.selectSomeColumns(tablenames,columns);
 //        show.printTable(null);
@@ -181,6 +185,7 @@ public class SelectDataStatement {
         HashMap left= (HashMap) from.get("left");
         HashMap right= (HashMap) from.get("right");
         Table table= InnerJoinStatement.innerJoinStartImpl(start);
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         Iterator iit= inner.keySet().iterator();
         Iterator lit=left.keySet().iterator();
         Iterator rit=right.keySet().iterator();
@@ -194,12 +199,14 @@ public class SelectDataStatement {
 //            }
             table=InnerJoinStatement.innerJoinImpl(table,t2,on);
         }
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         while(lit.hasNext()){
             List<Token> name= (List<Token>) lit.next();
             List<Token> on= (List<Token>) left.get(name);
             Table t2= FromStatement.from(name.get(0).image);
             table= LeftJoinStatement.leftJoinImpl(table,t2,on);
         }
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         while(rit.hasNext()){
             List<Token> name= (List<Token>) lit.next();
             List<Token> on= (List<Token>) left.get(name);

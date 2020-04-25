@@ -6,6 +6,7 @@ import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.BPlusTreeTool;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
 import com.ucd.oursql.sql.table.Table;
+import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.SqlType;
 
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class WhereStatament {
         BPlusTree b2=t2.getTree();
         BPlusTree returnTree= BPlusTreeTool.mergeTreeAnd(b1,b2);
         Table t=new Table(t1.getTableDescriptor(),returnTree);
+
         return t;
     }
 
@@ -40,6 +42,9 @@ public class WhereStatament {
         BPlusTree b2=t2.getTree();
         BPlusTree returnTree=BPlusTreeTool.mergeTreeOr(b1,b2);
         Table t=new Table(t1.getTableDescriptor(),returnTree);
+//        System.out.println("or");
+//        ((PrimaryKey)((CglibBean)t.getTree().getDatas().get(0)).getValue("primary key")).printPK();
+//        t1.getTableDescriptor().printTableDescriptor();
         return t;
     }
 
@@ -172,6 +177,7 @@ public class WhereStatament {
 
     public static Table whereImpl(Table table,List conditions) throws Exception {
         if(conditions==null){
+            System.out.println("return table");
             return table;
         }
         Table change=null;
@@ -205,7 +211,7 @@ public class WhereStatament {
             System.out.println("There is no change");
         }
 //        change.printTable(null);
-        change.createTable();
+//        change.createTable();
         return change;
     }
 

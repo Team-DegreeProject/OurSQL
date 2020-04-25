@@ -128,8 +128,9 @@ public class ColumnDescriptorList extends ArrayList<ColumnDescriptor> {
 
     public void printColumnDescriptorList(){
         for (ColumnDescriptor columnDescriptor : this) {
-            DataTypeDescriptor dataTypeDescriptor=columnDescriptor.getType();
-            System.out.println(columnDescriptor.getColumnName()+"-->"+sqlMap.get(dataTypeDescriptor.getTypeId()));
+//            DataTypeDescriptor dataTypeDescriptor=columnDescriptor.getType();
+//            System.out.println(columnDescriptor.getColumnName()+"-->"+sqlMap.get(dataTypeDescriptor.getTypeId()));
+            columnDescriptor.printColumnDescriptor();
         }
     }
 

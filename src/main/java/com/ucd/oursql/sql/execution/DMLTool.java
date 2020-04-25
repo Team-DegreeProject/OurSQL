@@ -274,6 +274,10 @@ public class DMLTool {
     }
 
     public static TableDescriptor changeTD(TableDescriptor td1,TableDescriptor td2){
+//        System.out.println("td1");
+//        td1.printTableDescriptor();
+//        System.out.println("td2");
+//        td2.printTableDescriptor();
         ColumnDescriptorList columnDescriptors1=td1.getColumnDescriptorList();
         ColumnDescriptorList columnDescriptors2=td2.getColumnDescriptorList();
         ColumnDescriptorList newColums=columnDescriptors1.getNewColumnDescriptorList();
@@ -283,8 +287,12 @@ public class DMLTool {
                 newColums.add(columnDescriptors2.getColumnDescriptor(i).getNewColumnDescripter());
             }
         }
+//        System.out.println("newColum");
+//        newColums.printColumnDescriptorList();
         TableDescriptor td=new TableDescriptor(td1.getName()+"+"+td2.getName(),td1.getSchema(),newColums);
         td.updatePriamryKey();
+//        System.out.println("td");
+//        td.printTableDescriptor();
         return td;
 
     }
