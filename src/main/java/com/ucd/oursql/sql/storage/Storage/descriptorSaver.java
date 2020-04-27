@@ -18,10 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class descriptorSaver {
     TableDescriptor tabledescriptor;
@@ -40,8 +37,9 @@ public class descriptorSaver {
             String tableName = tabledescriptor.getTableName();
             hashmapToXML();
             descriptorToXML();
+            List<String> ColumnNameList = tabledescriptor.getColumnNamesList();
             TreeSaver ts = new TreeSaver();
-            ts.SaveAsXML(btree,tableName);
+            ts.SaveAsXML(btree,tableName,ColumnNameList);
 
         }
         catch (Exception e){

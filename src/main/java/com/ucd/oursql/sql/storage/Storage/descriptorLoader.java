@@ -107,11 +107,13 @@ public class descriptorLoader {
 
     public Table loadFromFile(String tableName){
         try{
-            TreeLoader tl = new TreeLoader();
-            BPlusTree fileTree = tl.loadFromFile(tableName);
+
 
             TableDescriptor td = loadDescriptorFromFile(tableName);
             HashMap propertyMap = loadPropertyFromFile(tableName);
+            TreeLoader tl = new TreeLoader();
+            BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList());
+
 
             Table resultTable = new Table(td,fileTree);
             return resultTable;
