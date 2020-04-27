@@ -29,7 +29,7 @@ public class descriptorLoader {
             Element rootElement = document1.getRootElement();
             List<Element> elementList = rootElement.getChildren();
             for(Element eachElement : elementList){
-                propertyMap.put(eachElement.getName(),eachElement.getValue());
+                propertyMap.put(Integer.valueOf(eachElement.getName().substring(3)),eachElement.getValue());
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -52,17 +52,18 @@ public class descriptorLoader {
             List<Element> elementList = rootElement.getChildren();
 
             //先得到最外层的节点们
-            String tableName = rootElement.getChildText("tableName");
+            String tableName = tn;
             int scheme = Integer.parseInt(rootElement.getChildText("schema"));
             char lockGranularity = rootElement.getChildText("lockGranularity").toCharArray()[0];
             //创建一个tabledescriptor
             ColumnDescriptorList columnDescriptorList = new ColumnDescriptorList();
             ColumnDescriptorList primaryKeyList = new ColumnDescriptorList();
             tableDescriptor = new TableDescriptor(tableName,lockGranularity,scheme,columnDescriptorList,primaryKeyList);
-
+            tableDescriptor.setTableName(tableName);
             //获得所有的columnDescriptor
-            List<Element> columnDescriptors = rootElement.getChildren("columnDescriptors");
+            Element columnDescriptorListElement = rootElement.getChild("columnDescriptorList");
 
+            List<Element> columnDescriptors = columnDescriptorListElement.getChildren("columnDescriptor");
             for (Element eachColunm : columnDescriptors) {
                 //除了dataType全部的部分
                 String columnName = eachColunm.getChildText("columnName");

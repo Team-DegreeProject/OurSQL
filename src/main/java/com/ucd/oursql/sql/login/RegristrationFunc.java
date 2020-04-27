@@ -16,7 +16,7 @@ public class RegristrationFunc {
     public void register(account newUser){
         String filePath = "userInformation/userInformation.xml" ;
         File userInformationFile = new File(filePath);
-        //µ±²»´æÔÚµÄÇé¿ö
+        //å½“ä¸å­˜åœ¨çš„æƒ…å†µ
         if(!userInformationFile.exists()){
             Document doc = new Document();
             Element infoEntity = new Element("account");
@@ -35,7 +35,7 @@ public class RegristrationFunc {
 
             saveXML(doc);
         }
-        //Èôµ±Ç°´æÔÚÕâ¸öÎÄ¼şµÄ»°£¬ÔòĞèÒªÔÚÏÖÔÚÕâ¸öÎÄ¼şµÃ»ù´¡ÉÏ½øĞĞĞŞ¸ÄºÍÌí¼Ó
+        //è‹¥å½“å‰å­˜åœ¨è¿™ä¸ªæ–‡ä»¶çš„è¯ï¼Œåˆ™éœ€è¦åœ¨ç°åœ¨è¿™ä¸ªæ–‡ä»¶å¾—åŸºç¡€ä¸Šè¿›è¡Œä¿®æ”¹å’Œæ·»åŠ 
         else{
             SAXBuilder sb = new SAXBuilder();
             Document doc = null;
@@ -43,7 +43,7 @@ public class RegristrationFunc {
                 doc = sb.build("userInformation/userInformation.xml");
                 Element root = doc.getRootElement();
 
-                //ÑéÖ¤ÏÖÔÚÓĞÃ»ÓĞµ±Ç°ÕË»§
+                //éªŒè¯ç°åœ¨æœ‰æ²¡æœ‰å½“å‰è´¦æˆ·
                 List<Element> list = root.getChildren("account");
                 boolean b = true;
                 for (Element el : list) {
@@ -71,20 +71,20 @@ public class RegristrationFunc {
     }
 
     public static void saveXML(Document doc) {
-        // ½«doc¶ÔÏóÊä³öµ½ÎÄ¼ş
+        // å°†docå¯¹è±¡è¾“å‡ºåˆ°æ–‡ä»¶
         try {
-            // ´´½¨xmlÎÄ¼şÊä³öÁ÷
+            // åˆ›å»ºxmlæ–‡ä»¶è¾“å‡ºæµ
             XMLOutputter xmlopt = new XMLOutputter();
 
-            // ´´½¨ÎÄ¼şÊä³öÁ÷
+            // åˆ›å»ºæ–‡ä»¶è¾“å‡ºæµ
             FileWriter writer = new FileWriter("userInformation/userInformation.xml");
 
-            // Ö¸¶¨ÎÄµµ¸ñÊ½
+            // æŒ‡å®šæ–‡æ¡£æ ¼å¼
             Format fm = Format.getPrettyFormat();
             // fm.setEncoding("GB2312");
             xmlopt.setFormat(fm);
 
-            // ½«docĞ´Èëµ½Ö¸¶¨µÄÎÄ¼şÖĞ
+            // å°†docå†™å…¥åˆ°æŒ‡å®šçš„æ–‡ä»¶ä¸­
             xmlopt.output(doc, writer);
             writer.close();
         } catch (Exception e) {

@@ -23,7 +23,7 @@ public class subLockRegulator {
                 sublocktable.addUnit(new rowLockTableUnit(tableName,primaryKey,Configuration.SHARELOCK));
                 return true;
             }
-            //²»´æÔÚexclusiveµÄÇé¿ö
+            //ä¸å­˜åœ¨exclusiveçš„æƒ…å†µ
             else if(LockUtils.searchExclusiveSub(searchResult)){
                 return false;
             }
@@ -32,7 +32,7 @@ public class subLockRegulator {
             }
 
         }
-        //ÀàĞÍÎªÅÅËûËøµÄÊ±ºò
+        //ç±»å‹ä¸ºæ’ä»–é”çš„æ—¶å€™
         else if(lockType.equals(Configuration.EXCLUSIVELOCK)){
             ArrayList<rowLockTableUnit> searchResult = sublocktable.traverseList(primaryKey);
             if(searchResult.size() == 0){
@@ -59,7 +59,7 @@ public class subLockRegulator {
                 sublocktable.addUnit(new rowLockTableUnit(tableName, primaryKey,Configuration.SHARELOCK));
                 return true;
             }
-            //²»´æÔÚexclusiveµÄÇé¿ö
+            //ä¸å­˜åœ¨exclusiveçš„æƒ…å†µ
             else if(LockUtils.searchExclusiveSub(searchResult)){
                 return false;
             }

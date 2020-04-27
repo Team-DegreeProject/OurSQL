@@ -32,7 +32,7 @@ public class rowLockTable {
 //    }
 
     public ArrayList<rowLockTableUnit> traverseList(String primaryKey) {
-        //¸ù¾İÌá¹©µÄPrimaryKeyµÄÃû×ÖÀ´±éÀúÕâ¸öÁĞ±í£¬´Ó¶ø¿´¿´Õâ¸öÁĞ±íÖĞµÄµ½µ×ÓĞÃ»ÓĞÕâ¸örowÉÏËøµÄĞÅÏ¢
+        //æ ¹æ®æä¾›çš„PrimaryKeyçš„åå­—æ¥éå†è¿™ä¸ªåˆ—è¡¨ï¼Œä»è€Œçœ‹çœ‹è¿™ä¸ªåˆ—è¡¨ä¸­çš„åˆ°åº•æœ‰æ²¡æœ‰è¿™ä¸ªrowä¸Šé”çš„ä¿¡æ¯
         ArrayList<rowLockTableUnit> resultUnitList = new ArrayList<>();
         for(int i=0; i<unitsList.size(); i++){
             rowLockTableUnit currentUnit = unitsList.get(i);

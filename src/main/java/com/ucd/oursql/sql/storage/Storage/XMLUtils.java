@@ -1,5 +1,8 @@
 package storage.Storage;
 
+import com.ucd.oursql.sql.table.TableDescriptor;
+import com.ucd.oursql.sql.table.TableSchema;
+
 public class XMLUtils {
 
     public static String getMethodName(String fildeName) throws Exception {
@@ -17,4 +20,5 @@ public class XMLUtils {
     public static String getFileName(String filepath){
         return filepath.substring(4);
     }
+
 }

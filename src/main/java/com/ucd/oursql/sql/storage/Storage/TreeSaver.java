@@ -27,12 +27,11 @@ public class TreeSaver {
 //        this.BplusTree = T;
 //    }
 
-    public void SaveAsXML(BPlusTree BplusTree) throws Exception {
+    public void SaveAsXML(BPlusTree BplusTree,String tableName) throws Exception {
 
         List<LeafNode> leafNodes = BplusTree.getLeafNodes();
         try{
             //xml的一些部分
-            String tableName = "Student Information";
             //1.生成一个根节点
             Element table = new Element("table");
             //2.为节点添加属性
@@ -108,7 +107,7 @@ public class TreeSaver {
             //5.利用outputter将document对象转换成xml文档
 
             //测试命名和创建文件夹
-            String tn = "test";
+            String tn = tableName;
             File targetFile = new File(tn+".xml");
             File test = new File("data/"+tn);
             //创建文件夹
