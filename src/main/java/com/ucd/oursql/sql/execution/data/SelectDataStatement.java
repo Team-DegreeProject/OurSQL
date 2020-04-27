@@ -1,8 +1,13 @@
 package com.ucd.oursql.sql.execution.data;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.ucd.oursql.sql.execution.other.*;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.table.BTree.CglibBean;
 import com.ucd.oursql.sql.table.Table;
+import com.ucd.oursql.sql.table.type.PrimaryKey;
+import javafx.scene.control.Tab;
+import jdk.nashorn.internal.objects.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,31 +24,38 @@ public class SelectDataStatement {
         statement=tokens;
     }
 
-    public String selectDataImpl() throws ClassNotFoundException {
+    public String selectDataImpl() throws Exception {
 //        HashMap from=getFrom();
 
         List<List<Token>> tablenames= (List<List<Token>>) statement.get(3);
 //        String tablename= tablenames.get(0).get(0).image;
 //        Table table= FromStatement.from(tablename);
         Table table= dealWithFrom();
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
+//        table.printTable(null);
+
+        List<List<Token>> whereConsition=getWhhereToken();
+        table=WhereStatament.whereImpl(table,whereConsition);
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
+//        table.printTable(null);
 
         List distinctNames=checkDistinct();
-        table.printTable(null);
+//        table.printTable(null);
         Table show=DistinctStatement.distinctImpl(table,distinctNames);
-        table.printTable(null);
+//        table.printTable(null);
 //        show.printTable(null);
 
-        table.printTable(null);
+//        show.printTable(null);
         List<List<Token>> columns= getColumns();
-        show=table.selectSomeColumns(tablenames,columns);
-table.printTable(null);
+        show=show.selectSomeColumns(tablenames,columns);
+//        show.printTable(null);
 
 
         List<List<Token>> orderbys=getOrderByLists();
         List datas=OrderByStatement.orderByImpl(show,orderbys,table);
 
         String output=show.printTable(datas);
-        table.printTable(null);
+//        table.printTable(null);
 
         System.out.println("=================12345=====================");
         System.out.println(output);
@@ -95,18 +107,6 @@ table.printTable(null);
     }
 
     public List getOrderByLists(){
-        for(int i=0;i<statement.size();i++){
-            Object o=statement.get(i);
-            if(o instanceof Token){
-                if(((Token) o).kind==ORDER_BY){
-                    return (List) statement.get(i+1);
-                }
-            }
-        }
-        return null;
-    }
-
-    public List getWhereLists(){
         for(int i=0;i<statement.size();i++){
             Object o=statement.get(i);
             if(o instanceof Token){
@@ -185,6 +185,7 @@ table.printTable(null);
         HashMap left= (HashMap) from.get("left");
         HashMap right= (HashMap) from.get("right");
         Table table= InnerJoinStatement.innerJoinStartImpl(start);
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         Iterator iit= inner.keySet().iterator();
         Iterator lit=left.keySet().iterator();
         Iterator rit=right.keySet().iterator();
@@ -198,12 +199,14 @@ table.printTable(null);
 //            }
             table=InnerJoinStatement.innerJoinImpl(table,t2,on);
         }
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         while(lit.hasNext()){
             List<Token> name= (List<Token>) lit.next();
             List<Token> on= (List<Token>) left.get(name);
             Table t2= FromStatement.from(name.get(0).image);
             table= LeftJoinStatement.leftJoinImpl(table,t2,on);
         }
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         while(rit.hasNext()){
             List<Token> name= (List<Token>) lit.next();
             List<Token> on= (List<Token>) left.get(name);
@@ -213,6 +216,19 @@ table.printTable(null);
 //        table.printTable(null);
         return table;
 
+    }
+
+    public List<List<Token>> getWhhereToken(){
+        for(int i=0;i<statement.size();i++){
+            Object o=statement.get(i);
+            if(o instanceof Token){
+                Token t=(Token)o;
+                if(t.kind==WHERE){
+                    return (List<List<Token>>) statement.get(i+1);
+                }
+            }
+        }
+        return null;
     }
 
 

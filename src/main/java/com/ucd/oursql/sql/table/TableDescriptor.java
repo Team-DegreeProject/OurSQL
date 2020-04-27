@@ -173,6 +173,8 @@ public class TableDescriptor implements TableSchema {
     }
 
     public void updatePriamryKey(){
+//        System.out.println("updatePK");
+//        columnDescriptorList.printColumnDescriptorList();
         primaryKey=new ColumnDescriptorList();
         for(int i=0;i<columnDescriptorList.size();i++){
             ColumnDescriptor cd=columnDescriptorList.get(i);

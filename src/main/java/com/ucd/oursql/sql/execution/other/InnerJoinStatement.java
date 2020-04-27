@@ -55,6 +55,8 @@ public class InnerJoinStatement {
             }
         }
         TableDescriptor newTD= DMLTool.changeTD(t1.getTd(),t2.getTd());
+//        System.out.println("inner");
+//        newTD.printTableDescriptor();
         Table t3=new Table();
         t3.setTd(newTD);
         t3.createTable();
@@ -94,8 +96,13 @@ public class InnerJoinStatement {
                 b3.insert(cn, pk);
             }
         }
+
+//        t3.getTableDescriptor().printTableDescriptor();
+//        ((PrimaryKey)((CglibBean)t3.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         DMLTool.updateColumnPosition(t3);
+//        ((PrimaryKey)((CglibBean)t3.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         t3.updatePrimaryKey();
+//        ((PrimaryKey)((CglibBean)t3.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         return t3;
     }
 

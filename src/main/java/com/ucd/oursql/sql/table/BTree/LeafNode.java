@@ -1,5 +1,7 @@
 package com.ucd.oursql.sql.table.BTree;
 
+import com.ucd.oursql.sql.table.type.PrimaryKey;
+
 public class LeafNode <T, V extends Comparable<V>> extends Node<T, V> {
 
     protected Object values[];
@@ -47,11 +49,13 @@ public class LeafNode <T, V extends Comparable<V>> extends Node<T, V> {
             }
             middle = (low + up) / 2;
             if(middle==low){
-//                System.out.println("low:"+low+"up:"+up+"middle: "+middle);
+                System.out.println("low:"+low+"up:"+up+"middle: "+middle);
                 middleKey=(V) this.keys[middle];
-//                System.out.println(key+" "+this.values[middle+1]);
+                System.out.println(key+" "+this.values[middle]);
+                ((PrimaryKey)key).printPK();
+                ((PrimaryKey)middleKey).printPK();
                 if(key.compareTo(middleKey) == 0){
-//                    System.out.println("case4");
+                    System.out.println("case4");
                     return (T) this.values[middle];
                 }
                 else if(key.compareTo((V)this.keys[middle+1]) == 0){

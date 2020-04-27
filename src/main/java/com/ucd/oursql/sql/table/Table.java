@@ -253,6 +253,7 @@ public class Table extends SqlConstantImpl {
             System.out.println("No update");
             return false;
         }
+//        t.getTableDescriptor().updatePriamryKey();
         ColumnDescriptorList columnDescriptors=td.getColumnDescriptorList();
         List list1=t.getTree().getDatas();
         for(int i=0;i<list1.size();i++){
@@ -272,7 +273,10 @@ public class Table extends SqlConstantImpl {
 
 
     public boolean updatePrimaryKey(){
+        td.updatePriamryKey();
         ColumnDescriptorList pkn=td.getPrimaryKey();
+//        System.out.println("update");
+//        td.printTableDescriptor();
         List list1=tree.getDatas();
         for(int i=0;i<list1.size();i++){
             CglibBean c= (CglibBean) list1.get(i);
@@ -517,6 +521,7 @@ public class Table extends SqlConstantImpl {
 
     public Table selectSomeColumns(List<List<Token>>from,List<List<Token>> tokens) throws ClassNotFoundException {
         TableDescriptor newTD=DMLTool.changeTableDescriptor(td,tokens);
+//        System.out.println("NEWTD");
 //        System.out.println("=================");
 //        newTD.printTableDescriptor();
 //        if(newTD==td){
@@ -524,7 +529,9 @@ public class Table extends SqlConstantImpl {
 //        }
         Table table=new Table();
         table.setTd(newTD);
+//        System.out.println("NEWTABLE");
         DMLTool.changeAs(table.getTableDescriptor(),tokens);
+//        System.out.println("NEWCOLUMN");
         HashMap property=table.createTable();
 //        Iterator it=property.keySet().iterator();
 //        while(it.hasNext()){
@@ -532,7 +539,9 @@ public class Table extends SqlConstantImpl {
 //        }
         BPlusTree ntree=BPlusTreeTool.getSubAttributes(td.getColumnDescriptorList(),newTD.getColumnDescriptorList(),tree,property);
         table.setTree(ntree);
+//        System.out.println("NEWTREE");
         DMLTool.checkChangeTableName(table,from);
+//        System.out.println("NEWNAME");
         return table;
     }
 
