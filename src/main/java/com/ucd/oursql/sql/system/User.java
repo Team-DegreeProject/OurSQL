@@ -22,6 +22,7 @@ public class User {
         return userId;
     }
 
+
     public void setUserName(String userName) {
         this.userName = userName;
     }

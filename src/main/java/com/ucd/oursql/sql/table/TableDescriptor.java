@@ -38,7 +38,7 @@ public class TableDescriptor implements TableSchema {
 
 
     public TableDescriptor( String tableName,  char lockGranularity,int schema,ColumnDescriptorList columnDescriptorList,ColumnDescriptorList primaryKey) {
-//        this.tableName = tableName;
+        this.tableName = tableName;
         this.lockGranularity = lockGranularity;
         this.columnDescriptorList = columnDescriptorList;
         this.schema=schema;

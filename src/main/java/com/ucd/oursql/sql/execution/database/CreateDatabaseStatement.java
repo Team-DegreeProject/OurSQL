@@ -2,6 +2,7 @@ package com.ucd.oursql.sql.execution.database;
 
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.Database;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public class CreateDatabaseStatement{
         String databaseName=  ((Token)statement.get(2)).image;
         Database db=new Database(databaseName);
         ExecuteStatement.uad.insertDatabase(db);
+//        db.printDatabase();
+        System.out.println("===============================");
+        descriptorSaver ds=new descriptorSaver(db.getDatabase().getTableDescriptor(),db.getDatabase().getPropertyMap(),db.getDatabase().getTree());
+        ds.saveAll();
         String output=ExecuteStatement.uad.getUserAccessedDatabase().printTable(null);
         return output;
     }

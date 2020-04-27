@@ -75,7 +75,7 @@ public class DMLTool {
 
 
     public static SqlType convertToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
-        Class c= (Class) propertyMap.get(att);
+        Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
         value.setValue(str);
         ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
@@ -90,7 +90,32 @@ public class DMLTool {
         return value;
     }
 
+    public static SqlType forXMLConvertStringToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
+        Class c= Class.forName((String) propertyMap.get(att));
+        SqlType value=(SqlType)c.newInstance();
+        value.setValue(str);
+        ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
+        DataTypeDescriptor dataTypeDescriptor=cd.getType();
+        if(dataTypeDescriptor.getScale()!=-1){
+            value.setScale(dataTypeDescriptor.getScale());
+        }
+        if(dataTypeDescriptor.getPrecision()!=-1){
+            value.setPrecision(dataTypeDescriptor.getPrecision());
+        }
+        value.updateValue();
+        return value;
+    }
 
+    public static  HashMap convertPropertyMap(HashMap propertyMap) throws ClassNotFoundException {
+        HashMap r=new HashMap();
+        Iterator it=propertyMap.keySet().iterator();
+        while(it.hasNext()){
+            String s= (String) it.next();
+            Class c=Class.forName((String) propertyMap.get(s));
+            r.put(s,c);
+        }
+        return r;
+    }
 
 
     public static ColumnDescriptor analyseOneRow(int k, List tokens,int position){

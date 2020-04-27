@@ -39,20 +39,21 @@ public class UserAccessedDatabases {
         String tableName="UserPermissionDatabaseScope";
         ColumnDescriptorList primaryKey=new ColumnDescriptorList();
         ColumnDescriptorList columns=new ColumnDescriptorList();
-        DataTypeDescriptor id= new DataTypeDescriptor(INT,false);
-        ColumnDescriptor column=new ColumnDescriptor("id",1,id);
+//        DataTypeDescriptor id= new DataTypeDescriptor(INT,false);
+//        ColumnDescriptor column=new ColumnDescriptor("id",1,id);
+//        column.setUnique(true);
+//        primaryKey.add(column);
+//        columns.add(column);
+        DataTypeDescriptor user= new DataTypeDescriptor(STRING,false);
+        ColumnDescriptor column=new ColumnDescriptor("user",2,user);
+        columns.add(column);
+//        DataTypeDescriptor t= new DataTypeDescriptor(DATABASE,false);
+//        column=new ColumnDescriptor("database",3,t);
+//        columns.add(column);
+        DataTypeDescriptor tn= new DataTypeDescriptor(STRING,false);
+        column=new ColumnDescriptor("databasename",1,tn);
         column.setUnique(true);
         primaryKey.add(column);
-        columns.add(column);
-        DataTypeDescriptor user= new DataTypeDescriptor(USER,false);
-        column=new ColumnDescriptor("user",2,user);
-        columns.add(column);
-        DataTypeDescriptor t= new DataTypeDescriptor(DATABASE,false);
-        column=new ColumnDescriptor("database",3,t);
-        columns.add(column);
-        DataTypeDescriptor tn= new DataTypeDescriptor(STRING,false);
-        column=new ColumnDescriptor("databasename",4,tn);
-        column.setUnique(true);
         columns.add(column);
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
         column=new ColumnDescriptor("primary key",0,tp);
@@ -65,17 +66,18 @@ public class UserAccessedDatabases {
     }
 
     public boolean insertDatabase(Database database) throws Exception {
-        int id=length;
-        length++;
+//        int id=length;
+//        length++;
         PrimaryKey pk=new PrimaryKey();
-        SqlInt sqlid=new SqlInt(id);
-        pk.addPrimaryKey("id",sqlid);
+//        SqlInt sqlid=new SqlInt(id);
+        pk.addPrimaryKey("databasename",database.getDatabaseName());
         List values=new ArrayList();
         values.add(pk);
-        values.add(sqlid);
-        values.add(user);
-        values.add(database);
+//        values.add(sqlid);
         values.add(database.getDatabaseName());
+        values.add(user.getUserName());
+//        values.add(database);
+//        values.add(database.getDatabaseName());
         return userAccessedDatabase.insertARow(values);
     }
 

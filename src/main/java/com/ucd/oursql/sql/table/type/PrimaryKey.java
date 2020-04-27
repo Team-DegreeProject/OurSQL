@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PrimaryKey implements Comparable{
+public class PrimaryKey implements SqlType{
     HashMap pkmap=new HashMap();
     List<String> names=new ArrayList<>();
 //    List<Comparable> list=null;
@@ -15,9 +15,12 @@ public class PrimaryKey implements Comparable{
             names.add(names.get(i));
         }
     }
+
+
     public PrimaryKey(){
 //        list=new ArrayList<Comparable>();
     }
+
 
     public void addPrimaryKey(String name,Comparable t){
         pkmap.put(name,t);
@@ -59,11 +62,49 @@ public class PrimaryKey implements Comparable{
         return outcome;
     }
 
-    public void printPK(){
-        System.out.println("====PK====");
+    @Override
+    public String toString(){
+        boolean first=true;
+        String str="";
         for(int j=0;j<names.size();j++){
-            System.out.println(names.get(j)+"--->"+pkmap.get(names.get(j)));
+            if(first){
+                str=names.get(j)+":"+pkmap.get(names.get(j));
+                first=false;
+            }else{
+                str=str+";"+names.get(j)+":"+pkmap.get(names.get(j));
+            }
         }
-        System.out.println("==========");
+        return str;
+    }
+
+    @Override
+    public void setValue(String o) throws Exception {
+        String[] pairs=o.split(";");
+        for(int i=0;i<pairs.length;i++){
+            String p= pairs[i];
+            String[] l=p.split(":");
+            String key=l[0];
+            String value=l[1];
+            pkmap.put(key,value);
+            names.add(key);
+        }
+    }
+
+    @Override
+    public SqlType addOne() throws Exception {
+        return null;
+    }
+
+    @Override
+    public void setScale(int i) throws Exception {
+    }
+
+    @Override
+    public void setPrecision(int i) throws Exception {
+    }
+
+    @Override
+    public void updateValue() throws Exception {
+
     }
 }

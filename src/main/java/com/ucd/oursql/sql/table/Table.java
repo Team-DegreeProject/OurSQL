@@ -78,7 +78,7 @@ public class Table extends SqlConstantImpl {
             ColumnDescriptor cd=list.getColumnDescriptor(i);
             DataTypeDescriptor dtd=cd.getType();
             System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
-            propertyMap.put(cd.getColumnName(), Class.forName(sqlMap.get(dtd.getTypeId())));
+            propertyMap.put(cd.getColumnName(),sqlMap.get(dtd.getTypeId()));
         }
         return propertyMap;
     }
@@ -90,7 +90,7 @@ public class Table extends SqlConstantImpl {
             ColumnDescriptor cd=list.elementAt(i);
             DataTypeDescriptor dtd=cd.getType();
             System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
-            propertyMap.put(cd.getColumnName(), Class.forName(sqlMap.get(dtd.getTypeId())));
+            propertyMap.put(cd.getColumnName(), sqlMap.get(dtd.getTypeId()));
         }
         return propertyMap;
     }
@@ -111,7 +111,7 @@ public class Table extends SqlConstantImpl {
             return false;
         }
 
-        CglibBean bean = new CglibBean(propertyMap);
+        CglibBean bean = new CglibBean(DMLTool.convertPropertyMap(propertyMap));
         for(int i=0;i<attributes.length;i++){
             System.out.println();
             bean.setValue(attributes[i], values.get(i));
