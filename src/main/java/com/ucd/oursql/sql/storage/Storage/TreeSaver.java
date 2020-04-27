@@ -27,7 +27,7 @@ public class TreeSaver {
 //        this.BplusTree = T;
 //    }
 
-    public void SaveAsXML(BPlusTree BplusTree,String tableName) throws Exception {
+    public void SaveAsXML(BPlusTree BplusTree,String tableName,List<String> ColumnNameList) throws Exception {
 
         List<LeafNode> leafNodes = BplusTree.getLeafNodes();
         try{
@@ -47,6 +47,16 @@ public class TreeSaver {
 //            student.addContent(name);
 //            student.addContent(id);
 //        }
+            List objectList = BplusTree.getDatas();
+            HashMap<String,String> resultMap = new HashMap<>();
+            for(Object o : objectList){
+                CglibBean cglibBean = (CglibBean) o;
+                for(String name: ColumnNameList){
+                    String value = cglibBean.getValue(name).toString();
+                    resultMap.put(name,value);
+                }
+            }
+
 
 
             for (int i = 0; i < leafNodes.size(); i++) {
