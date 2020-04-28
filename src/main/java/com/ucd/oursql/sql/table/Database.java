@@ -1,10 +1,12 @@
 package com.ucd.oursql.sql.table;
 
+import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.column.ColumnDescriptor;
 import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.number.SqlInt;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,12 @@ public class Database{
     }
 
     public boolean createDatabase(String databasename) throws ClassNotFoundException {
+        descriptorLoader dl=new descriptorLoader();
+        Table temp=dl.loadFromFile("UserPermissionDatabaseScope");
+        if(temp!=null){
+            System.out.println("load DATABASE from xml");
+            database=temp;
+        }
         TableDescriptor td=null;
         ColumnDescriptorList primaryKey=new ColumnDescriptorList();
         ColumnDescriptorList columns=new ColumnDescriptorList();
@@ -40,7 +48,7 @@ public class Database{
 //        columnId.setUnique(true);
 //        dataType= new DataTypeDescriptor(TABLE,false);
 //        ColumnDescriptor columnTable=new ColumnDescriptor("table",2,dataType);
-        DataTypeDescriptor dataType= new DataTypeDescriptor(STRING,false);
+        DataTypeDescriptor dataType= new DataTypeDescriptor(VARCHAR,false);
         dataType.setPrimaryKey(true);
         ColumnDescriptor columnTableName=new ColumnDescriptor("tablename",1,dataType);
         columnTableName.setUnique(true);
@@ -85,7 +93,8 @@ public class Database{
         values.add(pk);
 //        values.add(sqlid);
 //        values.add(t);
-        values.add(t.getTableDescriptor().getName());
+        SqlVarChar n=new SqlVarChar(t.getTableDescriptor().getName());
+        values.add(n);
 //        id++;
 //        String[] attributes=database.getTableDescriptor().getColumnNamesArray();
 //        System.out.println("222222222222");

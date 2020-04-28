@@ -12,6 +12,7 @@ import com.ucd.oursql.sql.table.column.ColumnDescriptor;
 import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.number.SqlInt;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,12 @@ public class UserAccessedDatabases {
     }
 
     public Table databaseList() throws ClassNotFoundException {
+        descriptorLoader dl=new descriptorLoader();
+        Table temp=dl.loadFromFile("UserPermissionDatabaseScope");
+        if(temp!=null){
+            System.out.println("load UPDS from xml");
+            return temp;
+        }
         TableDescriptor tableDescriptor =null;
         String tableName="UserPermissionDatabaseScope";
         ColumnDescriptorList primaryKey=new ColumnDescriptorList();
@@ -46,13 +53,13 @@ public class UserAccessedDatabases {
 //        column.setUnique(true);
 //        primaryKey.add(column);
 //        columns.add(column);
-        DataTypeDescriptor user= new DataTypeDescriptor(STRING,false);
+        DataTypeDescriptor user= new DataTypeDescriptor(VARCHAR,false);
         ColumnDescriptor column=new ColumnDescriptor("user",2,user);
         columns.add(column);
 //        DataTypeDescriptor t= new DataTypeDescriptor(DATABASE,false);
 //        column=new ColumnDescriptor("database",3,t);
 //        columns.add(column);
-        DataTypeDescriptor tn= new DataTypeDescriptor(STRING,false);
+        DataTypeDescriptor tn= new DataTypeDescriptor(VARCHAR,false);
         tn.setPrimaryKey(true);
         column=new ColumnDescriptor("databasename",1,tn);
         column.setUnique(true);
@@ -79,8 +86,10 @@ public class UserAccessedDatabases {
         List values=new ArrayList();
         values.add(pk);
 //        values.add(sqlid);
-        values.add(database.getDatabaseName());
-        values.add(user.getUserName());
+        SqlVarChar n=new SqlVarChar(database.getDatabaseName());
+        SqlVarChar u=new SqlVarChar(user.getUserName());
+        values.add(n);
+        values.add(u);
 //        values.add(database);
 //        values.add(database.getDatabaseName());
         boolean instance = userAccessedDatabase.insertARow(values);

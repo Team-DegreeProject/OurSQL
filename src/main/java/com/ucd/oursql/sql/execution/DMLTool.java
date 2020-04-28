@@ -114,12 +114,12 @@ public class DMLTool {
             Class c=Class.forName((String) propertyMap.get(s));
             r.put(s,c);
         }
-        System.out.println("44444444444444444");
-        Iterator i=r.keySet().iterator();
-        while(i.hasNext()){
-            String s= (String) i.next();
-            System.out.println(s+":"+r.get(s));
-        }
+//        System.out.println("44444444444444444");
+//        Iterator i=r.keySet().iterator();
+//        while(i.hasNext()){
+//            String s= (String) i.next();
+//            System.out.println(s+":"+r.get(s));
+//        }
         return r;
     }
 
