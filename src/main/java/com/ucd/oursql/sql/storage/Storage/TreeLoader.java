@@ -59,25 +59,26 @@ public class TreeLoader {
             //获取所有的子节点
             List<Element> innerElementList = element.getChildren();
             //建立一个哈希map
-            HashMap propertyMap = new HashMap();
+//            HashMap propertyMap = new HashMap();
             HashMap valueMap = new HashMap();
             for (Element innerElement : innerElementList) {
                 String varName = innerElement.getName();
                 String varVal = innerElement.getValue();
                 System.out.println("the value of varVal is: "+varVal);
                 valueMap.put(varName,varVal);
-                propertyMap.put(varName, Class.forName(varVal));
+//                propertyMap.put(varName, Class.forName(varVal));
 
             }
             //property map已经处理完毕
 
-            Iterator it=propertyMap.keySet().iterator();
-            while(it.hasNext()){
-                String k= (String) it.next();
-                System.out.println(k+":"+propertyMap.get(k));
-            }
+//            Iterator it=propertyMap.keySet().iterator();
+//            while(it.hasNext()){
+//                String k= (String) it.next();
+//                System.out.println(k+":"+propertyMap.get(k));
+//            }
+            HashMap property=DMLTool.convertPropertyMap(pm);
 
-            CglibBean b = new CglibBean(propertyMap);
+            CglibBean b = new CglibBean(property);
 
             Iterator iter = valueMap.keySet().iterator();
             while (iter.hasNext()) {
