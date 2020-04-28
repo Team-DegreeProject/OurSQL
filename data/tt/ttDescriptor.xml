@@ -25,7 +25,7 @@
 <columnName>tablename</columnName>
 <columnPosition>1</columnPosition>
 <DataTypeDescriptor>
-<typeId>379</typeId>
+<typeId>210</typeId>
 <precision>-1</precision>
 <scale>-1</scale>
 <isNullable>false</isNullable>

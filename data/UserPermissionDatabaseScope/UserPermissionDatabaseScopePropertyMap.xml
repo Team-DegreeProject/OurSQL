@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="GBK"?>
 
 <table>
-  <databasename>java.lang.String</databasename>
+  <databasename>com.ucd.oursql.sql.table.type.text.SqlVarChar</databasename>
   <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
-  <user>java.lang.String</user>
+  <user>com.ucd.oursql.sql.table.type.text.SqlVarChar</user>
 </table>
