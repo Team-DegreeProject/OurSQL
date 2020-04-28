@@ -12,19 +12,22 @@ import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
 import static com.ucd.oursql.sql.table.TableSchema.BASE_TABLE_TYPE;
 
 public class Database{
-    private  int id=0;
+//    private  int id=0;
     private  Table database;
     public Database(Table t){
         database=t;
     }
 
     public Database(Database t){
-        this.id=t.id;
+//        this.id=t.id;
         this.database=t.database;
     }
 
     public Database(String databasename) throws ClassNotFoundException {
         createDatabase(databasename);
+    }
+
+    public Database() {
     }
 
     public boolean createDatabase(String databasename) throws ClassNotFoundException {
@@ -73,7 +76,7 @@ public class Database{
     public boolean insertTable(Table t) throws Exception {
         List values=new ArrayList();
         PrimaryKey pk=new PrimaryKey();
-        SqlInt sqlid=new SqlInt(id);
+//        SqlInt sqlid=new SqlInt(id);
         pk.addPrimaryKey("tablename",t.getTableDescriptor().getName());
         values.add(pk);
 //        values.add(sqlid);

@@ -2,10 +2,10 @@ package com.ucd.oursql.sql.system;
 
 public class User {
     private String userName;
-    private int userId;
+//    private int userId;
     private UserAccessedDatabases userAccessedDatabases;
-    public User(int id,String name) {
-        userId=id;
+    public User(String name) {
+//        userId=id;
         userName=name;
         try {
             userAccessedDatabases=new UserAccessedDatabases();
@@ -14,13 +14,13 @@ public class User {
         }
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
+//
+//    public int getUserId() {
+//        return userId;
+//    }
 
 
     public void setUserName(String userName) {
