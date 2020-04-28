@@ -70,6 +70,13 @@ public class TreeLoader {
                 propertyMap.put(varName, Class.forName(varVal.getClass().getName()));
             }
             //property map已经处理完毕
+
+            Iterator it=propertyMap.keySet().iterator();
+            while(it.hasNext()){
+                String k= (String) it.next();
+                System.out.println(k+":"+propertyMap.get(k));
+            }
+
             CglibBean b = new CglibBean(propertyMap);
 
             Iterator iter = valueMap.keySet().iterator();
@@ -79,16 +86,15 @@ public class TreeLoader {
                 //??????????????????????????????????????????????????
                 //??????????????????????????????????????????????????
                 try {
-
                     SqlType v = DMLTool.forXMLConvertStringToValue(valueName,valueMap.get(valueName).toString(),pm,columnDescriptorList);
-
-                    b.setValue(valueName, DMLTool.forXMLConvertStringToValue(valueName,valueMap.get(valueName).toString(),pm,columnDescriptorList));
+                    System.out.println(v+"====");
+                    b.setValue(valueName, v);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
 
                 }
-            resultTree.insert(b, (String) b.getValue("primary_key"));
+            resultTree.insert(b,  b.getValue("primary_key").toString());
 
 
 

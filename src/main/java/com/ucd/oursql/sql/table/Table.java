@@ -132,7 +132,7 @@ public class Table extends SqlConstantImpl {
         CglibBean bean = new CglibBean(DMLTool.convertPropertyMap(propertyMap));
         for(int i=0;i<attributes.length;i++){
 //            System.out.println(attributes[i]+"--->"+values.get(i));
-            bean.setValue(attributes[i], values.get(i));
+            bean.setValue(attributes[i], DMLTool.convertToValue(attributes[i],values.get(i).toString(),propertyMap,td.getColumnDescriptorList()));
 //            System.out.println(bean.getValue(attributes[i]));
         }
         tree.insert(bean, (Comparable) bean.getValue("primary_key"));//双primarykey

@@ -33,7 +33,7 @@ public class ExecuteStatement {
             user=setUserTest("root");
         }
         if(uad==null){
-            UserAccessedDatabases uad=getUserAccessedDatabases();
+            uad=getUserAccessedDatabases();
         }
     }
 
@@ -53,8 +53,10 @@ public class ExecuteStatement {
             descriptorLoader dl=new descriptorLoader();
             Table t=dl.loadFromFile("UserPermissionDatabaseScope");
             if(t==null){
+                System.out.println("====null=====");
                 u.databaseList();
             }else{
+                System.out.println("====!null=====");
                 u.setUserAccessedDatabase(t);
             }
 

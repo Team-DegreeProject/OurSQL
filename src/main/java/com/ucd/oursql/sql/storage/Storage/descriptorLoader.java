@@ -32,7 +32,7 @@ public class descriptorLoader {
                 propertyMap.put(eachElement.getName(),eachElement.getText());
             }
         }catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             return null;
         }
         return propertyMap;
@@ -100,9 +100,9 @@ public class descriptorLoader {
                 primaryKeyList.add(primaryKeyDescriptor);
             }
 
-            
+
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return null;
         }
         return tableDescriptor;
@@ -122,7 +122,7 @@ public class descriptorLoader {
             return resultTable;
         }
         catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             return null;
         }
     }
