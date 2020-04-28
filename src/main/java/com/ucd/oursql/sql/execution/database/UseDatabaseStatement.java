@@ -23,11 +23,11 @@ public class UseDatabaseStatement {
     public  String useDatabaseStatementImpl() throws ClassNotFoundException {
 //        descriptorLoader dl=new descriptorLoader();
 //        dl.loadFromFile(databaseName);
-        ExecuteStatement.uad.printUserAccessedDatabase();
+//        ExecuteStatement.uad.printUserAccessedDatabase();
         Table table=ExecuteStatement.uad.getUserAccessedDatabase();
         String databaseName=((Token)statement.get(1)).image;
 
-        System.out.println(databaseName);
+//        System.out.println(databaseName);
         descriptorLoader dl=new descriptorLoader();
         Table t=dl.loadFromFile(databaseName);
         if (t==null){
@@ -50,7 +50,7 @@ public class UseDatabaseStatement {
         database.setDatabase(t);
 //        database.getDatabase().printTable(null);
         ExecuteStatement.db=database;
-        System.out.println("===================");
+//        System.out.println("===================");
 //        database.printDatabase();
         ExecuteStatement.uad.printUserAccessedDatabase();
         String output=database.printDatabase();

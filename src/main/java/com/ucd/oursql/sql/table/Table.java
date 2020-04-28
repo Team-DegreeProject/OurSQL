@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.table;
 
+import com.sun.org.apache.xerces.internal.xs.StringList;
 import com.ucd.oursql.sql.execution.DMLTool;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
@@ -248,6 +249,7 @@ public class Table extends SqlConstantImpl {
 
 
     public boolean updateTable(String[] attributes,List values,Table t){
+//        System.out.println(values.size()+"  ==  "+t.getTree().getDataNumber());
         if(t.getTree().getDataNumber()==0 ){
             System.out.println("No update");
             return false;
@@ -257,7 +259,7 @@ public class Table extends SqlConstantImpl {
             return false;
         }
 
-        boolean ub=checkUniqueOperationUpdate(values);
+        boolean ub=checkUniqueOperationUpdate(attributes,values);
         if(ub==false){
             return false;
         }
@@ -270,6 +272,8 @@ public class Table extends SqlConstantImpl {
             }
         }
         updatePrimaryKey();
+        descriptorSaver ds=new descriptorSaver(this.td,this.propertyMap,this.tree);
+        ds.saveAll();
         return true;
     }
 
@@ -320,14 +324,20 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public void deleteRows(Table t){
-        this.printTable(null);
+    public boolean deleteRows(Table t){
+        if(t.getTree().getDataNumber()==0){
+            return false;
+        }
+//        this.printTable(null);
         List<CglibBean> list=t.getTree().getDatas();
         for(int i=0;i<t.size();i++){
             CglibBean c=list.get(i);
             Comparable pk= (Comparable) c.getValue("primary_key");
             tree.delete(pk);
         }
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
+        return true;
     }
 
 
@@ -489,8 +499,9 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public boolean checkUniqueOperationUpdate(List values){
-        String[] attributes=td.getColumnNamesArray();
+    public boolean checkUniqueOperationUpdate(String[] attributes,List values){
+//        System.out.println(att);
+//        List<String> attributes=td.getColumnNamesList();
         List list=tree.getDatas();
         for(int i=0;i<attributes.length;i++){
             boolean uq=td.getColumnDescriptorList().getColumnDescriptor(attributes[i]).isUnique();

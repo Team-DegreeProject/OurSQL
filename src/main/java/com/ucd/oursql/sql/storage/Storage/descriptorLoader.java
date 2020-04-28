@@ -122,7 +122,7 @@ public class descriptorLoader {
             return resultTable;
         }
         catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
 //            return null;
         }
         return null;

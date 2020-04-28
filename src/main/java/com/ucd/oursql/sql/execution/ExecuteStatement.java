@@ -52,7 +52,7 @@ public class ExecuteStatement {
             u.setUser(user);
             descriptorLoader dl=new descriptorLoader();
             Table t=dl.loadFromFile("UserPermissionDatabaseScope");
-            t.printTable(null);
+//            t.printTable(null);
             if(t==null){
                 System.out.println("====null=====");
                 u.databaseList();
