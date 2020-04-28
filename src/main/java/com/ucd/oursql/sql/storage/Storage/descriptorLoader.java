@@ -33,6 +33,7 @@ public class descriptorLoader {
             }
         }catch (Exception e){
             e.printStackTrace();
+            return null;
         }
         return propertyMap;
     }
@@ -102,6 +103,7 @@ public class descriptorLoader {
             
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return tableDescriptor;
     }
@@ -121,7 +123,7 @@ public class descriptorLoader {
         }
         catch (Exception e){
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }
