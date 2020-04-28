@@ -116,7 +116,7 @@ public class descriptorLoader {
             BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList());
 
 
-            Table resultTable = new Table(td,fileTree);
+            Table resultTable = new Table(td,fileTree,propertyMap);
             return resultTable;
         }
         catch (Exception e){
