@@ -40,7 +40,7 @@ public class Database{
         ColumnDescriptor columnTableName=new ColumnDescriptor("tablename",1,dataType);
         columnTableName.setUnique(true);
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
-        ColumnDescriptor columnp=new ColumnDescriptor("primary key",0,tp);
+        ColumnDescriptor columnp=new ColumnDescriptor("primary_key",0,tp);
         columns.add(columnp);
 //        columns.add(columnId);
 //        columns.add(columnTable);

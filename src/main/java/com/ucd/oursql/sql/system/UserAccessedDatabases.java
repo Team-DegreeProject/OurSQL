@@ -1,5 +1,7 @@
 package com.ucd.oursql.sql.system;
 
+import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.BPlusTreeTool;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
@@ -56,12 +58,14 @@ public class UserAccessedDatabases {
         primaryKey.add(column);
         columns.add(column);
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
-        column=new ColumnDescriptor("primary key",0,tp);
+        column=new ColumnDescriptor("primary_key",0,tp);
         columns.add(column);
         tableDescriptor =new TableDescriptor(tableName,SYSTEM_TABLE_TYPE,columns,primaryKey);
         tableDescriptor .setTableInColumnDescriptor(tableDescriptor);
         tableDescriptor .printColumnName();
         userAccessedDatabase=new Table(tableDescriptor);
+        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree());
+        ds.saveAll();
         return userAccessedDatabase;
     }
 

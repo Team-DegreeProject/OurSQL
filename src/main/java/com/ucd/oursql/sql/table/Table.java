@@ -116,7 +116,7 @@ public class Table extends SqlConstantImpl {
             System.out.println();
             bean.setValue(attributes[i], values.get(i));
         }
-        tree.insert(bean, (Comparable) bean.getValue("primary key"));//双primarykey
+        tree.insert(bean, (Comparable) bean.getValue("primary_key"));//双primarykey
         return true;
     }
 
@@ -181,7 +181,7 @@ public class Table extends SqlConstantImpl {
                 ColumnDescriptor cd=td.getPrimaryKey().getColumnDescriptor(name);
                 if(cd!=null){
                     pk.addPrimaryKey(name,value);
-                    System.out.println("primary key: "+value);
+                    System.out.println("primary_key: "+value);
                 }
                 bean.setValue(name, value);
                 System.out.println(name+"--->>"+value);
@@ -195,8 +195,8 @@ public class Table extends SqlConstantImpl {
             }
 
 
-            bean.setValue("primary key",pk);
-            tree.insert(bean, (Comparable) bean.getValue("primary key"));//双primarykey
+            bean.setValue("primary_key",pk);
+            tree.insert(bean, (Comparable) bean.getValue("primary_key"));//双primarykey
         }
         return true;
     }
@@ -286,7 +286,7 @@ public class Table extends SqlConstantImpl {
                 Comparable com= (Comparable) c.getValue( name);
                 pk.addPrimaryKey(name,com);
             }
-            c.setValue("primary key",pk);
+            c.setValue("primary_key",pk);
         }
         return true;
     }
@@ -298,7 +298,7 @@ public class Table extends SqlConstantImpl {
         List<CglibBean> list=t.getTree().getDatas();
         for(int i=0;i<t.size();i++){
             CglibBean c=list.get(i);
-            Comparable pk= (Comparable) c.getValue("primary key");
+            Comparable pk= (Comparable) c.getValue("primary_key");
             tree.delete(pk);
         }
     }
@@ -334,7 +334,7 @@ public class Table extends SqlConstantImpl {
             for(int j=0;j<columns.size();j++){
                 c.setValue(columns.get(i).getColumnName(),null);
             }
-            newTree.insert(c,(Comparable)c.getValue("primary key"));
+            newTree.insert(c,(Comparable)c.getValue("primary_key"));
         }
         this.tree=newTree;
         td.updatePriamryKey();
@@ -382,7 +382,7 @@ public class Table extends SqlConstantImpl {
                 Object o=c.getValue(columns[j]);
                 nc.setValue(columns[j],o);
             }
-            newTree.insert(nc,(Comparable)nc.getValue("primary key"));
+            newTree.insert(nc,(Comparable)nc.getValue("primary_key"));
         }
         this.tree=newTree;
         td.updatePriamryKey();

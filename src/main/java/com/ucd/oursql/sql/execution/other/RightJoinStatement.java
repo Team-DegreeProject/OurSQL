@@ -57,7 +57,7 @@ public class RightJoinStatement {
             CglibBean cn=new CglibBean(t3.getPropertyMap());
             for(int j=0;j<columns.size();j++){
                 String column=columns.get(j);
-                if(!column.equals("primary key")){
+                if(!column.equals("primary_key")){
                     if(c2!=null&&c2.getValue(column)!=null){
                         cn.setValue(column,c2.getValue(column));
                     }else if(c1.getValue(column)!=null){
@@ -67,8 +67,8 @@ public class RightJoinStatement {
                     }
                 }
 //                }
-                PrimaryKey pk= (PrimaryKey) c1.getValue("primary key");
-                cn.setValue("primary key",pk);
+                PrimaryKey pk= (PrimaryKey) c1.getValue("primary_key");
+                cn.setValue("primary_key",pk);
                 b3.insert(cn, pk);
             }
         }

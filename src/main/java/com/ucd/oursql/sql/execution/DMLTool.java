@@ -185,8 +185,8 @@ public class DMLTool {
             Object o=propertyMap.get(name);
             newProperty.put(name,o);
         }
-        Object pk=propertyMap.get("primary key");
-        newProperty.put("primary key",pk);
+        Object pk=propertyMap.get("primary_key");
+        newProperty.put("primary_key",pk);
         return newProperty;
     }
 
@@ -198,7 +198,7 @@ public class DMLTool {
             return tt;
         }
         ColumnDescriptorList list=td.getColumnDescriptorList();
-        ColumnDescriptor pk=list.getColumnDescriptor("primary key");
+        ColumnDescriptor pk=list.getColumnDescriptor("primary_key");
         ColumnDescriptorList newList=new ColumnDescriptorList();
         newList.add(pk);
         for(int i=0;i<list.size();i++){

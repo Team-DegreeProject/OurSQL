@@ -25,7 +25,7 @@ public class CreateTableStatement implements SqlConstant {
     public String createImpl() throws Exception {
         ColumnDescriptorList columns=new ColumnDescriptorList();
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
-        ColumnDescriptor columnp=new ColumnDescriptor("primary key",0,tp);
+        ColumnDescriptor columnp=new ColumnDescriptor("primary_key",0,tp);
         columns.add(columnp);
         TableDescriptor td=null;
         if(statement==null){
