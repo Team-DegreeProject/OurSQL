@@ -25,16 +25,21 @@ public class UserAccessedDatabases {
     private User user;
     private Table userAccessedDatabase;
 //    private TableDescriptor tableDescriptor;
-    int length=0;
+//    int length=0;
     public UserAccessedDatabases(User user) throws ClassNotFoundException {
-        Table userAccessedDatabase=databaseList();
-        length=userAccessedDatabase.size();
+//        Table userAccessedDatabase=databaseList();
+        //        length=userAccessedDatabase.size();
         this.user=user;
     }
 
     public UserAccessedDatabases() throws ClassNotFoundException {
-        Table userAccessedDatabase=databaseList();
-        length=userAccessedDatabase.size();
+//        Table userAccessedDatabase=databaseList();
+//        length=userAccessedDatabase.size();
+    }
+
+    public UserAccessedDatabases(User user,Table userAccessedDatabase) throws ClassNotFoundException {
+        this.user=user;
+        this.userAccessedDatabase=userAccessedDatabase;
     }
 
     public Table databaseList() throws ClassNotFoundException {
@@ -42,6 +47,7 @@ public class UserAccessedDatabases {
         Table temp=dl.loadFromFile("UserPermissionDatabaseScope");
         if(temp!=null){
             System.out.println("load UPDS from xml");
+            userAccessedDatabase=temp;
             return temp;
         }
         TableDescriptor tableDescriptor =null;
@@ -78,18 +84,18 @@ public class UserAccessedDatabases {
     }
 
     public boolean insertDatabase(Database database) throws Exception {
+        SqlVarChar n=new SqlVarChar(database.getDatabaseName());
+        SqlVarChar u=new SqlVarChar(user.getUserName());
 //        int id=length;
 //        length++;
         PrimaryKey pk=new PrimaryKey();
 //        SqlInt sqlid=new SqlInt(id);
-        pk.addPrimaryKey("databasename",database.getDatabaseName());
+        pk.addPrimaryKey("databasename",n);
         List values=new ArrayList();
         values.add(pk);
 //        values.add(sqlid);
-        SqlVarChar n=new SqlVarChar(database.getDatabaseName());
-        SqlVarChar u=new SqlVarChar(user.getUserName());
-        values.add(n);
-        values.add(u);
+        values.add(database.getDatabaseName());
+        values.add(user.getUserName());
 //        values.add(database);
 //        values.add(database.getDatabaseName());
         boolean instance = userAccessedDatabase.insertARow(values);
@@ -120,13 +126,13 @@ public class UserAccessedDatabases {
         return user;
     }
 
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
+//    public int getLength() {
+//        return length;
+//    }
+//
+//    public void setLength(int length) {
+//        this.length = length;
+//    }
 
     public void setUserAccessedDatabase(Table userAccessedDatabase) {
         this.userAccessedDatabase = userAccessedDatabase;

@@ -35,10 +35,11 @@ public class Database{
 
     public boolean createDatabase(String databasename) throws ClassNotFoundException {
         descriptorLoader dl=new descriptorLoader();
-        Table temp=dl.loadFromFile("UserPermissionDatabaseScope");
+        Table temp=dl.loadFromFile(databasename);
         if(temp!=null){
             System.out.println("load DATABASE from xml");
             database=temp;
+            return false;
         }
         TableDescriptor td=null;
         ColumnDescriptorList primaryKey=new ColumnDescriptorList();
