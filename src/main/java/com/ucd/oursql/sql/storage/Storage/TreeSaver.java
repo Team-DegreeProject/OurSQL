@@ -48,15 +48,12 @@ public class TreeSaver {
 //            student.addContent(id);
 //        }
             List objectList = BplusTree.getDatas();
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println("The size of the list is : "+objectList.size());
             HashMap<String, String> resultMap = new HashMap<>();
             for (Object o : objectList) {
-                System.out.println("--------------in it-------------");
                 CglibBean cglibBean = (CglibBean) o;
                 for (String name : ColumnNameList) {
                     String value = cglibBean.getValue(name).toString();
-                    System.out.println("the value is: "+value+" name: "+name);
+//                    System.out.println("the value is: "+value+" name: "+name);
                     resultMap.put(name, value);
                 }
             }
