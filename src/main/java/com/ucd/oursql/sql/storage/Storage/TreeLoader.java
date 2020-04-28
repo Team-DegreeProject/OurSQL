@@ -3,6 +3,7 @@ package com.ucd.oursql.sql.storage.Storage;
 
 import com.ucd.oursql.sql.execution.DMLTool;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
+import com.ucd.oursql.sql.table.type.SqlType;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -78,7 +79,9 @@ public class TreeLoader {
                 //??????????????????????????????????????????????????
                 //??????????????????????????????????????????????????
                 try {
-                    b.setValue(valueName, DMLTool.forXMLConvertStringToValue(valueName,valueMap.get(valueName).toString(),pm,columnDescriptorList));
+                    SqlType v=DMLTool.forXMLConvertStringToValue(valueName,valueMap.get(valueName).toString(),pm,columnDescriptorList);
+                    System.out.println(valueName+"==="+valueMap.get(valueName)+"==="+v.toString());
+                    b.setValue(valueName,v);
                 }catch (Exception e){
                     e.printStackTrace();
                 }

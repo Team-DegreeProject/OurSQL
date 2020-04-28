@@ -20,8 +20,8 @@ public class CreateDatabaseStatement{
         }
         String databaseName=  ((Token)statement.get(2)).image;
         Database db=new Database(databaseName);
-        System.out.println("===========");
-        db.getDatabase().getTableDescriptor().printTableDescriptor();
+//        System.out.println("===========");
+//        db.getDatabase().getTableDescriptor().printTableDescriptor();
         ExecuteStatement.uad.insertDatabase(db);
 //        db.printDatabase();
 //        descriptorSaver ds=new descriptorSaver(db.getDatabase().getTableDescriptor(),db.getDatabase().getPropertyMap(),db.getDatabase().getTree());

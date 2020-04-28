@@ -4,9 +4,11 @@ import com.ucd.oursql.sql.execution.data.DataStatements;
 import com.ucd.oursql.sql.execution.database.*;
 import com.ucd.oursql.sql.execution.table.*;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.system.User;
 import com.ucd.oursql.sql.system.UserAccessedDatabases;
 import com.ucd.oursql.sql.table.Database;
+import com.ucd.oursql.sql.table.Table;
 
 import java.util.List;
 
@@ -14,8 +16,8 @@ import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
 
 public class ExecuteStatement {
 
-    public static User user=setUserTest("root");//%%
-    public static UserAccessedDatabases uad=getUserAccessedDatabases();//%%
+    public static User user=null;//%%
+    public static UserAccessedDatabases uad=null;//%%
     public static Database db=null;
 
     public static User setUserTest(String name){
@@ -24,6 +26,15 @@ public class ExecuteStatement {
 //        uad.setUser(user);
         return u;
 //        return uad;
+    }
+
+    public static void setAll(){
+        if(user == null){
+            user=setUserTest("root");
+        }
+        if(uad==null){
+            UserAccessedDatabases uad=getUserAccessedDatabases();
+        }
     }
 
     public static void setUser(String name){
@@ -35,10 +46,18 @@ public class ExecuteStatement {
 
 
     public static UserAccessedDatabases getUserAccessedDatabases(){
-        UserAccessedDatabases u=null;
+        UserAccessedDatabases u= null;
         try {
-            u=new UserAccessedDatabases();
+            u = new UserAccessedDatabases();
             u.setUser(user);
+            descriptorLoader dl=new descriptorLoader();
+            Table t=dl.loadFromFile("UserPermissionDatabaseScope");
+            if(t==null){
+                u.databaseList();
+            }else{
+                u.setUserAccessedDatabase(t);
+            }
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -48,6 +67,7 @@ public class ExecuteStatement {
 
 
     public static String rename(List tokens){
+        setAll();
         String out="Wrong: Rename !";
         int type=((Token)tokens.get(1)).kind;
         if(type==DATABASE){
@@ -59,6 +79,7 @@ public class ExecuteStatement {
     }
 
     public static String create(List tokens){
+        setAll();
         String out="Wrong: Create !";
         int name=((Token)tokens.get(1)).kind;
         if(name==DATABASE){
@@ -78,6 +99,7 @@ public class ExecuteStatement {
     }
 
     public static String drop(List tokens){
+        setAll();
         String out="Wrong: Drop !";
         int type=((Token)tokens.get(1)).kind;
         if(type==DATABASE){
@@ -89,24 +111,32 @@ public class ExecuteStatement {
     }
 
     public static String alter(List tokens){
+        setAll();
         String out=TableStatements.alterTable(tokens);
         return out;
     }
 
     public static String insert(List tokens){
+        setAll();
         return DataStatements.insertData(tokens);
     }
 
-    public static String delete(List tokens){return DataStatements.deleteData(tokens);}
+    public static String delete(List tokens){
+        setAll();
+        return DataStatements.deleteData(tokens);
+    }
 
-    public static String update(List tokens){return DataStatements.updateData(tokens);}
+    public static String update(List tokens){
+        setAll();
+        return DataStatements.updateData(tokens);
+    }
 
-    public static String truncate(List tokens){return TableStatements.truncateTable(tokens);};
+    public static String truncate(List tokens){setAll();return TableStatements.truncateTable(tokens);};
 
-    public static String select(List tokens){return DataStatements.selectData(tokens);}
+    public static String select(List tokens){setAll();return DataStatements.selectData(tokens);}
 
-    public static String show(List tokens){return DatabaseStatements.showDatabase(tokens);}
+    public static String show(List tokens){setAll();return DatabaseStatements.showDatabase(tokens);}
 
-    public static String use(List tokens){return DatabaseStatements.useDatabase(tokens);}
+    public static String use(List tokens){setAll();return DatabaseStatements.useDatabase(tokens);}
 
 }

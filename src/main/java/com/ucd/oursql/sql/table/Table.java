@@ -80,7 +80,7 @@ public class Table extends SqlConstantImpl {
 
     public HashMap createTable(TableDescriptor table) throws ClassNotFoundException {
         ColumnDescriptorList list=table.getColumnDescriptorList();
-        System.out.println(list.size()+"================");
+//        System.out.println(list.size()+"================");
         propertyMap=new HashMap();
         for(int i=0;i<list.size();i++){
             ColumnDescriptor cd=list.getColumnDescriptor(i);
@@ -111,6 +111,7 @@ public class Table extends SqlConstantImpl {
 
 //已知所有值以固定顺序排列好,通常用为插入系统表格
     public boolean insertARow(List values) throws Exception {
+//        System.out.println("insertATable");
         String[] attributes=td.getColumnNamesArray();
         if(attributes.length!=values.size()){
             System.out.println("The number of attributes is not equal to the number of values.");
@@ -122,22 +123,22 @@ public class Table extends SqlConstantImpl {
         if(ub==false){
             return false;
         }
-        System.out.println("5555555555");
-        Iterator it=propertyMap.keySet().iterator();
-        while(it.hasNext()){
-            String s= (String) it.next();
-            System.out.println(s+":"+propertyMap.get(s));
-        }
+//        System.out.println("5555555555");
+//        Iterator it=propertyMap.keySet().iterator();
+//        while(it.hasNext()){
+//            String s= (String) it.next();
+//            System.out.println(s+":"+propertyMap.get(s));
+//        }
         CglibBean bean = new CglibBean(DMLTool.convertPropertyMap(propertyMap));
         for(int i=0;i<attributes.length;i++){
-            System.out.println(attributes[i]+"--->"+values.get(i));
+//            System.out.println(attributes[i]+"--->"+values.get(i));
             bean.setValue(attributes[i], values.get(i));
-            System.out.println(bean.getValue(attributes[i]));
+//            System.out.println(bean.getValue(attributes[i]));
         }
         tree.insert(bean, (Comparable) bean.getValue("primary_key"));//双primarykey
 
-        System.out.println("11111111111111");
-        this.printTable(null);
+//        System.out.println("11111111111111");
+//        this.printTable(null);
 
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
         ds.saveAll();
