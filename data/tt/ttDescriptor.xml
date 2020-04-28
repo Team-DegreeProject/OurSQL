@@ -8,7 +8,7 @@
 </primaryKey>
 <columnDescriptorList>
 <columnDescriptor>
-<columnName>primary key</columnName>
+<columnName>primary_key</columnName>
 <columnPosition>0</columnPosition>
 <DataTypeDescriptor>
 <typeId>320</typeId>

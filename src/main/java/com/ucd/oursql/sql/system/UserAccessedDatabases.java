@@ -82,6 +82,8 @@ public class UserAccessedDatabases {
         values.add(user.getUserName());
 //        values.add(database);
 //        values.add(database.getDatabaseName());
+        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree());
+        ds.saveAll();
         return userAccessedDatabase.insertARow(values);
     }
 
