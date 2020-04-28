@@ -83,7 +83,7 @@ public class InnerJoinStatement {
                 CglibBean cn=new CglibBean(t3.getPropertyMap());
                 for(int j=0;j<columns.size();j++){
                     String column=columns.get(j);
-                    if(!column.equals("primary key")){
+                    if(!column.equals("primary_key")){
                         if(c2.getValue(column)!=null){
                             cn.setValue(column,c2.getValue(column));
                         }else{
@@ -91,8 +91,8 @@ public class InnerJoinStatement {
                         }
                     }
                 }
-                PrimaryKey pk= (PrimaryKey) c1.getValue("primary key");
-                cn.setValue("primary key",pk);
+                PrimaryKey pk= (PrimaryKey) c1.getValue("primary_key");
+                cn.setValue("primary_key",pk);
                 b3.insert(cn, pk);
             }
         }
@@ -124,7 +124,7 @@ public class InnerJoinStatement {
         for(int i=0;i<l1.size();i++){
             CglibBean c1=l1.get(i);
 //            System.out.println("====================="+c1);
-            Comparable pk= (Comparable) (c1.getValue("primary key"));
+            Comparable pk= (Comparable) (c1.getValue("primary_key"));
 //            System.out.println("====================="+pk);
 //            System.out.println(b2.select(pk)+"=============");
             CglibBean c2= (CglibBean) b2.select(pk);
@@ -132,7 +132,7 @@ public class InnerJoinStatement {
                 CglibBean cn=new CglibBean(t3.getPropertyMap());
                 for(int j=0;j<columns.size();j++){
                     String column=columns.get(j);
-                    if(!column.equals("primary key")){
+                    if(!column.equals("primary_key")){
                         if(c2.getValue(column)!=null){
                             cn.setValue(column,c2.getValue(column));
                         }else{
@@ -141,7 +141,7 @@ public class InnerJoinStatement {
                     }
 
                 }
-                cn.setValue("primary key",pk);
+                cn.setValue("primary_key",pk);
 //                System.out.println(cn+"=============="+pk);
                 b3.insert(cn, pk);
             }

@@ -1,6 +1,8 @@
 package com.ucd.oursql.sql.storage.Storage;
 
 
+import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -32,7 +34,7 @@ public class TreeLoader {
                 File datafile = new File(file2.getPath()+ storage.Storage.XMLUtils.getFileName(file2.getPath())+".txt");
                 String filepath = file2.getPath()+ storage.Storage.XMLUtils.getFileName(file2.getPath())+".xml";
                 System.out.println("filepath is : "+filepath);
-                resultList.add(loadFromFile(filepath));
+//                resultList.add(loadFromFile(filepath));
             } else {
 
             }
@@ -40,7 +42,7 @@ public class TreeLoader {
         return resultList;
     }
 
-    public BPlusTree loadFromFile(String tableName) throws JDOMException, IOException, ClassNotFoundException {
+    public BPlusTree loadFromFile(String tableName, HashMap<String,String> pm, ColumnDescriptorList columnDescriptorList) throws JDOMException, IOException, ClassNotFoundException {
         BPlusTree<CglibBean,String> resultTree = new BPlusTree<>();
         SAXBuilder saxBuilder = new SAXBuilder();
         //你也可以将demo.xml放在resources目录下，然后通过下面方式获取
@@ -75,9 +77,14 @@ public class TreeLoader {
                 //==================================================
                 //??????????????????????????????????????????????????
                 //??????????????????????????????????????????????????
-                b.setValue(valueName,valueMap.get(valueName));
+                try {
+                    b.setValue(valueName, DMLTool.forXMLConvertStringToValue(valueName,valueMap.get(valueName).toString(),pm,columnDescriptorList));
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-            resultTree.insert(b, (String) b.getValue("primary key"));
+
+                }
+            resultTree.insert(b, (String) b.getValue("primary_key"));
 
 
 

@@ -14,16 +14,35 @@ import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
 
 public class ExecuteStatement {
 
-    public static User user;//%%
-    public static UserAccessedDatabases uad=setUser();//%%
+    public static User user=setUserTest("root");//%%
+    public static UserAccessedDatabases uad=getUserAccessedDatabases();//%%
     public static Database db=null;
 
+    public static User setUserTest(String name){
+        User u=new User(name);
+//        uad=user.getUserAccessedDatabases();
+//        uad.setUser(user);
+        return u;
+//        return uad;
+    }
 
-    public static UserAccessedDatabases setUser(){
-        user=new User(0,"root");
-        uad=user.getUserAccessedDatabases();
-        uad.setUser(user);
-        return uad;
+    public static void setUser(String name){
+        user=new User(name);
+//        uad=user.getUserAccessedDatabases();
+//        return uad;
+    }
+
+
+
+    public static UserAccessedDatabases getUserAccessedDatabases(){
+        UserAccessedDatabases u=null;
+        try {
+            u=new UserAccessedDatabases();
+            u.setUser(user);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return u;
     }
 
 

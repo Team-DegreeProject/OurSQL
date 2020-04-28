@@ -29,7 +29,7 @@ public class descriptorLoader {
             Element rootElement = document1.getRootElement();
             List<Element> elementList = rootElement.getChildren();
             for(Element eachElement : elementList){
-                propertyMap.put(Integer.valueOf(eachElement.getName().substring(3)),eachElement.getValue());
+                propertyMap.put(eachElement.getName(),eachElement.getValue());
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class descriptorLoader {
         TableDescriptor tableDescriptor = null;
         HashMap propertyMap = null;
         try {
-            //Ê×ÏÈ¶ÁÈ¡propertyMap
+            //é¦–å…ˆè¯»å–propertyMap
             propertyMap = loadPropertyFromFile(tn);
 
             String filepath = "data/" + tn + "/" + tn + "Descriptor.xml";
@@ -51,21 +51,21 @@ public class descriptorLoader {
             Element rootElement = document1.getRootElement();
             List<Element> elementList = rootElement.getChildren();
 
-            //ÏÈµÃµ½×îÍâ²ãµÄ½ÚµãÃÇ
+            //å…ˆå¾—åˆ°æœ€å¤–å±‚çš„èŠ‚ç‚¹ä»¬
             String tableName = tn;
             int scheme = Integer.parseInt(rootElement.getChildText("schema"));
             char lockGranularity = rootElement.getChildText("lockGranularity").toCharArray()[0];
-            //´´½¨Ò»¸ötabledescriptor
+            //åˆ›å»ºä¸€ä¸ªtabledescriptor
             ColumnDescriptorList columnDescriptorList = new ColumnDescriptorList();
             ColumnDescriptorList primaryKeyList = new ColumnDescriptorList();
             tableDescriptor = new TableDescriptor(tableName,lockGranularity,scheme,columnDescriptorList,primaryKeyList);
             tableDescriptor.setTableName(tableName);
-            //»ñµÃËùÓĞµÄcolumnDescriptor
+            //è·å¾—æ‰€æœ‰çš„columnDescriptor
             Element columnDescriptorListElement = rootElement.getChild("columnDescriptorList");
 
             List<Element> columnDescriptors = columnDescriptorListElement.getChildren("columnDescriptor");
             for (Element eachColunm : columnDescriptors) {
-                //³ıÁËdataTypeÈ«²¿µÄ²¿·Ö
+                //é™¤äº†dataTypeå…¨éƒ¨çš„éƒ¨åˆ†
                 String columnName = eachColunm.getChildText("columnName");
                 int columnPosition = Integer.valueOf(eachColunm.getChildText("columnPosition"));
                 long autoincStart = Long.valueOf(eachColunm.getChildText("autoincStart"));
@@ -82,7 +82,7 @@ public class descriptorLoader {
                 int precision = Integer.valueOf(dataTypeDescriptor.getChildText("precision"));
                 int scale = Integer.valueOf(dataTypeDescriptor.getChildText("scale"));
                 boolean isNullable = Boolean.getBoolean(dataTypeDescriptor.getChildText("isNullable"));
-                boolean primaryKey = Boolean.getBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));;
+                boolean primaryKey = Boolean.getBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));
                 DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,isNullable,primaryKey);
 
                 ColumnDescriptor columnDescriptor = new ColumnDescriptor(columnName,columnPosition,dataTypeDescriptor1,tableDescriptor,autoincStart,autoincInc);
@@ -112,7 +112,7 @@ public class descriptorLoader {
             TableDescriptor td = loadDescriptorFromFile(tableName);
             HashMap propertyMap = loadPropertyFromFile(tableName);
             TreeLoader tl = new TreeLoader();
-            BPlusTree fileTree = tl.loadFromFile(tableName);
+            BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList());
 
 
             Table resultTable = new Table(td,fileTree);
