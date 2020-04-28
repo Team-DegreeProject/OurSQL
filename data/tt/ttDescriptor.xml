@@ -29,7 +29,7 @@
 <precision>-1</precision>
 <scale>-1</scale>
 <isNullable>false</isNullable>
-<isPrimaryKey>false</isPrimaryKey>
+<isPrimaryKey>true</isPrimaryKey>
 </DataTypeDescriptor>
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
