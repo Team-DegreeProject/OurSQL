@@ -53,6 +53,7 @@ public class UserAccessedDatabases {
 //        column=new ColumnDescriptor("database",3,t);
 //        columns.add(column);
         DataTypeDescriptor tn= new DataTypeDescriptor(STRING,false);
+        tn.setPrimaryKey(true);
         column=new ColumnDescriptor("databasename",1,tn);
         column.setUnique(true);
         primaryKey.add(column);
@@ -64,8 +65,8 @@ public class UserAccessedDatabases {
         tableDescriptor .setTableInColumnDescriptor(tableDescriptor);
         tableDescriptor .printColumnName();
         userAccessedDatabase=new Table(tableDescriptor);
-        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree());
-        ds.saveAll();
+//        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree());
+//        ds.saveAll();
         return userAccessedDatabase;
     }
 
@@ -84,8 +85,8 @@ public class UserAccessedDatabases {
 //        values.add(database.getDatabaseName());
         boolean instance = userAccessedDatabase.insertARow(values);
 
-        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree());
-        ds.saveAll();
+//        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree());
+//        ds.saveAll();
         return instance;
     }
 

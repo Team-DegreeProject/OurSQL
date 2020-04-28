@@ -8,6 +8,8 @@ import com.ucd.oursql.sql.table.BTree.CglibBean;
 import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.EQ;
@@ -27,6 +29,13 @@ public class UseDatabaseStatement {
 
         descriptorLoader dl=new descriptorLoader();
         Table t=dl.loadFromFile(databaseName);
+        System.out.println("2222222222222");
+        HashMap temp=t.getPropertyMap();
+        Iterator it=temp.keySet().iterator();
+        while(it.hasNext()){
+            String s= (String) it.next();
+            System.out.println(s+":"+temp.get(s));
+        }
 
 //        Table t=WhereStatament.compare(table,"databasename",EQ,databaseName);
 //        ExecuteStatement.uad.printUserAccessedDatabase();
@@ -36,6 +45,7 @@ public class UseDatabaseStatement {
 //        database.getDatabase().printTable(null);
         ExecuteStatement.db=database;
         System.out.println("===================");
+        database.getDatabase().getTableDescriptor().printTableDescriptor();
         String output=database.printDatabase();
         return output;
     }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="UserPermissionDatabaseScope">
-<tableName>UserPermissionDatabaseScope</tableName>
-<schema>1</schema>
+<table name="py">
+<tableName>py</tableName>
+<schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>
-<primaryColumnName>databasename</primaryColumnName>
+<primaryColumnName>id</primaryColumnName>
 </primaryKey>
 <columnDescriptorList>
 <columnDescriptor>
@@ -22,13 +22,13 @@
 <autoincValue>0</autoincValue>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>databasename</columnName>
+<columnName>id</columnName>
 <columnPosition>1</columnPosition>
 <DataTypeDescriptor>
-<typeId>379</typeId>
+<typeId>113</typeId>
 <precision>-1</precision>
 <scale>-1</scale>
-<isNullable>false</isNullable>
+<isNullable>true</isNullable>
 <isPrimaryKey>true</isPrimaryKey>
 </DataTypeDescriptor>
 <autoincStart>0</autoincStart>
@@ -36,13 +36,13 @@
 <autoincValue>0</autoincValue>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>user</columnName>
+<columnName>yy</columnName>
 <columnPosition>2</columnPosition>
 <DataTypeDescriptor>
-<typeId>379</typeId>
+<typeId>219</typeId>
 <precision>-1</precision>
 <scale>-1</scale>
-<isNullable>false</isNullable>
+<isNullable>true</isNullable>
 <isPrimaryKey>false</isPrimaryKey>
 </DataTypeDescriptor>
 <autoincStart>0</autoincStart>

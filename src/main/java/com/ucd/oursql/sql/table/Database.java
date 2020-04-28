@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.table;
 
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.column.ColumnDescriptor;
 import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
@@ -40,6 +41,7 @@ public class Database{
 //        dataType= new DataTypeDescriptor(TABLE,false);
 //        ColumnDescriptor columnTable=new ColumnDescriptor("table",2,dataType);
         DataTypeDescriptor dataType= new DataTypeDescriptor(STRING,false);
+        dataType.setPrimaryKey(true);
         ColumnDescriptor columnTableName=new ColumnDescriptor("tablename",1,dataType);
         columnTableName.setUnique(true);
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
@@ -53,6 +55,8 @@ public class Database{
         td.setTableInColumnDescriptor(td);
         td.printColumnName();
         database=new Table(td);
+//        descriptorSaver ds=new descriptorSaver(database.getTableDescriptor(),database.getPropertyMap(),database.getTree());
+//        ds.saveAll();
         return true;
     }
 
@@ -84,6 +88,8 @@ public class Database{
         values.add(t.getTableDescriptor().getName());
 //        id++;
 //        String[] attributes=database.getTableDescriptor().getColumnNamesArray();
+//        System.out.println("222222222222");
+//        database.printTable(null);
         return database.insertARow(values);
     }
 

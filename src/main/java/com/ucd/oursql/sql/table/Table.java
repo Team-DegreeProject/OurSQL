@@ -2,6 +2,7 @@ package com.ucd.oursql.sql.table;
 
 import com.ucd.oursql.sql.execution.DMLTool;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.BPlusTreeTool;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
@@ -13,6 +14,7 @@ import com.ucd.oursql.sql.table.type.SqlType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.ucd.oursql.sql.execution.DMLTool.analyseOneRow;
@@ -73,6 +75,7 @@ public class Table extends SqlConstantImpl {
 
     public HashMap createTable(TableDescriptor table) throws ClassNotFoundException {
         ColumnDescriptorList list=table.getColumnDescriptorList();
+        System.out.println(list.size()+"================");
         propertyMap=new HashMap();
         for(int i=0;i<list.size();i++){
             ColumnDescriptor cd=list.getColumnDescriptor(i);
@@ -80,6 +83,8 @@ public class Table extends SqlConstantImpl {
             System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
             propertyMap.put(cd.getColumnName(),sqlMap.get(dtd.getTypeId()));
         }
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
         return propertyMap;
     }
 
@@ -92,6 +97,8 @@ public class Table extends SqlConstantImpl {
             System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
             propertyMap.put(cd.getColumnName(), sqlMap.get(dtd.getTypeId()));
         }
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
         return propertyMap;
     }
 
@@ -110,13 +117,25 @@ public class Table extends SqlConstantImpl {
         if(ub==false){
             return false;
         }
-
+        System.out.println("5555555555");
+        Iterator it=propertyMap.keySet().iterator();
+        while(it.hasNext()){
+            String s= (String) it.next();
+            System.out.println(s+":"+propertyMap.get(s));
+        }
         CglibBean bean = new CglibBean(DMLTool.convertPropertyMap(propertyMap));
         for(int i=0;i<attributes.length;i++){
-            System.out.println();
+            System.out.println(attributes[i]+"--->"+values.get(i));
             bean.setValue(attributes[i], values.get(i));
+            System.out.println(bean.getValue(attributes[i]));
         }
         tree.insert(bean, (Comparable) bean.getValue("primary_key"));//双primarykey
+
+        System.out.println("11111111111111");
+        this.printTable(null);
+
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
         return true;
     }
 
@@ -127,6 +146,8 @@ public class Table extends SqlConstantImpl {
            List<List<Token>> l= (List<List<Token>>) list.get(i);
            insertARow(attributes,l);
        }
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
     }
 
 
