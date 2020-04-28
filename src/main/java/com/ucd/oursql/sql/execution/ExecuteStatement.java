@@ -52,6 +52,7 @@ public class ExecuteStatement {
             u.setUser(user);
             descriptorLoader dl=new descriptorLoader();
             Table t=dl.loadFromFile("UserPermissionDatabaseScope");
+            t.printTable(null);
             if(t==null){
                 System.out.println("====null=====");
                 u.databaseList();
@@ -140,6 +141,10 @@ public class ExecuteStatement {
 
     public static String show(List tokens){setAll();return DatabaseStatements.showDatabase(tokens);}
 
-    public static String use(List tokens){setAll();return DatabaseStatements.useDatabase(tokens);}
-
+    public static String use(List tokens){
+        System.out.println("use1");
+        setAll();
+        System.out.println("use2");
+        return DatabaseStatements.useDatabase(tokens);
+    }
 }
