@@ -28,8 +28,13 @@ public class Table extends SqlConstantImpl {
 
     public Table(){}
 
+    public Table(TableDescriptor td, BPlusTree tree, HashMap propertyMap) {
+        this.td = td;
+        this.tree = tree;
+        this.propertyMap = propertyMap;
+    }
 
-    public Table(TableDescriptor td,BPlusTree b) throws ClassNotFoundException {
+    public Table(TableDescriptor td, BPlusTree b) throws ClassNotFoundException {
         this.td=td;
         tree = b;
     }
