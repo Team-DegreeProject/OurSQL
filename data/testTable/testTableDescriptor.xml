@@ -21,7 +21,6 @@
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
 <autoincValue>0</autoincValue>
-<comment>null</comment>
 </columnDescriptor>
 <columnDescriptor>
 <columnName>Column2</columnName>
@@ -36,7 +35,6 @@
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
 <autoincValue>0</autoincValue>
-<comment>null</comment>
 </columnDescriptor>
 </columnDescriptorList>
 </table>

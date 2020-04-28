@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<table>
+  <primarykey>com.ucd.oursql.sql.table.type.PrimaryKey</primarykey>
+  <tablename>java.lang.String</tablename>
+</table>

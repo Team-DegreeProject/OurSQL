@@ -22,7 +22,6 @@ public class CreateDatabaseStatement{
         Database db=new Database(databaseName);
         ExecuteStatement.uad.insertDatabase(db);
 //        db.printDatabase();
-        System.out.println("===============================");
         descriptorSaver ds=new descriptorSaver(db.getDatabase().getTableDescriptor(),db.getDatabase().getPropertyMap(),db.getDatabase().getTree());
         ds.saveAll();
         String output=ExecuteStatement.uad.getUserAccessedDatabase().printTable(null);

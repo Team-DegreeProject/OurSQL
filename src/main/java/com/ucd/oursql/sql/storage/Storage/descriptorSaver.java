@@ -1,6 +1,7 @@
 package com.ucd.oursql.sql.storage.Storage;
 
 
+import org.apache.tomcat.util.buf.StringUtils;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
@@ -74,7 +75,7 @@ public class descriptorSaver {
 //            XMLOutputter outputter=new XMLOutputter(format);
 //
 //            File folderfile = new File("data/"+tableName+"/"+tableName+"PropertyMap.xml");
-//            File fileParent = folderfile.getParentFile();//判断是否存在
+//            File fileParent = folderfile.getParentFile();//鍒ゆ柇鏄惁瀛樺湪
 //            if (!fileParent.exists()) {
 //                fileParent.mkdirs();
 //            }
@@ -94,25 +95,29 @@ public class descriptorSaver {
             while (entries.hasNext()) {
 
                 Map.Entry entry = (Map.Entry) entries.next();
-                String key = "pm-"+String.valueOf(entry.getKey());
+                String key = (String) entry.getKey();
+                key = key.replace(" ","");
+                System.out.println("============================");
+                System.out.println("--"+key);
 //                String key = (String)entry.getKey();
                 String value = (String) entry.getValue();
                 org.dom4j.Element e=table.addElement(key);
+
                 e.setText(value);
 
                 OutputFormat format=OutputFormat.createPrettyPrint();
-                //生成不一样的编码
+                //鐢熸垚涓嶄竴鏍风殑缂栫爜
                 format.setEncoding("GBK");
-                //6.生成xml文件
+                //6.鐢熸垚xml鏂囦欢
                 File file=new File("data/"+tableName+"/"+tableName+"PropertyMap.xml");
 
-                File fileParent = file.getParentFile();//判断是否存在
+                File fileParent = file.getParentFile();//鍒ゆ柇鏄惁瀛樺湪
                 if (!fileParent.exists()) {
                     fileParent.mkdirs();
                 }
 
                 XMLWriter writer=new XMLWriter(new FileOutputStream(file),format);
-                //设置是否转义，默认设置是true,代表转义
+                //璁剧疆鏄惁杞箟锛岄粯璁よ缃槸true,浠ｈ〃杞箟
                 writer.setEscapeText(false);
                 writer.write(doc);
                 writer.close();
@@ -137,7 +142,7 @@ public class descriptorSaver {
             Element lockGranularityElement = new Element("lockGranularity").setText(String.valueOf(lockGranularity));
             Document document = new Document(table);
 
-            //????????е?element????table???
+            //????????械?element????table???
             table.addContent(tableNameElement);
             table.addContent(tableSchemaElement);
             table.addContent(lockGranularityElement);
@@ -151,7 +156,7 @@ public class descriptorSaver {
                 primaryELement.addContent(primaryColumnNameELement);
             }
 
-            //??????е?columnDescriptor
+            //??????械?columnDescriptor
             ColumnDescriptorList allDescriptor = tabledescriptor.getColumnDescriptorList();
             Element columnListElement = new Element("columnDescriptorList");
             table.addContent(columnListElement);
@@ -159,7 +164,7 @@ public class descriptorSaver {
                 //columELement
                 Element columnElement = new Element("columnDescriptor");
                 columnListElement.addContent(columnElement);
-                //??????е?descriptor
+                //??????械?descriptor
                 ColumnDescriptor singleColumn = allDescriptor.getColumnDescriptor(i);
                 String columnName = singleColumn.getColumnName();
                 Element columnNameElement = new Element("columnName").setText(columnName);
@@ -168,7 +173,7 @@ public class descriptorSaver {
                 Element columnPositionElement = new Element("columnPosition").setText(String.valueOf(columnPosition));
                 columnElement.addContent(columnPositionElement);
 
-                //dataTypedescriptor???????е?????
+                //dataTypedescriptor???????械?????
                 DataTypeDescriptor typeDescriptor = singleColumn.getType();
                 Element DataTypeDescriptorElement = new Element("DataTypeDescriptor");
                 int typeId = typeDescriptor.getTypeId();
@@ -196,12 +201,17 @@ public class descriptorSaver {
                 boolean autoincInc = singleColumn.isAutoincInc();
                 Element autoincIncElement = new Element("autoincInc").setText(String.valueOf(autoincInc));
                 columnElement.addContent(autoincIncElement);
+
                 long autoincValue = singleColumn.getAutoincValue();
                 Element autoincValueElement = new Element("autoincValue").setText(String.valueOf(autoincValue));
                 columnElement.addContent(autoincValueElement);
-                String comment = singleColumn.getComment();
-                Element commentElement = new Element("comment").setText(String.valueOf(comment));
-                columnElement.addContent(commentElement);
+
+                if(singleColumn.getComment() != null){
+                    String comment = singleColumn.getComment();
+                    Element commentElement = new Element("comment").setText(String.valueOf(comment));
+                    columnElement.addContent(commentElement);
+                }
+
 
                 if(singleColumn.getDefaultInfo() != null){
                     String columnDefaultValue = singleColumn.getDefaultInfo().toString();
@@ -210,14 +220,22 @@ public class descriptorSaver {
                 }
 
             }
-            //?????е?table???xml
+            //?????械?table???xml
             Format format=Format.getCompactFormat();
             format.setIndent("");
             //?????????????
             format.setEncoding("GBK");
             //4.????XMLOutputter?????
             XMLOutputter outputter=new XMLOutputter(format);
-            outputter.output(document, new FileOutputStream(new File("data/"+tableName+"/"+tableName+"Descriptor.xml")));
+
+            File file = new File("data/"+tableName+"/"+tableName+"Descriptor.xml");
+
+            File fileParent = file.getParentFile();//鍒ゆ柇鏄惁瀛樺湪
+            if (!fileParent.exists()) {
+                fileParent.mkdirs();
+            }
+
+            outputter.output(document, new FileOutputStream(file));
 
         }catch (Exception e){
             e.printStackTrace();
