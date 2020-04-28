@@ -27,6 +27,7 @@ public class UseDatabaseStatement {
         Table table=ExecuteStatement.uad.getUserAccessedDatabase();
         String databaseName=((Token)statement.get(1)).image;
 
+        System.out.println(databaseName);
         descriptorLoader dl=new descriptorLoader();
         Table t=dl.loadFromFile(databaseName);
         if (t==null){

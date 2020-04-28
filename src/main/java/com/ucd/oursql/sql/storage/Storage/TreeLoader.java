@@ -44,7 +44,7 @@ public class TreeLoader {
     }
 
     public BPlusTree loadFromFile(String tableName, HashMap<String,String> pm, ColumnDescriptorList columnDescriptorList) throws JDOMException, IOException, ClassNotFoundException {
-        BPlusTree<CglibBean,String> resultTree = new BPlusTree<>();
+        BPlusTree resultTree = new BPlusTree<>();
         SAXBuilder saxBuilder = new SAXBuilder();
         //你也可以将demo.xml放在resources目录下，然后通过下面方式获取
 //        InputStream resourceAsStream = JDOMParseXml.class.getClassLoader().getResourceAsStream("demo.xml");
@@ -94,7 +94,7 @@ public class TreeLoader {
                 }
 
                 }
-            resultTree.insert(b,  b.getValue("primary_key").toString());
+            resultTree.insert(b, (Comparable) b.getValue("primary_key"));
 
 
 

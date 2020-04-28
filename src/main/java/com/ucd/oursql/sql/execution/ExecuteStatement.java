@@ -58,6 +58,7 @@ public class ExecuteStatement {
             }else{
                 System.out.println("====!null=====");
                 u.setUserAccessedDatabase(t);
+                u.printUserAccessedDatabase();
             }
 
         } catch (ClassNotFoundException e) {
