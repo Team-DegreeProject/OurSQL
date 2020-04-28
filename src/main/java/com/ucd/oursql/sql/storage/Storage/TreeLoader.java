@@ -84,7 +84,7 @@ public class TreeLoader {
                 }
 
                 }
-            resultTree.insert(b, (String) b.getValue("primary key"));
+            resultTree.insert(b, (String) b.getValue("primary_key"));
 
 
 

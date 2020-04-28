@@ -82,7 +82,7 @@ public class descriptorLoader {
                 int precision = Integer.valueOf(dataTypeDescriptor.getChildText("precision"));
                 int scale = Integer.valueOf(dataTypeDescriptor.getChildText("scale"));
                 boolean isNullable = Boolean.getBoolean(dataTypeDescriptor.getChildText("isNullable"));
-                boolean primaryKey = Boolean.getBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));;
+                boolean primaryKey = Boolean.getBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));
                 DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,isNullable,primaryKey);
 
                 ColumnDescriptor columnDescriptor = new ColumnDescriptor(columnName,columnPosition,dataTypeDescriptor1,tableDescriptor,autoincStart,autoincInc);

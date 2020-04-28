@@ -96,9 +96,7 @@ public class descriptorSaver {
 
                 Map.Entry entry = (Map.Entry) entries.next();
                 String key = (String) entry.getKey();
-                key = key.replace(" ","");
-                System.out.println("============================");
-                System.out.println("--"+key);
+                key = key.replace(" ","_");
 //                String key = (String)entry.getKey();
                 String value = (String) entry.getValue();
                 org.dom4j.Element e=table.addElement(key);
