@@ -122,6 +122,31 @@ public class TreeSaver {
         }
 
 
+
+    }
+    public boolean deleteTable(String tableName){
+
+        File file = new File("data/" + tableName + "/");
+        if(!file.exists()){
+            return false;
+        }
+        if(file.isFile()){
+            return file.delete();
+        }
+        File[] files = file.listFiles();
+        for (File f : files) {
+            if(f.isFile()){
+                if(!f.delete()){
+                    System.out.println(f.getAbsolutePath()+" delete error!");
+                    return false;
+                }
+            }else{
+                if(!this.deleteTable(f.getAbsolutePath())){
+                    return false;
+                }
+            }
+        }
+        return file.delete();
     }
 
 
