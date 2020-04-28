@@ -64,10 +64,10 @@ public class TreeLoader {
             for (Element innerElement : innerElementList) {
                 String varName = innerElement.getName();
                 String varVal = innerElement.getValue();
+                System.out.println("the value of varVal is: "+varVal);
                 valueMap.put(varName,varVal);
-                System.out.println("--------------------------");
-                System.out.println("the name is: "+varName + " - the value is:"+varVal);
-                propertyMap.put(varName, Class.forName(varVal.getClass().getName()));
+                propertyMap.put(varName, Class.forName(varVal));
+
             }
             //property map已经处理完毕
 
