@@ -112,6 +112,7 @@ public class DMLTool {
         Iterator it=propertyMap.keySet().iterator();
         while(it.hasNext()){
             String s= (String) it.next();
+            System.out.println(s+"    ===    "+propertyMap.get(s));
             Class c=Class.forName((String) propertyMap.get(s));
             r.put(s,c);
         }

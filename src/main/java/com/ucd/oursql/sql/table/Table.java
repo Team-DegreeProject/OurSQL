@@ -103,8 +103,8 @@ public class Table extends SqlConstantImpl {
             System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
             propertyMap.put(cd.getColumnName(), sqlMap.get(dtd.getTypeId()));
         }
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
-        ds.saveAll();
+//        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+//        ds.saveAll();
         return propertyMap;
     }
 
@@ -572,11 +572,20 @@ public class Table extends SqlConstantImpl {
 //        if(newTD==td){
 //            return this;
 //        }
+
         Table table=new Table();
         table.setTd(newTD);
 //        System.out.println("NEWTABLE");
         DMLTool.changeAs(table.getTableDescriptor(),tokens);
 //        System.out.println("NEWCOLUMN");
+//        System.out.println("========some column=========");
+//        td.printTableDescriptor();
+////        Iterator it=propertyMap.keySet().iterator();
+////        while(it.hasNext()){
+////            String i= (String) it.next();
+////            System.out.println(i+"==="+propertyMap.get(i));
+////        }
+//        table.getTd().printTableDescriptor();
         HashMap property=table.createTable();
 //        Iterator it=property.keySet().iterator();
 //        while(it.hasNext()){

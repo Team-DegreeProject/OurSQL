@@ -11,7 +11,7 @@
 <columnName>primary_key</columnName>
 <columnPosition>0</columnPosition>
 <DataTypeDescriptor>
-<typeId>320</typeId>
+<typeId>322</typeId>
 <precision>-1</precision>
 <scale>-1</scale>
 <isNullable>false</isNullable>
