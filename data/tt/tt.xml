@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GBK"?>
+<table name="tt">
+<entity>
+<tablename>test</tablename>
+<primary_key>tablename:test</primary_key>
+</entity>
+</table>

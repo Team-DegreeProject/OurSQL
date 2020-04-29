@@ -1,7 +1,12 @@
 package com.ucd.oursql.sql.execution.table;
 
+import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.FromStatement;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.TreeSaver;
+import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.column.ColumnDescriptor;
@@ -30,7 +35,8 @@ public class AlterTableStatement {
     public Table alterTableAddColumnStatement() throws ClassNotFoundException {
         String name=((Token)statement.get(2)).image;
         List<List> newColumns= (List) statement.get(3);
-        Table change= FromStatement.from(name);
+        Table change= FromStatement.from(ExecuteStatement.db.getDatabase(),name);
+
         ColumnDescriptorList columns=new ColumnDescriptorList();
         int size=change.getTableDescriptor().getMaxColumnID()+1;
         for(int i=0;i<newColumns.size();i++){
@@ -50,7 +56,7 @@ public class AlterTableStatement {
     public Table alterModifyImpl() throws ClassNotFoundException {
         String name=((Token)statement.get(2)).image;
         List<List> newColumns= (List) statement.get(4);
-        Table change= FromStatement.from(name);
+        Table change= FromStatement.from(ExecuteStatement.db.getDatabase(),name);
         change.modifyColumns(newColumns);
         change.getTableDescriptor().printColumnName();
         return change;
@@ -65,7 +71,7 @@ public class AlterTableStatement {
     public Table alterTableDropImpl() throws ClassNotFoundException {
         String name=((Token)statement.get(2)).image;
         List<List> newColumns= (List) statement.get(3);
-        Table change= FromStatement.from(name);
+        Table change= FromStatement.from(ExecuteStatement.db.getDatabase(),name);
         change.dropColumns(newColumns);
         change.getTableDescriptor().printColumnName();
         return change;
@@ -89,6 +95,11 @@ public class AlterTableStatement {
             }
         }
         change.getTableDescriptor().printTableDescriptor();
+
+//        TreeSaver ts=new TreeSaver();
+//        ts.deleteTable(change.getTableDescriptor().getTableName());
+        descriptorSaver dl=new descriptorSaver(change.getTableDescriptor(), change.getPropertyMap(),change.getTree());
+        dl.saveAll();
         return change.printTable(null);
     }
 

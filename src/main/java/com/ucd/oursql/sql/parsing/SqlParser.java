@@ -11,10 +11,10 @@ import com.ucd.oursql.sql.execution.table.TableStatements;
 
 public class SqlParser implements SqlParserConstants {
 
-    private List<Object> sql = new ArrayList<Object>(); // sql�?外层语句
-    private List<Object> subquerySql = new ArrayList<Object>();//subquery 存储子select
-    private List<Object> list = new ArrayList<Object>();//内一�?
-    private List<Object> alist = new ArrayList<Object>();//子内�?�?
+    private List<Object> sql = new ArrayList<Object>(); // sql鏈?澶栧眰璇彞
+    private List<Object> subquerySql = new ArrayList<Object>();//subquery 瀛樺偍瀛恠elect
+    private List<Object> list = new ArrayList<Object>();//鍐呬竴灞?
+    private List<Object> alist = new ArrayList<Object>();//瀛愬唴涓?灞?
     private List<Object> templist = new ArrayList<Object>();
     ArrayList<Object> atemplist = new ArrayList<Object>();
 
@@ -58,7 +58,7 @@ public class SqlParser implements SqlParserConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case CREATE:
       //***************1	CREATE ************************************************
-          //1.1.1	CREATE DATABASE testdb�?
+          //1.1.1	CREATE DATABASE testdb锛?
           //1.1.1	CREATE TABLE table_name	();
           t = jj_consume_token(CREATE);
                     result=create(t);
@@ -345,7 +345,7 @@ public class SqlParser implements SqlParserConstants {
     }
   }
 
-//把Token存到sql�?
+//鎶奣oken瀛樺埌sql閲?
   final public void saveTokenInSQL(Token a) throws ParseException {
     Token t;
         t = a;
@@ -353,12 +353,12 @@ public class SqlParser implements SqlParserConstants {
         sql.add(t);
   }
 
-//把list存到sql�?
+//鎶妉ist瀛樺埌sql閲?
   final public void saveListInSQL(List<Object> a) throws ParseException {
         sql.add(a);
   }
 
-//把Token存到list�?
+//鎶奣oken瀛樺埌list閲?
   final public void saveTokenInList(Token a,List<Object> l) throws ParseException {
     Token t;
         t = a;
@@ -366,7 +366,7 @@ public class SqlParser implements SqlParserConstants {
         l.add(t);
   }
 
-//把TempList存到list�?
+//鎶奣empList瀛樺埌list閲?
   final public void saveTempListInList(List<Object> temp,List<Object> l) throws ParseException {
         //System.out.print("  list is : ");
 //        for (Object object : temp)
@@ -395,7 +395,7 @@ public class SqlParser implements SqlParserConstants {
         t=d;
         System.out.println("------INSERT METHOD --------");
         saveTokenInSQL(t);
-    //2.1.1	INSERT INTO table1 (column1, coulumn2,�?) VALUES (value1, value2 , �?);//value = number or text;
+    //2.1.1	INSERT INTO table1 (column1, coulumn2,鈥?) VALUES (value1, value2 , 鈥?);//value = number or text;
                 t = jj_consume_token(INTO);
                 saveTokenInSQL(t);
     t = jj_consume_token(ID);
@@ -493,7 +493,7 @@ public class SqlParser implements SqlParserConstants {
         saveTokenInSQL(t);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case DATABASE:
-      ////1.1.1	CREATE DATABASE testdb�?
+      ////1.1.1	CREATE DATABASE testdb锛?
                   t = jj_consume_token(DATABASE);
                 saveTokenInSQL(t);
       t = jj_consume_token(ID);
@@ -1161,8 +1161,8 @@ templist = new ArrayList<Object>();
 
 //3	UPDATE
   //3.1	UPDATE table SET column1 = value1, column2 = value2 WHERE condition;
-  //3.2	UPDATE table SET column1 =	(SELECT a From b WHERE c = “e�?);
-  //3.3	UPDATE table INNER JOIN table1 ON table.column1 = table2.column1 SET table.column2 = table1.coulmn2,�? (WHERE);
+  //3.2	UPDATE table SET column1 =	(SELECT a From b WHERE c = 鈥渆鈥?);
+  //3.3	UPDATE table INNER JOIN table1 ON table.column1 = table2.column1 SET table.column2 = table1.coulmn2,鈥? (WHERE);
   final public String update(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
@@ -1566,7 +1566,7 @@ templist = new ArrayList<Object>();
      saveTempListInList(atemplist,subquerySql);
   }
 
-//where语句
+//where璇彞
   final public void where() throws ParseException {
  Token t;
     t = jj_consume_token(WHERE);
@@ -1581,10 +1581,10 @@ templist = new ArrayList<Object>();
     subqueryMultiCondition();
   }
 
-// 多条件并列的时�??
+// 澶氭潯浠跺苟鍒楃殑鏃跺??
   final public void multiCondition() throws ParseException {
     Token t;
-    int i = 0;// i = 0 表示只有�?个condition�?=1 表示有多个condition
+    int i = 0;// i = 0 琛ㄧず鍙湁涓?涓猚ondition锛?=1 琛ㄧず鏈夊涓猚ondition
     list = new ArrayList<Object>();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case AVG:
@@ -1679,7 +1679,7 @@ templist = new ArrayList<Object>();
 
   final public void subqueryMultiCondition() throws ParseException {
     Token t;
-    int i = 0;// i = 0 表示只有�?个condition�?=1 表示有多个condition
+    int i = 0;// i = 0 琛ㄧず鍙湁涓?涓猚ondition锛?=1 琛ㄧず鏈夊涓猚ondition
     alist = new ArrayList<Object>();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ID:
@@ -1751,7 +1751,7 @@ templist = new ArrayList<Object>();
         }
   }
 
-//小情况；小条�?
+//灏忔儏鍐碉紱灏忔潯浠?
   final public void condition() throws ParseException {
     Token t;
     templist = new ArrayList<Object>();
@@ -1793,7 +1793,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-//小情况；小条�?
+//灏忔儏鍐碉紱灏忔潯浠?
   final public void subqueryCondition() throws ParseException {
     Token t;
     atemplist = new ArrayList<Object>();
@@ -1872,7 +1872,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-// Between ...  AND ... 条件语句
+// Between ...  AND ... 鏉′欢璇彞
   final public void betweenCondition() throws ParseException {
  Token t;
     t = jj_consume_token(BETWEEN);
@@ -2037,11 +2037,11 @@ templist = new ArrayList<Object>();
 
   final public void in() throws ParseException {
     Token t;
-    // 新建�?个临时的templist1存放小括号内容（�?    --->templist1
-    // a in （templiste1�?    --->condition ----> templist
-    //condition存放在templist�? conditon
-    //只有�?个condition的时�? list = templist
-    //muticondition ---> list 放在sql�?
+    // 鏂板缓涓?涓复鏃剁殑templist1瀛樻斁灏忔嫭鍙峰唴瀹癸紙锛?    --->templist1
+    // a in 锛坱empliste1锛?    --->condition ----> templist
+    //condition瀛樻斁鍦╰emplist涓? conditon
+    //鍙湁涓?涓猚ondition鐨勬椂鍊? list = templist
+    //muticondition ---> list 鏀惧湪sql涓?
     List<Object>templist1 = new ArrayList<Object>();
     t = jj_consume_token(IN);
         //templist.add(t);
@@ -2107,11 +2107,11 @@ templist = new ArrayList<Object>();
 
   final public void subqueryin() throws ParseException {
     Token t;
-    // 新建�?个临时的templist1存放小括号内容（�?    --->templist1
-    // a in （templiste1�?    --->condition ----> templist
-    //condition存放在templist�? conditon
-    //只有�?个condition的时�? list = templist
-    //muticondition ---> list 放在sql�?
+    // 鏂板缓涓?涓复鏃剁殑templist1瀛樻斁灏忔嫭鍙峰唴瀹癸紙锛?    --->templist1
+    // a in 锛坱empliste1锛?    --->condition ----> templist
+    //condition瀛樻斁鍦╰emplist涓? conditon
+    //鍙湁涓?涓猚ondition鐨勬椂鍊? list = templist
+    //muticondition ---> list 鏀惧湪sql涓?
     List<Object>templist2 = new ArrayList<Object>();
     t = jj_consume_token(IN);
         //templist.add(t);
@@ -2157,7 +2157,7 @@ templist = new ArrayList<Object>();
          saveTempListInList(atemplist,list);
   }
 
-// 用于
+// 鐢ㄤ簬
   final public void name() throws ParseException {
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2222,7 +2222,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-//�?单条�?
+//绠?鍗曟潯浠?
   final public void simpleCondition() throws ParseException {
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2297,7 +2297,7 @@ templist = new ArrayList<Object>();
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case TEXT:
-      // �?/�? ，数字，功能
+      // 鈥?/鈥? 锛屾暟瀛楋紝鍔熻兘
             t = jj_consume_token(TEXT);
               saveTokenInList(t,templist);
               saveTempListInList(templist,list);
@@ -2326,7 +2326,7 @@ templist = new ArrayList<Object>();
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case TEXT:
-      // �?/�? ，数字，功能
+      // 鈥?/鈥? 锛屾暟瀛楋紝鍔熻兘
             t = jj_consume_token(TEXT);
               saveTokenInList(t,atemplist);
               saveTempListInList(atemplist,alist);
@@ -2348,10 +2348,10 @@ templist = new ArrayList<Object>();
     }
   }
 
-//功能方法
+//鍔熻兘鏂规硶
   final public void function() throws ParseException {
  Token t;
-    //  id (（多）参�? )
+    //  id (锛堝锛夊弬鏁? )
          t = jj_consume_token(ID);
         saveTokenInList(t,templist);
         saveTempListInList(templist,list);
@@ -2367,7 +2367,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-//（多）参数函�?
+//锛堝锛夊弬鏁板嚱鏁?
   final public void arguments() throws ParseException {
  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2393,7 +2393,7 @@ templist = new ArrayList<Object>();
     }
   }
 
-// �?组参�?
+// 涓?缁勫弬鏁?
   final public void argument() throws ParseException {
  Token t;
     jj_consume_token(ID);
@@ -3224,7 +3224,7 @@ templist = new ArrayList<Object>();
 
   final public void sets() throws ParseException {
     Token t;
-    int i = 0;// i = 0 表示只有�?个condition�?=1 表示有多个condition
+    int i = 0;// i = 0 琛ㄧず鍙湁涓?涓猚ondition锛?=1 琛ㄧず鏈夊涓猚ondition
     list = new ArrayList<Object>();
     set();
     label_28:

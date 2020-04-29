@@ -31,12 +31,12 @@ public class SelectDataStatement {
 //        String tablename= tablenames.get(0).get(0).image;
 //        Table table= FromStatement.from(tablename);
         Table table= dealWithFrom();
-//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
 //        table.printTable(null);
 
         List<List<Token>> whereConsition=getWhhereToken();
         table=WhereStatament.whereImpl(table,whereConsition);
-//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
 //        table.printTable(null);
 
         List distinctNames=checkDistinct();

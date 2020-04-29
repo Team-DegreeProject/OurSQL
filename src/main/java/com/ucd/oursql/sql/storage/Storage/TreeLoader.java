@@ -1,6 +1,9 @@
 package com.ucd.oursql.sql.storage.Storage;
 
 
+import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
+import com.ucd.oursql.sql.table.type.SqlType;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -32,7 +35,7 @@ public class TreeLoader {
                 File datafile = new File(file2.getPath()+ storage.Storage.XMLUtils.getFileName(file2.getPath())+".txt");
                 String filepath = file2.getPath()+ storage.Storage.XMLUtils.getFileName(file2.getPath())+".xml";
                 System.out.println("filepath is : "+filepath);
-                resultList.add(loadFromFile(filepath));
+//                resultList.add(loadFromFile(filepath));
             } else {
 
             }
@@ -40,8 +43,8 @@ public class TreeLoader {
         return resultList;
     }
 
-    public BPlusTree loadFromFile(String tableName) throws JDOMException, IOException, ClassNotFoundException {
-        BPlusTree<CglibBean,String> resultTree = new BPlusTree<>();
+    public BPlusTree loadFromFile(String tableName, HashMap<String,String> pm, ColumnDescriptorList columnDescriptorList) throws JDOMException, IOException, ClassNotFoundException {
+        BPlusTree resultTree = new BPlusTree<>();
         SAXBuilder saxBuilder = new SAXBuilder();
         //你也可以将demo.xml放在resources目录下，然后通过下面方式获取
 //        InputStream resourceAsStream = JDOMParseXml.class.getClassLoader().getResourceAsStream("demo.xml");
@@ -56,25 +59,43 @@ public class TreeLoader {
             //获取所有的子节点
             List<Element> innerElementList = element.getChildren();
             //建立一个哈希map
-            HashMap propertyMap = new HashMap();
+//            HashMap propertyMap = new HashMap();
             HashMap valueMap = new HashMap();
             for (Element innerElement : innerElementList) {
                 String varName = innerElement.getName();
                 String varVal = innerElement.getValue();
+                System.out.println("the value of varVal is: "+varVal);
                 valueMap.put(varName,varVal);
-                System.out.println("--------------------------");
-                System.out.println("the name is: "+varName + " - the value is:"+varVal);
-                propertyMap.put(varName, Class.forName(varVal.getClass().getName()));
+//                propertyMap.put(varName, Class.forName(varVal));
+
             }
             //property map已经处理完毕
-            CglibBean b = new CglibBean(propertyMap);
+
+//            Iterator it=propertyMap.keySet().iterator();
+//            while(it.hasNext()){
+//                String k= (String) it.next();
+//                System.out.println(k+":"+propertyMap.get(k));
+//            }
+            HashMap property=DMLTool.convertPropertyMap(pm);
+
+            CglibBean b = new CglibBean(property);
 
             Iterator iter = valueMap.keySet().iterator();
             while (iter.hasNext()) {
                 String valueName = (String) iter.next();
-                b.setValue(valueName,valueMap.get(valueName));
+                //==================================================
+                //??????????????????????????????????????????????????
+                //??????????????????????????????????????????????????
+                try {
+                    SqlType v = DMLTool.forXMLConvertStringToValue(valueName,valueMap.get(valueName).toString(),pm,columnDescriptorList);
+                    System.out.println(v+"====");
+                    b.setValue(valueName, v);
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-            resultTree.insert(b, (String) b.getValue("id"));
+
+                }
+            resultTree.insert(b, (Comparable) b.getValue("primary_key"));
 
 
 

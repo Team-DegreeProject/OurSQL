@@ -15,17 +15,17 @@ import java.util.List;
 
 public class newtest {
     public static void main(String[] args) throws IOException {
-        HashMap<Integer,String> propertyMap = new HashMap<>();
-        propertyMap.put(1,"one");
-        propertyMap.put(2,"two");
+        HashMap<String,String> propertyMap = new HashMap<>();
+        propertyMap.put("one","one");
+        propertyMap.put("two","two");
 
         descriptorSaver test = new descriptorSaver(new TableDescriptor("testTable",0,null),propertyMap,null);
         test.hashmapToXML();
 
         descriptorLoader testload = new descriptorLoader();
-        HashMap<Integer,String> testMap = testload.loadPropertyFromFile("testTable");
-        System.out.println(testMap.get(1));
-        System.out.println(testMap.get(2));
+        HashMap<String,String> testMap = testload.loadPropertyFromFile("testTable");
+        System.out.println(testMap.get("one"));
+        System.out.println(testMap.get("two"));
 
         //测试tableDescriptor
         DataTypeDescriptor dataTypedes = new DataTypeDescriptor(0,false,true);
