@@ -56,6 +56,22 @@ public class TreeSaver {
 //                    System.out.println("the value is: "+value+" name: "+name);
                     resultMap.put(name, value);
                 }
+                Element entity = new Element("entity");
+                table.addContent(entity);
+                Iterator iter = resultMap.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    String key = (String) entry.getKey();
+                    String val = (String) entry.getValue();
+
+                    //将对应的内容和key添加到xml中
+                    Element XML_entity = new Element(key).setText(val);
+                    System.out.println("!!!!!!!!!");
+                    System.out.println("The value of the val is: "+val);
+                    entity.addContent(XML_entity);
+
+
+                }
             }
 
 
@@ -84,22 +100,10 @@ public class TreeSaver {
 //                        }
 
 
-            Element entity = new Element("entity");
-            table.addContent(entity);
+
 
             //利用迭代器来遍历hashmap
-            Iterator iter = resultMap.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
-                String key = (String) entry.getKey();
-                String val = (String) entry.getValue();
 
-                //将对应的内容和key添加到xml中
-                Element XML_entity = new Element(key).setText(val);
-                entity.addContent(XML_entity);
-
-
-            }
 
 
             Format format = Format.getCompactFormat();

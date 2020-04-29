@@ -73,6 +73,7 @@ public class descriptorLoader {
                 boolean autoincInc = Boolean.valueOf(eachColunm.getChildText("autoincInc"));
                 long autoincValue = Long.valueOf(eachColunm.getChildText("autoincValue"));
                 String comment = eachColunm.getChildText("comment");
+                boolean unique = Boolean.parseBoolean(eachColunm.getChildText("Unique"));
 
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //                SqlType columnDefaultValue = DMLTool.convertToValue(columnName,eachColunm.getChildText("columnDefaultValue"),propertyMap);
@@ -87,7 +88,7 @@ public class descriptorLoader {
                 DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,isNullable,primaryKey);
 //                System.out.println("THE VALUE OF DATATYPE is:"+typeId);
 //                System.out.println("THE VALUE OF PRIMARYKEY is:"+primaryKey);
-                ColumnDescriptor columnDescriptor = new ColumnDescriptor(columnName,columnPosition,dataTypeDescriptor1,tableDescriptor,autoincStart,autoincInc);
+                ColumnDescriptor columnDescriptor = new ColumnDescriptor(tableDescriptor,columnName,columnPosition,dataTypeDescriptor1,autoincStart,autoincInc,autoincValue,null,comment,unique);
                 columnDescriptorList.add(columnDescriptor);
 
 

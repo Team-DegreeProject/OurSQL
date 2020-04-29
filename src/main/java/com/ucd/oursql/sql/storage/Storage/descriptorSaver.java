@@ -217,6 +217,11 @@ public class descriptorSaver {
                     columnElement.addContent(columnDefaultValueElement);
                 }
 
+                boolean unique = singleColumn.isUnique();
+                Element columnUniqueElement = new Element("Unique").setText(String.valueOf(unique));
+                columnElement.addContent(columnUniqueElement);
+
+
             }
             //?????е?table???xml
             Format format=Format.getCompactFormat();
