@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="GBK"?>
-
-<table>
-  <cc>class com.ucd.oursql.sql.table.type.text.SqlVarChar</cc>
-  <max_limit>class com.ucd.oursql.sql.table.type.number.SqlInt</max_limit>
-  <id>com.ucd.oursql.sql.table.type.number.SqlInt</id>
-  <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
-</table>

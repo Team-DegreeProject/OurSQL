@@ -3,7 +3,9 @@ package com.ucd.oursql.sql.execution.table;
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.TreeSaver;
 import com.ucd.oursql.sql.table.Table;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import java.util.List;
 
@@ -26,8 +28,10 @@ public class DropTableStatement {
         List names= (List) statement.get(2);
         for(int i=0;i<names.size();i++){
             String name=((Token)names.get(i)).image;
-            Table delete= WhereStatament.compare(database,"tablename",EQ,name);
+            Table delete= WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(name));
             database.deleteRows(delete);
+            TreeSaver ts=new TreeSaver();
+            ts.deleteTable(name);
         }
         String output=database.printTable(null);
         return output;

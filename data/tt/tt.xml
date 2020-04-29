@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="tt">
-<entity>
-<tablename>persons</tablename>
-<primary_key>tablename:persons</primary_key>
-</entity>
+<entity />
 </table>
