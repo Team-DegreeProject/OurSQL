@@ -25,17 +25,19 @@ public class CreateDatabaseStatement{
         }
         String databaseName=  ((Token)statement.get(2)).image;
         Table check=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"databasename",EQ,new SqlVarChar(databaseName));
-        int size=check.getTree().getDataNumber();
-        if(size>0){
-            return "There is a database with the same name!";
-        }
+//        int size=check.getTree().getDataNumber();
+//        if(size>0){
+//            return "There is a database with the same name!";
+//        }
         Database db=new Database(databaseName);
 //        System.out.println("===========");
 //        db.getDatabase().getTableDescriptor().printTableDescriptor();
+        ExecuteStatement.uad.getUserAccessedDatabase().getTableDescriptor().printTableDescriptor();
         ExecuteStatement.uad.insertDatabase(db);
 //        db.printDatabase();
 //        descriptorSaver ds=new descriptorSaver(db.getDatabase().getTableDescriptor(),db.getDatabase().getPropertyMap(),db.getDatabase().getTree());
 //        ds.saveAll();
+
         String output=ExecuteStatement.uad.getUserAccessedDatabase().printTable(null);
         return output;
     }

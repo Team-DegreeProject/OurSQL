@@ -2,7 +2,7 @@
 <table name="UserPermissionDatabaseScope">
 <entity>
 <databasename>tt</databasename>
-<primary_key>databasename:tt</primary_key>
 <user>root</user>
+<primary_key>databasename:tt</primary_key>
 </entity>
 </table>

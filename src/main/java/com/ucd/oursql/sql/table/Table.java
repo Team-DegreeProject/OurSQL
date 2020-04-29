@@ -120,8 +120,9 @@ public class Table extends SqlConstantImpl {
         }
 
 
-        boolean ub=checkUniqueOperationInsert(values);
+        boolean ub=checkUniqueOperationInsert(attributes,values);
         if(ub==false){
+            System.out.println("Some attribute is unique");
             return false;
         }
 //        System.out.println("5555555555");
@@ -464,9 +465,9 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public boolean checkUniqueOperationInsert(List values){
+    public boolean checkUniqueOperationInsert(String[] attributes,List values){
         ColumnDescriptorList unique=td.getColumnDescriptorList().getUniqueList();
-        String[] attributes=td.getColumnNamesArray();
+//        String[] attributes=td.getColumnNamesArray();
         List list=tree.getDatas();
         for(int i=0;i<unique.size();i++){
             String name=unique.elementAt(i).getColumnName();

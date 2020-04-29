@@ -98,7 +98,7 @@ public class descriptorSaver {
                 String key = (String) entry.getKey();
                 key = key.replace(" ","_");
 //                String key = (String)entry.getKey();
-                String value = (String) entry.getValue();
+                String value =  entry.getValue().toString();
                 org.dom4j.Element e=table.addElement(key);
 
                 e.setText(value);

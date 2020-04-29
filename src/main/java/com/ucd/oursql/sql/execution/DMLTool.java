@@ -123,6 +123,18 @@ public class DMLTool {
         return r;
     }
 
+//    public static  HashMap convertPropertyMapBack(HashMap propertyMap){
+//        HashMap r=new HashMap();
+//        Iterator it=propertyMap.keySet().iterator();
+//        while(it.hasNext()){
+//            String s=(String)it.next();
+//            Class c= (Class) propertyMap.get(s);
+//            String v=c.getName();
+//            r.put(s,v);
+//        }
+//        return r;
+//    }
+
 
     public static ColumnDescriptor analyseOneRow(int k, List tokens,int position){
         DataTypeDescriptor dataType=null;
