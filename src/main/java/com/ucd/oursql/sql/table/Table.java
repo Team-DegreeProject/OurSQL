@@ -154,6 +154,8 @@ public class Table extends SqlConstantImpl {
            List<List<Token>> l= (List<List<Token>>) list.get(i);
            insertARow(attributes,l);
        }
+        System.out.println("============insert rows================");
+       this.printTable(null);
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
         ds.saveAll();
     }
@@ -161,11 +163,14 @@ public class Table extends SqlConstantImpl {
 
 
     public boolean insertARow(List<Token> attributes,List<List<Token>> values) throws Exception {
-
+//        for(int i=0;i<attributes.size();i++){
+//            System.out.print(attributes.get(i).image+" ");
+//        }
         if(attributes.size()!=values.size()){
             System.out.println("The number of attributes is not equal to the number of values.");
             return false;
         }
+        System.out.println("checkPK");
 
         boolean checkPk=td.getPrimaryKey().checkHavePrimaryKey(attributes);
         if(checkPk==false){
@@ -174,7 +179,7 @@ public class Table extends SqlConstantImpl {
         }
 
         boolean checkNull=td.getColumnDescriptorList().checkNotNull(attributes,values);
-        System.out.println(td.getColumnDescriptorList().size());
+//        td.printTableDescriptor();
         if(checkNull==false){
             System.out.println("Some attribute is not null.");
             return false;
@@ -200,13 +205,14 @@ public class Table extends SqlConstantImpl {
 
         for(int j=0;j<number;j++){
             PrimaryKey pk=new PrimaryKey();
-            CglibBean bean = new CglibBean(propertyMap);
+            CglibBean bean = new CglibBean(DMLTool.convertPropertyMap(propertyMap));
 
             //处理输入
             for(int i=0;i<attributes.size();i++){
                 String name=attributes.get(i).image;
                 String v=values.get(i).get(j).image;
                 SqlType value=DMLTool.convertToValue(name,v,propertyMap,columnDescriptorList);
+//                System.out.println("value:"+value.getClass().getName());
                 ColumnDescriptor cd=td.getPrimaryKey().getColumnDescriptor(name);
                 if(cd!=null){
                     pk.addPrimaryKey(name,value);
@@ -225,7 +231,7 @@ public class Table extends SqlConstantImpl {
 
 
             bean.setValue("primary_key",pk);
-            tree.insert(bean, (Comparable) bean.getValue("primary_key"));//双primarykey
+            tree.insert(bean, (SqlType) bean.getValue("primary_key"));//双primarykey
         }
         return true;
     }

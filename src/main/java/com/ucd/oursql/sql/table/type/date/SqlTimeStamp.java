@@ -1,9 +1,11 @@
 package com.ucd.oursql.sql.table.type.date;
 
 import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 //yyyy-[m]m-[d]d hh:mm:ss
 public class SqlTimeStamp implements SqlType {
@@ -17,7 +19,7 @@ public class SqlTimeStamp implements SqlType {
     }
 
    @Override
-    public void setValue(String o) {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl){
        o= DMLTool.removeQutationMark(o);
         this.timestamp=Timestamp.valueOf(o);
     }

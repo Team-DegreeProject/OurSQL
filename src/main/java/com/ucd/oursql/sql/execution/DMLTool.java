@@ -77,7 +77,7 @@ public class DMLTool {
     public static SqlType convertToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
         Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
-        value.setValue(str);
+        value.setValue(str,propertyMap,columnDescriptorList);
         ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
         DataTypeDescriptor dataTypeDescriptor=cd.getType();
         if(dataTypeDescriptor.getScale()!=-1){
@@ -87,13 +87,14 @@ public class DMLTool {
             value.setPrecision(dataTypeDescriptor.getPrecision());
         }
         value.updateValue();
+//        System.out.println("value:"+value.getClass().getName());
         return value;
     }
 
     public static SqlType forXMLConvertStringToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
         Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
-        value.setValue(str);
+        value.setValue(str,propertyMap,columnDescriptorList);
         ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
         DataTypeDescriptor dataTypeDescriptor=cd.getType();
         if(dataTypeDescriptor.getScale()!=-1){

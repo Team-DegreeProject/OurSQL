@@ -1,7 +1,11 @@
 package com.ucd.oursql.sql.table.type;
 
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
+
+import java.util.HashMap;
+
 public interface SqlType extends Comparable {
-    public void setValue(String o) throws Exception;
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl) throws Exception;
     public String toString();
     public SqlType addOne() throws Exception;
     public void setScale(int i) throws Exception;

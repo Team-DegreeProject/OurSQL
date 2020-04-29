@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="pp">
-<tableName>pp</tableName>
+<table name="py">
+<tableName>py</tableName>
 <schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>

@@ -3,6 +3,7 @@ package com.ucd.oursql.sql.table;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.column.ColumnDescriptor;
 import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,11 @@ public class ColumnDescriptorList extends ArrayList<ColumnDescriptor> {
 
 
     public boolean checkHavePrimaryKey(List<Token> columnNames) {
+//        this.printColumnDescriptorList();
+//        for(int i=0;i<columnNames.size();i++){
+//            System.out.print(columnNames.get(i).image+" ");
+//        }
+//        System.out.println();
         for (ColumnDescriptor columnDescriptor : this) {
             boolean in=false;
             for(int i=0;i<columnNames.size();i++){
@@ -79,8 +85,9 @@ public class ColumnDescriptorList extends ArrayList<ColumnDescriptor> {
     public boolean checkNotNull(List<Token> columnNames,List<List<Token>> values){
         for (ColumnDescriptor columnDescriptor : this) {
             DataTypeDescriptor dataTypeDescriptor=columnDescriptor.getType();
-            if(columnDescriptor.getColumnName()!="primary key") {
+            if(columnDescriptor.getColumnName().compareTo("primary_key")!=0) {
                 if (!dataTypeDescriptor.isNullable()) {
+//                    System.out.println("===="+columnDescriptor.getColumnName());
                     boolean b = false;
                     for (int i = 0; i < columnNames.size(); i++) {
                         String name = columnNames.get(i).image;

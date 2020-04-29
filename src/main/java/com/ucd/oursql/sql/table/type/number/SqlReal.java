@@ -5,7 +5,10 @@ package com.ucd.oursql.sql.table.type.number;
 //这种数据类型的数据存储范围为从-3.40E+38～3.40E+38。
 
 
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
+
+import java.util.HashMap;
 
 public class SqlReal implements  SqlType {
 
@@ -71,7 +74,7 @@ public class SqlReal implements  SqlType {
     }
 
     @Override
-    public void setValue(String o) {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl) {
         setData(Float.parseFloat(o));
     }
 

@@ -1,8 +1,10 @@
 package com.ucd.oursql.sql.table.type.number;
 
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
 
 import java.text.NumberFormat;
+import java.util.HashMap;
 
 public class SqlDouble implements SqlType {
     private int scale=-1;
@@ -111,7 +113,7 @@ public class SqlDouble implements SqlType {
     }
 
     @Override
-    public void setValue(String o){
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl){
         setData(Double.valueOf(o));
     }
 
