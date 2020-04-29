@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class descriptorLoader {
 
@@ -43,12 +44,15 @@ public class descriptorLoader {
         SAXBuilder saxBuilder = new SAXBuilder();
         TableDescriptor tableDescriptor = null;
         HashMap propertyMap = null;
+        String filepath = "data/" + tn + "/" + tn + "Descriptor.xml";
+        File localfile = new File(filepath);
         try {
             //首先读取propertyMap
             propertyMap = loadPropertyFromFile(tn);
 
-            String filepath = "data/" + tn + "/" + tn + "Descriptor.xml";
-            Document document1 = saxBuilder.build(new File(filepath));
+
+
+            Document document1 = saxBuilder.build(localfile);
             Element rootElement = document1.getRootElement();
 //            List<Element> elementList = rootElement.getChildren();
 
@@ -106,6 +110,7 @@ public class descriptorLoader {
 //            e.printStackTrace();
             return null;
         }
+
         return tableDescriptor;
     }
 
@@ -117,8 +122,6 @@ public class descriptorLoader {
             HashMap propertyMap = loadPropertyFromFile(tableName);
             TreeLoader tl = new TreeLoader();
             BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList());
-
-
             Table resultTable = new Table(td,fileTree,propertyMap);
             return resultTable;
         }
