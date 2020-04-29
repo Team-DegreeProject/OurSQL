@@ -3,8 +3,13 @@ package com.ucd.oursql.sql.execution.table;
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.TreeSaver;
+import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
+import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,24 +35,34 @@ public class RenameTableStatement {
         List values=new ArrayList();
 //        att.add("table");
 //        att.add("tablename");
-        Table change= WhereStatament.compare(database,"tablename",EQ,oldName);
-        values.add(newName);
+        Table change= WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(oldName));
+        values.add(new SqlVarChar(newName));
         boolean bool=database.updateTable(att,values,change);
         if(bool==false){
             database.printTable(null);
             return "Rename Table Wrong!";
         }
 
-        List list= (List) change.getTree().getDatas();
-        CglibBean c= (CglibBean) list.get(0);
-        Table table= new Table((Table) c.getValue("table"));
-        String[] namestt={"table"};
-        values=new ArrayList();
-        values.add(table);
-        table.getTableDescriptor().setTableName(newName);
-        bool=database.updateTable(namestt,values,change);
+        descriptorLoader dl=new descriptorLoader();
+        Table t=new Table(dl.loadFromFile(oldName));
+        TreeSaver tl= new TreeSaver();
+//        System.out.println(databaseName);
+        tl.deleteTable(oldName);
+//        Table t=database.getDatabase();
+        t.getTableDescriptor().setTableName(newName);
+        descriptorSaver ds=new descriptorSaver(t.getTd(),t.getPropertyMap(),t.getTree());
+        ds.saveAll();
 
-        String output=database.printTable(null);
+//        List list= (List) change.getTree().getDatas();
+//        CglibBean c= (CglibBean) list.get(0);
+//        Table table= new Table((Table) c.getValue("table"));
+//        String[] namestt={"table"};
+//        values=new ArrayList();
+//        values.add(table);
+//        table.getTableDescriptor().setTableName(newName);
+//        bool=database.updateTable(namestt,values,change);
+
+        String output=ExecuteStatement.db.printDatabase();
         return output;
     }
 
