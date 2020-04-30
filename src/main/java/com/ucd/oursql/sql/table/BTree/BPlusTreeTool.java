@@ -129,7 +129,6 @@ public class BPlusTreeTool {
 //                }
 //                System.out.println("-------------------------------------");
 //            }
-
             for(int j=0;j<attribute.size();j++){
                 System.out.print(c.getValue((String) attribute.get(j)));
                 str=str+c.getValue((String) attribute.get(j));

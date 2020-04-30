@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="GBK"?>
 
 <table>
-  <auu>com.ucd.oursql.sql.table.type.number.SqlInt</auu>
-  <test>com.ucd.oursql.sql.table.type.number.SqlInt</test>
+  <yy>com.ucd.oursql.sql.table.type.date.SqlYear</yy>
   <id>com.ucd.oursql.sql.table.type.number.SqlInt</id>
   <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
 </table>

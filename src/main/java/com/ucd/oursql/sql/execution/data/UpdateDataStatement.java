@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.execution.data;
 
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.FromStatement;
 import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
@@ -22,7 +23,7 @@ public class UpdateDataStatement {
 
     public String updateDataImpl() throws Exception {
         String tablename=((Token)statement.get(1)).image;
-        Table table= FromStatement.from(tablename);
+        Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
         List changes= (List) statement.get(3);
         List conditions= (List) statement.get(5);
         Table subTable= WhereStatament.whereImpl(table,conditions);

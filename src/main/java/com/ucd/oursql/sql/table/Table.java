@@ -305,6 +305,8 @@ public class Table extends SqlConstantImpl {
             }
         }
         updatePrimaryKey();
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
         return true;
     }
 
@@ -340,7 +342,12 @@ public class Table extends SqlConstantImpl {
         for(int i=0;i<t.size();i++){
             CglibBean c=list.get(i);
             Comparable pk= (Comparable) c.getValue("primary_key");
+            System.out.println("===================");
+            this.printTable(null);
+            System.out.println("PK"+pk);
             tree.delete(pk);
+            this.printTable(null);
+            System.out.println("===================");
         }
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
         ds.saveAll();

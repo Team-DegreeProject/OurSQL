@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="pp">
-<tableName>pp</tableName>
+<table name="py">
+<tableName>py</tableName>
 <schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>
@@ -38,10 +38,10 @@
 <Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>test</columnName>
+<columnName>yy</columnName>
 <columnPosition>2</columnPosition>
 <DataTypeDescriptor>
-<typeId>113</typeId>
+<typeId>219</typeId>
 <precision>-1</precision>
 <scale>-1</scale>
 <isNullable>true</isNullable>
@@ -49,21 +49,6 @@
 </DataTypeDescriptor>
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
-<autoincValue>0</autoincValue>
-<Unique>false</Unique>
-</columnDescriptor>
-<columnDescriptor>
-<columnName>auu</columnName>
-<columnPosition>3</columnPosition>
-<DataTypeDescriptor>
-<typeId>113</typeId>
-<precision>-1</precision>
-<scale>-1</scale>
-<isNullable>true</isNullable>
-<isPrimaryKey>false</isPrimaryKey>
-</DataTypeDescriptor>
-<autoincStart>0</autoincStart>
-<autoincInc>true</autoincInc>
 <autoincValue>0</autoincValue>
 <Unique>false</Unique>
 </columnDescriptor>
