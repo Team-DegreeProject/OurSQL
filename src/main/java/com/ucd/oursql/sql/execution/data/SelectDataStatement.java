@@ -1,13 +1,11 @@
 package com.ucd.oursql.sql.execution.data;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 import com.ucd.oursql.sql.execution.other.*;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
-import javafx.scene.control.Tab;
-import jdk.nashorn.internal.objects.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.HashMap;

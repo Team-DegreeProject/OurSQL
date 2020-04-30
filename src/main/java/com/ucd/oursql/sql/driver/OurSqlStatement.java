@@ -1,5 +1,10 @@
 package com.ucd.oursql.sql.driver;
 
+import com.ucd.oursql.sql.parsing.ParseException;
+import com.ucd.oursql.sql.parsing.SqlParser;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.sql.*;
 
 public class OurSqlStatement implements Statement{
@@ -84,7 +89,14 @@ public class OurSqlStatement implements Statement{
 
 	@Override
 	public ResultSet executeQuery(String sql) throws SQLException {
-		// TODO Auto-generated method stub
+		InputStream target = new ByteArrayInputStream(sql.getBytes());
+		SqlParser parser = new SqlParser(target);
+		try {
+			String result=parser.parse();
+			System.out.println("result: "+result);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

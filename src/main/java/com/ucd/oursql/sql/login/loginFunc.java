@@ -30,7 +30,7 @@ public class loginFunc {
         return false;
     }
 
-    public boolean login(account accountProvided){
+    public static boolean login(account accountProvided){
         String idProvided = accountProvided.getUserId();
         String passwordProvided = accountProvided.getPassword();
 
