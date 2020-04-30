@@ -75,6 +75,12 @@ public class DMLTool {
 
 
     public static SqlType convertToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
+//        Iterator it=propertyMap.keySet().iterator();
+//        while(it.hasNext()){
+//            String s= (String) it.next();
+//            System.out.println(s+"==="+propertyMap.get(s));
+//        }
+//        System.out.println(att);
         Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
         value.setValue(str,propertyMap,columnDescriptorList);

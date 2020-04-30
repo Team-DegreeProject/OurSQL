@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.execution.data;
 
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.FromStatement;
 import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
@@ -46,7 +47,7 @@ public class DeleteDataStatement {
 
     public String deleteDataImpl() throws Exception {
         String tablename=((Token)statement.get(2)).image;
-        Table table= FromStatement.from(tablename);
+        Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
         List conditions= (List) statement.get(4);
         Table change=WhereStatament.whereImpl(table,conditions);
 //        Object first=conditions.get(0);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="py">
 <entity>
-<yy>'2020'</yy>
-<id>1</id>
-<primary_key>id:1</primary_key>
+<yy>'2222'</yy>
+<id>10</id>
+<primary_key>id:10</primary_key>
 </entity>
 <entity>
 <yy>'1998'</yy>

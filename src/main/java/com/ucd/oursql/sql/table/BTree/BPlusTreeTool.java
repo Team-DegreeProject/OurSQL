@@ -129,7 +129,6 @@ public class BPlusTreeTool {
 //                }
 //                System.out.println("-------------------------------------");
 //            }
-
             for(int j=0;j<attribute.size();j++){
                 System.out.print(c.getValue((String) attribute.get(j)));
                 str=str+c.getValue((String) attribute.get(j));
@@ -206,10 +205,12 @@ public class BPlusTreeTool {
 //                System.out.println(columnname+"-->"+o);
                 n.setValue(columnname,o);
             }
-            Object pk=c.getValue("primary key");
-            n.setValue("primary key",pk);
-            tree.insert(n, (Comparable) n.getValue("primary key"));
+            Object pk=c.getValue("primary_key");
+            n.setValue("primary_key",pk);
+            tree.insert(n, (Comparable) n.getValue("primary_key"));
         }
+//        System.out.println("=========bt++++++++");
+//        BPlusTreeTool.printBPlusTree(tree,property);
         return tree;
     }
 
