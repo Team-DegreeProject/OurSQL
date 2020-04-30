@@ -122,7 +122,7 @@ public class Table extends SqlConstantImpl {
 
         boolean ub=checkUniqueOperationInsert(attributes,values);
         if(ub==false){
-            System.out.println("Some attribute is unique");
+//            System.out.println("Some attribute is unique");
             return false;
         }
 //        System.out.println("5555555555");
@@ -471,7 +471,7 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public boolean checkUniqueOperationInsert(String[] attributes,List values){
+    public boolean checkUniqueOperationInsert(String[] attributes,List values) throws Exception {
         ColumnDescriptorList unique=td.getColumnDescriptorList().getUniqueList();
 //        String[] attributes=td.getColumnNamesArray();
         List list=tree.getDatas();
@@ -492,7 +492,10 @@ public class Table extends SqlConstantImpl {
                 for(int k=0;k<list.size();k++){
                     CglibBean bean = (CglibBean) list.get(k);
                     Comparable com= (Comparable) bean.getValue(name);
-                    if(com.compareTo(value)==0){
+                    Class c=Class.forName((String) propertyMap.get(name));
+                    SqlType st=(SqlType)c.newInstance();
+                    st.setValue(value.toString(),propertyMap,td.getColumnDescriptorList());
+                    if(com.compareTo(st)==0){
                         System.out.println("Some attribute is unique");
                         return false;
                     }
