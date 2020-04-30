@@ -377,18 +377,20 @@ public class Table extends SqlConstantImpl {
             ColumnDescriptor cd=columns.get(i);
             DataTypeDescriptor dtd=cd.getType();
             System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
-            propertyMap.put(cd.getColumnName(), Class.forName(sqlMap.get(dtd.getTypeId())));
+            propertyMap.put(cd.getColumnName(), sqlMap.get(dtd.getTypeId()));
         }
         for(int i=0;i<data.size();i++){
             CglibBean c=data.get(i);
             for(int j=0;j<columns.size();j++){
-                c.setValue(columns.get(i).getColumnName(),null);
+                c.setValue(columns.elementAt(j).getColumnName(),null);
             }
             newTree.insert(c,(Comparable)c.getValue("primary_key"));
         }
         this.tree=newTree;
         td.updatePriamryKey();
         updatePrimaryKey();
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
     }
 
 
@@ -405,16 +407,18 @@ public class Table extends SqlConstantImpl {
 //            ColumnDescriptor column=new ColumnDescriptor(columnName,position,dataTypeDescriptor);
             list.dropColumn(columnName);
             list.add(column);
-            propertyMap.replace(columnName,Class.forName(sqlMap.get(dataTypeDescriptor.getTypeId())));
+            propertyMap.replace(columnName,sqlMap.get(dataTypeDescriptor.getTypeId()));
             System.out.println(list.getColumnDescriptor(position).getType().toString());
         }
         td.updatePriamryKey();
         updatePrimaryKey();
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
     }
 
 
 
-    public void dropColumns(List<List> tokens){
+    public void dropColumns(List<List> tokens) throws ClassNotFoundException {
         ColumnDescriptorList list=td.getColumnDescriptorList();
         ColumnDescriptorList primaryKeys=td.getPrimaryKey();
         for(int i=0;i<tokens.size();i++){
@@ -424,19 +428,21 @@ public class Table extends SqlConstantImpl {
         }
         BPlusTree newTree=new BPlusTree();
         List<CglibBean> data=tree.getDatas();
-        String[] columns=td.getColumnNamesArray();
+        List<String> columns=td.getColumnNamesList();
         for(int i=0;i<data.size();i++){
             CglibBean c=data.get(i);
-            CglibBean nc=new CglibBean();
-            for(int j=0;j<columns.length;j++){
-                Object o=c.getValue(columns[j]);
-                nc.setValue(columns[j],o);
+            CglibBean nc=new CglibBean(DMLTool.convertPropertyMap(propertyMap));
+            for(int j=0;j<columns.size();j++){
+                Object o=c.getValue(columns.get(j));
+                nc.setValue(columns.get(j),o);
             }
             newTree.insert(nc,(Comparable)nc.getValue("primary_key"));
         }
         this.tree=newTree;
         td.updatePriamryKey();
         updatePrimaryKey();
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
     }
 
 
