@@ -45,14 +45,14 @@ public class OurSqlDriver implements Driver{
 			return null;
 		}
 		account a=new account((String)arg1.get("user"),(String)arg1.get("password"));
-		if(loginFunc.login(a)){
+//		if(loginFunc.login(a)){
 			Connection connection = null;
 			connection = new OurSqlConnection();
 			return connection;
-		}else{
-			System.out.println("do not exit user");
-			return null;
-		}
+//		}else{
+//			System.out.println("do not exit user");
+//			return null;
+//		}
 
 
 	}

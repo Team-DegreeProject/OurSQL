@@ -1,5 +1,9 @@
 package com.ucd.oursql.sql.driver;
 
+import com.ucd.oursql.sql.parsing.ParseException;
+import com.ucd.oursql.sql.parsing.SqlParser;
+
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -8,13 +12,25 @@ import java.sql.*;
 import java.util.Calendar;
 
 public class OurSqlPreparedStatement implements PreparedStatement {
+    private String sql;
+    public OurSqlPreparedStatement(String sql){
+        this.sql=sql;
+    }
     @Override
     public ResultSet executeQuery() throws SQLException {
-        return null;
+        throw new SQLFeatureNotSupportedException();
     }
 
     @Override
     public int executeUpdate() throws SQLException {
+        InputStream target = new ByteArrayInputStream(sql.getBytes());
+        SqlParser parser = new SqlParser(target);
+        try {
+            String result=parser.parse();
+            System.out.println("result: "+result);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
@@ -62,10 +78,23 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     public void setBigDecimal(int i, BigDecimal bigDecimal) throws SQLException {
 
     }
-
+    public int findIndex(int i,String s){
+        int index=-1;
+        if(sql.indexOf("?")!=0){
+            index=sql.indexOf("?");
+            for(int j=2; j<=i;j++){
+                index=sql.indexOf("?",index);
+            }
+        }
+        StringBuilder sb=new StringBuilder(sql);
+        sb.replace(index,index+1,s);
+        sql=sb.toString();
+        System.out.println(sql);
+        return index;
+    }
     @Override
     public void setString(int i, String s) throws SQLException {
-
+        findIndex(i,s);
     }
 
     @Override

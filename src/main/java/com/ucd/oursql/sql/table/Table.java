@@ -1,6 +1,5 @@
 package com.ucd.oursql.sql.table;
 
-import com.sun.org.apache.xerces.internal.xs.StringList;
 import com.ucd.oursql.sql.execution.DMLTool;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;

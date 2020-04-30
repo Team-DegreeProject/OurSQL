@@ -11,7 +11,7 @@ public class OurSqlConnection implements Connection{
 	OurSqlPreparedStatement osps=null;
 	public OurSqlConnection(){
 		System.out.println("stream ok");
-		bridge=new OurSqlBridge();
+//		bridge=new OurSqlBridge();
 	}
 
 	@Override
@@ -213,7 +213,7 @@ public class OurSqlConnection implements Connection{
 
 	@Override
 	public PreparedStatement prepareStatement(String arg0) throws SQLException {
-		osps=new OurSqlPreparedStatement();
+		osps=new OurSqlPreparedStatement(arg0);
 		return osps;
 	}
 
