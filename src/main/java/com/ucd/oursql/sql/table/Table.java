@@ -441,14 +441,14 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public List getMaxValues(ColumnDescriptorList auto) throws IllegalAccessException, InstantiationException {
+    public List getMaxValues(ColumnDescriptorList auto) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         List maxValues=new ArrayList();
         List<CglibBean> list=tree.getDatas();
 //        System.out.println("==============size:"+list.size());
         for(int i=0;i<auto.size();i++){
             boolean first=true;
             String name=auto.get(i).getColumnName();
-            Class cl= (Class) propertyMap.get(name);
+            Class cl= Class.forName((String) propertyMap.get(name));
             SqlType max=(SqlType)cl.newInstance();
             for(int j=0;j<list.size();j++){
                 CglibBean c=list.get(j);
@@ -473,6 +473,8 @@ public class Table extends SqlConstantImpl {
 
     public boolean checkUniqueOperationInsert(String[] attributes,List values) throws Exception {
         ColumnDescriptorList unique=td.getColumnDescriptorList().getUniqueList();
+        System.out.println("=======unique===========");
+        unique.printColumnDescriptorList();
 //        String[] attributes=td.getColumnNamesArray();
         List list=tree.getDatas();
         for(int i=0;i<unique.size();i++){

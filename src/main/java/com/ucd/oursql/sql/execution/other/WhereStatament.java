@@ -177,6 +177,7 @@ public class WhereStatament {
 
     public static Table whereImpl(Table table,List conditions) throws Exception {
         if(conditions==null){
+//            table.printTable(null);
             System.out.println("return table");
             return table;
         }

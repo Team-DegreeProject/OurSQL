@@ -32,22 +32,23 @@ public class SelectDataStatement {
         Table table= dealWithFrom();
 //        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
 //        table.printTable(null);
-//        System.out.println("====from===");
-//        table.printTable(null);
+
         List<List<Token>> whereConsition=getWhhereToken();
         table=WhereStatament.whereImpl(table,whereConsition);
+
 //        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
 //        table.printTable(null);
 
         List distinctNames=checkDistinct();
 //        table.printTable(null);
         Table show=DistinctStatement.distinctImpl(table,distinctNames);
-//        table.printTable(null);
+//        System.out.println("====from===");
 //        show.printTable(null);
 
-//        show.printTable(null);
         List<List<Token>> columns= getColumns();
         show=show.selectSomeColumns(tablenames,columns);
+//        System.out.println("====from===");
+//        show.printTable(null);
 //        show.printTable(null);
 
 
