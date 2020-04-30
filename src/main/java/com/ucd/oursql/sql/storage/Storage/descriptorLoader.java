@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class descriptorLoader {
 
@@ -29,10 +30,11 @@ public class descriptorLoader {
             Element rootElement = document1.getRootElement();
             List<Element> elementList = rootElement.getChildren();
             for(Element eachElement : elementList){
-                propertyMap.put(Integer.valueOf(eachElement.getName().substring(3)),eachElement.getValue());
+                propertyMap.put(eachElement.getName(),eachElement.getText());
             }
         }catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
+            return null;
         }
         return propertyMap;
     }
@@ -42,36 +44,40 @@ public class descriptorLoader {
         SAXBuilder saxBuilder = new SAXBuilder();
         TableDescriptor tableDescriptor = null;
         HashMap propertyMap = null;
+        String filepath = "data/" + tn + "/" + tn + "Descriptor.xml";
+        File localfile = new File(filepath);
         try {
-            // ◊œ»∂¡»°propertyMap
+            //È¶ñÂÖàËØªÂèñpropertyMap
             propertyMap = loadPropertyFromFile(tn);
 
-            String filepath = "data/" + tn + "/" + tn + "Descriptor.xml";
-            Document document1 = saxBuilder.build(new File(filepath));
-            Element rootElement = document1.getRootElement();
-            List<Element> elementList = rootElement.getChildren();
 
-            //œ»µ√µΩ◊ÓÕ‚≤„µƒΩ⁄µ„√«
+
+            Document document1 = saxBuilder.build(localfile);
+            Element rootElement = document1.getRootElement();
+//            List<Element> elementList = rootElement.getChildren();
+
+            //ÂÖàÂæóÂà∞ÊúÄÂ§ñÂ±ÇÁöÑËäÇÁÇπ‰ª¨
             String tableName = tn;
-            int scheme = Integer.parseInt(rootElement.getChildText("schema"));
-            char lockGranularity = rootElement.getChildText("lockGranularity").toCharArray()[0];
-            //¥¥Ω®“ª∏ˆtabledescriptor
+            int scheme = Integer.parseInt(rootElement.getChild("schema").getText());
+            char lockGranularity = rootElement.getChild("lockGranularity").getText().toCharArray()[0];
+            //ÂàõÂª∫‰∏Ä‰∏™tabledescriptor
             ColumnDescriptorList columnDescriptorList = new ColumnDescriptorList();
             ColumnDescriptorList primaryKeyList = new ColumnDescriptorList();
             tableDescriptor = new TableDescriptor(tableName,lockGranularity,scheme,columnDescriptorList,primaryKeyList);
             tableDescriptor.setTableName(tableName);
-            //ªÒµ√À˘”–µƒcolumnDescriptor
+            //Ëé∑ÂæóÊâÄÊúâÁöÑcolumnDescriptor
             Element columnDescriptorListElement = rootElement.getChild("columnDescriptorList");
 
             List<Element> columnDescriptors = columnDescriptorListElement.getChildren("columnDescriptor");
             for (Element eachColunm : columnDescriptors) {
-                //≥˝¡ÀdataType»´≤øµƒ≤ø∑÷
+                //Èô§‰∫ÜdataTypeÂÖ®ÈÉ®ÁöÑÈÉ®ÂàÜ
                 String columnName = eachColunm.getChildText("columnName");
                 int columnPosition = Integer.valueOf(eachColunm.getChildText("columnPosition"));
                 long autoincStart = Long.valueOf(eachColunm.getChildText("autoincStart"));
                 boolean autoincInc = Boolean.valueOf(eachColunm.getChildText("autoincInc"));
                 long autoincValue = Long.valueOf(eachColunm.getChildText("autoincValue"));
                 String comment = eachColunm.getChildText("comment");
+                boolean unique = Boolean.parseBoolean(eachColunm.getChildText("Unique"));
 
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //                SqlType columnDefaultValue = DMLTool.convertToValue(columnName,eachColunm.getChildText("columnDefaultValue"),propertyMap);
@@ -81,11 +87,12 @@ public class descriptorLoader {
                 int typeId = Integer.valueOf(dataTypeDescriptor.getChildText("typeId"));
                 int precision = Integer.valueOf(dataTypeDescriptor.getChildText("precision"));
                 int scale = Integer.valueOf(dataTypeDescriptor.getChildText("scale"));
-                boolean isNullable = Boolean.getBoolean(dataTypeDescriptor.getChildText("isNullable"));
-                boolean primaryKey = Boolean.getBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));;
+                boolean isNullable = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isNullable"));
+                boolean primaryKey = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));
                 DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,isNullable,primaryKey);
-
-                ColumnDescriptor columnDescriptor = new ColumnDescriptor(columnName,columnPosition,dataTypeDescriptor1,tableDescriptor,autoincStart,autoincInc);
+//                System.out.println("THE VALUE OF DATATYPE is:"+typeId);
+//                System.out.println("THE VALUE OF PRIMARYKEY is:"+primaryKey);
+                ColumnDescriptor columnDescriptor = new ColumnDescriptor(tableDescriptor,columnName,columnPosition,dataTypeDescriptor1,autoincStart,autoincInc,autoincValue,null,comment,unique);
                 columnDescriptorList.add(columnDescriptor);
 
 
@@ -98,26 +105,29 @@ public class descriptorLoader {
                 primaryKeyList.add(primaryKeyDescriptor);
             }
 
-            
+
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            return null;
         }
+
         return tableDescriptor;
     }
 
     public Table loadFromFile(String tableName){
         try{
-            TreeLoader tl = new TreeLoader();
-            BPlusTree fileTree = tl.loadFromFile(tableName);
+
 
             TableDescriptor td = loadDescriptorFromFile(tableName);
             HashMap propertyMap = loadPropertyFromFile(tableName);
-
-            Table resultTable = new Table(td,fileTree);
+            TreeLoader tl = new TreeLoader();
+            BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList());
+            Table resultTable = new Table(td,fileTree,propertyMap);
             return resultTable;
         }
         catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
+//            return null;
         }
         return null;
     }

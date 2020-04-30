@@ -18,6 +18,7 @@ public class ColumnDescriptor{
     private boolean unique=false;
 
 
+
     public ColumnDescriptor(TableDescriptor table,String columnName,int columnPosition,DataTypeDescriptor columnType,long autoincStart,boolean autoincInc,long autoincValue,SqlType columnDefaultValue,String comment,boolean unique){
         this.table=table;
         this.columnName=columnName;

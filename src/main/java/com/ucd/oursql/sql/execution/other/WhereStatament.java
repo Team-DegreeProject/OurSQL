@@ -58,7 +58,7 @@ public class WhereStatament {
                     CglibBean temp= (CglibBean) btree.get(i);
                     Comparable c= (Comparable) temp.getValue(attribute);
                     if(c.compareTo(compare)==0){
-                        returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
                     }
                 }
                 break;
@@ -68,7 +68,7 @@ public class WhereStatament {
                     CglibBean temp= (CglibBean) btree.get(i);
                     Comparable c= (Comparable) temp.getValue(attribute);
                     if(c.compareTo(compare)<0){
-                        returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
                     }
                 }
                 break;
@@ -77,7 +77,7 @@ public class WhereStatament {
                     CglibBean temp= (CglibBean) btree.get(i);
                     Comparable c= (Comparable) temp.getValue(attribute);
                     if(c.compareTo(compare)>0){
-                        returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
                     }
                 }
                 break;
@@ -86,7 +86,7 @@ public class WhereStatament {
                      CglibBean temp= (CglibBean) btree.get(i);
                      Comparable c= (Comparable) temp.getValue(attribute);
                      if(c.compareTo(compare)>=0){
-                         returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                         returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
                      }
                  }
                  break;
@@ -95,7 +95,7 @@ public class WhereStatament {
                     CglibBean temp= (CglibBean) btree.get(i);
                     Comparable c= (Comparable) temp.getValue(attribute);
                     if(c.compareTo(compare)<=0){
-                        returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
                     }
                 }
                 break;
@@ -104,7 +104,7 @@ public class WhereStatament {
                     CglibBean temp= (CglibBean) btree.get(i);
                     Comparable c= (Comparable) temp.getValue(attribute);
                     if(c.compareTo(compare)!= 0){
-                        returnTree.insert(temp, (Comparable) temp.getValue("primary key"));
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
                     }
                 }
                 break;

@@ -1,7 +1,9 @@
 package com.ucd.oursql.sql.table;
 
+import com.sun.org.apache.xerces.internal.xs.StringList;
 import com.ucd.oursql.sql.execution.DMLTool;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.BPlusTreeTool;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
@@ -13,6 +15,7 @@ import com.ucd.oursql.sql.table.type.SqlType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.ucd.oursql.sql.execution.DMLTool.analyseOneRow;
@@ -26,8 +29,13 @@ public class Table extends SqlConstantImpl {
 
     public Table(){}
 
+    public Table(TableDescriptor td, BPlusTree tree, HashMap propertyMap) {
+        this.td = td;
+        this.tree = tree;
+        this.propertyMap = propertyMap;
+    }
 
-    public Table(TableDescriptor td,BPlusTree b) throws ClassNotFoundException {
+    public Table(TableDescriptor td, BPlusTree b) throws ClassNotFoundException {
         this.td=td;
         tree = b;
     }
@@ -73,13 +81,16 @@ public class Table extends SqlConstantImpl {
 
     public HashMap createTable(TableDescriptor table) throws ClassNotFoundException {
         ColumnDescriptorList list=table.getColumnDescriptorList();
+//        System.out.println(list.size()+"================");
         propertyMap=new HashMap();
         for(int i=0;i<list.size();i++){
             ColumnDescriptor cd=list.getColumnDescriptor(i);
             DataTypeDescriptor dtd=cd.getType();
             System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
-            propertyMap.put(cd.getColumnName(), Class.forName(sqlMap.get(dtd.getTypeId())));
+            propertyMap.put(cd.getColumnName(),sqlMap.get(dtd.getTypeId()));
         }
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
         return propertyMap;
     }
 
@@ -90,8 +101,10 @@ public class Table extends SqlConstantImpl {
             ColumnDescriptor cd=list.elementAt(i);
             DataTypeDescriptor dtd=cd.getType();
             System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
-            propertyMap.put(cd.getColumnName(), Class.forName(sqlMap.get(dtd.getTypeId())));
+            propertyMap.put(cd.getColumnName(), sqlMap.get(dtd.getTypeId()));
         }
+//        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+//        ds.saveAll();
         return propertyMap;
     }
 
@@ -99,6 +112,7 @@ public class Table extends SqlConstantImpl {
 
 //已知所有值以固定顺序排列好,通常用为插入系统表格
     public boolean insertARow(List values) throws Exception {
+//        System.out.println("insertATable");
         String[] attributes=td.getColumnNamesArray();
         if(attributes.length!=values.size()){
             System.out.println("The number of attributes is not equal to the number of values.");
@@ -106,17 +120,30 @@ public class Table extends SqlConstantImpl {
         }
 
 
-        boolean ub=checkUniqueOperationInsert(values);
+        boolean ub=checkUniqueOperationInsert(attributes,values);
         if(ub==false){
+            System.out.println("Some attribute is unique");
             return false;
         }
-
-        CglibBean bean = new CglibBean(propertyMap);
+//        System.out.println("5555555555");
+//        Iterator it=propertyMap.keySet().iterator();
+//        while(it.hasNext()){
+//            String s= (String) it.next();
+//            System.out.println(s+":"+propertyMap.get(s));
+//        }
+        CglibBean bean = new CglibBean(DMLTool.convertPropertyMap(propertyMap));
         for(int i=0;i<attributes.length;i++){
-            System.out.println();
-            bean.setValue(attributes[i], values.get(i));
+//            System.out.println(attributes[i]+"--->"+values.get(i));
+            bean.setValue(attributes[i], DMLTool.convertToValue(attributes[i],values.get(i).toString(),propertyMap,td.getColumnDescriptorList()));
+//            System.out.println(bean.getValue(attributes[i]));
         }
-        tree.insert(bean, (Comparable) bean.getValue("primary key"));//双primarykey
+        tree.insert(bean, (Comparable) bean.getValue("primary_key"));//双primarykey
+
+//        System.out.println("11111111111111");
+//        this.printTable(null);
+
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
         return true;
     }
 
@@ -127,16 +154,23 @@ public class Table extends SqlConstantImpl {
            List<List<Token>> l= (List<List<Token>>) list.get(i);
            insertARow(attributes,l);
        }
+        System.out.println("============insert rows================");
+       this.printTable(null);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
     }
 
 
 
     public boolean insertARow(List<Token> attributes,List<List<Token>> values) throws Exception {
-
+//        for(int i=0;i<attributes.size();i++){
+//            System.out.print(attributes.get(i).image+" ");
+//        }
         if(attributes.size()!=values.size()){
             System.out.println("The number of attributes is not equal to the number of values.");
             return false;
         }
+        System.out.println("checkPK");
 
         boolean checkPk=td.getPrimaryKey().checkHavePrimaryKey(attributes);
         if(checkPk==false){
@@ -145,7 +179,7 @@ public class Table extends SqlConstantImpl {
         }
 
         boolean checkNull=td.getColumnDescriptorList().checkNotNull(attributes,values);
-        System.out.println(td.getColumnDescriptorList().size());
+//        td.printTableDescriptor();
         if(checkNull==false){
             System.out.println("Some attribute is not null.");
             return false;
@@ -171,17 +205,18 @@ public class Table extends SqlConstantImpl {
 
         for(int j=0;j<number;j++){
             PrimaryKey pk=new PrimaryKey();
-            CglibBean bean = new CglibBean(propertyMap);
+            CglibBean bean = new CglibBean(DMLTool.convertPropertyMap(propertyMap));
 
             //处理输入
             for(int i=0;i<attributes.size();i++){
                 String name=attributes.get(i).image;
                 String v=values.get(i).get(j).image;
                 SqlType value=DMLTool.convertToValue(name,v,propertyMap,columnDescriptorList);
+//                System.out.println("value:"+value.getClass().getName());
                 ColumnDescriptor cd=td.getPrimaryKey().getColumnDescriptor(name);
                 if(cd!=null){
                     pk.addPrimaryKey(name,value);
-                    System.out.println("primary key: "+value);
+                    System.out.println("primary_key: "+value);
                 }
                 bean.setValue(name, value);
                 System.out.println(name+"--->>"+value);
@@ -195,8 +230,8 @@ public class Table extends SqlConstantImpl {
             }
 
 
-            bean.setValue("primary key",pk);
-            tree.insert(bean, (Comparable) bean.getValue("primary key"));//双primarykey
+            bean.setValue("primary_key",pk);
+            tree.insert(bean, (SqlType) bean.getValue("primary_key"));//双primarykey
         }
         return true;
     }
@@ -221,6 +256,7 @@ public class Table extends SqlConstantImpl {
 
 
     public boolean updateTable(String[] attributes,List values,Table t){
+//        System.out.println(values.size()+"  ==  "+t.getTree().getDataNumber());
         if(t.getTree().getDataNumber()==0 ){
             System.out.println("No update");
             return false;
@@ -230,7 +266,7 @@ public class Table extends SqlConstantImpl {
             return false;
         }
 
-        boolean ub=checkUniqueOperationUpdate(values);
+        boolean ub=checkUniqueOperationUpdate(attributes,values);
         if(ub==false){
             return false;
         }
@@ -243,6 +279,8 @@ public class Table extends SqlConstantImpl {
             }
         }
         updatePrimaryKey();
+        descriptorSaver ds=new descriptorSaver(this.td,this.propertyMap,this.tree);
+        ds.saveAll();
         return true;
     }
 
@@ -286,21 +324,27 @@ public class Table extends SqlConstantImpl {
                 Comparable com= (Comparable) c.getValue( name);
                 pk.addPrimaryKey(name,com);
             }
-            c.setValue("primary key",pk);
+            c.setValue("primary_key",pk);
         }
         return true;
     }
 
 
 
-    public void deleteRows(Table t){
-        this.printTable(null);
+    public boolean deleteRows(Table t){
+        if(t.getTree().getDataNumber()==0){
+            return false;
+        }
+//        this.printTable(null);
         List<CglibBean> list=t.getTree().getDatas();
         for(int i=0;i<t.size();i++){
             CglibBean c=list.get(i);
-            Comparable pk= (Comparable) c.getValue("primary key");
+            Comparable pk= (Comparable) c.getValue("primary_key");
             tree.delete(pk);
         }
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        ds.saveAll();
+        return true;
     }
 
 
@@ -334,7 +378,7 @@ public class Table extends SqlConstantImpl {
             for(int j=0;j<columns.size();j++){
                 c.setValue(columns.get(i).getColumnName(),null);
             }
-            newTree.insert(c,(Comparable)c.getValue("primary key"));
+            newTree.insert(c,(Comparable)c.getValue("primary_key"));
         }
         this.tree=newTree;
         td.updatePriamryKey();
@@ -382,7 +426,7 @@ public class Table extends SqlConstantImpl {
                 Object o=c.getValue(columns[j]);
                 nc.setValue(columns[j],o);
             }
-            newTree.insert(nc,(Comparable)nc.getValue("primary key"));
+            newTree.insert(nc,(Comparable)nc.getValue("primary_key"));
         }
         this.tree=newTree;
         td.updatePriamryKey();
@@ -427,9 +471,9 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public boolean checkUniqueOperationInsert(List values){
+    public boolean checkUniqueOperationInsert(String[] attributes,List values){
         ColumnDescriptorList unique=td.getColumnDescriptorList().getUniqueList();
-        String[] attributes=td.getColumnNamesArray();
+//        String[] attributes=td.getColumnNamesArray();
         List list=tree.getDatas();
         for(int i=0;i<unique.size();i++){
             String name=unique.elementAt(i).getColumnName();
@@ -462,8 +506,9 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public boolean checkUniqueOperationUpdate(List values){
-        String[] attributes=td.getColumnNamesArray();
+    public boolean checkUniqueOperationUpdate(String[] attributes,List values){
+//        System.out.println(att);
+//        List<String> attributes=td.getColumnNamesList();
         List list=tree.getDatas();
         for(int i=0;i<attributes.length;i++){
             boolean uq=td.getColumnDescriptorList().getColumnDescriptor(attributes[i]).isUnique();
@@ -527,11 +572,20 @@ public class Table extends SqlConstantImpl {
 //        if(newTD==td){
 //            return this;
 //        }
+
         Table table=new Table();
         table.setTd(newTD);
 //        System.out.println("NEWTABLE");
         DMLTool.changeAs(table.getTableDescriptor(),tokens);
 //        System.out.println("NEWCOLUMN");
+//        System.out.println("========some column=========");
+//        td.printTableDescriptor();
+////        Iterator it=propertyMap.keySet().iterator();
+////        while(it.hasNext()){
+////            String i= (String) it.next();
+////            System.out.println(i+"==="+propertyMap.get(i));
+////        }
+//        table.getTd().printTableDescriptor();
         HashMap property=table.createTable();
 //        Iterator it=property.keySet().iterator();
 //        while(it.hasNext()){

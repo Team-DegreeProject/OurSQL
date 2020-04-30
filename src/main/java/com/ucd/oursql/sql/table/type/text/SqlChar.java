@@ -1,6 +1,9 @@
 package com.ucd.oursql.sql.table.type.text;
 
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
+
+import java.util.HashMap;
 
 public class SqlChar implements SqlType {
     private String string="";
@@ -96,7 +99,7 @@ public class SqlChar implements SqlType {
     }
 
     @Override
-    public void setValue(String o) {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl) {
         setString(o);
     }
 

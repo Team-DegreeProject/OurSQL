@@ -21,7 +21,7 @@ public class DistinctStatement {
         }
         HashMap property=new HashMap();
         property.put("distinct",Class.forName(sqlMap.get(DISTINCT)));
-        property.put("primary key",Class.forName(sqlMap.get(PRIMARY_KEY)));
+        property.put("primary_key",Class.forName(sqlMap.get(PRIMARY_KEY)));
         List datas=t.getTree().getDatas();
         BPlusTree tree=new BPlusTree();
         for(int i=0;i<datas.size();i++){
@@ -33,7 +33,7 @@ public class DistinctStatement {
                 dc.addDistinct(names.get(j),com);
             }
             nc.setValue("distinct",dc);
-            nc.setValue("primary key",c.getValue("primary key"));
+            nc.setValue("primary_key",c.getValue("primary_key"));
 //            dc.printDistinct();
             tree.insert(nc,dc);
         }
@@ -45,7 +45,7 @@ public class DistinctStatement {
 //        t.printTable(null);
         for(int i=0;i<sd.size();i++){
             CglibBean c= (CglibBean) sd.get(i);
-            PrimaryKey pk= (PrimaryKey) c.getValue("primary key");
+            PrimaryKey pk= (PrimaryKey) c.getValue("primary_key");
             CglibBean co= (CglibBean) ot.select(pk);
 //            System.out.println(pk);
 //            pk.printPK();

@@ -190,14 +190,14 @@ public class BPlusTreeTool {
         return returnlist;
     }
 
-    public static BPlusTree getSubAttributes(ColumnDescriptorList co,ColumnDescriptorList cn,BPlusTree previous, HashMap property){
+    public static BPlusTree getSubAttributes(ColumnDescriptorList co,ColumnDescriptorList cn,BPlusTree previous, HashMap property) throws ClassNotFoundException {
         BPlusTree tree=new BPlusTree();
 //        HashMap property= DMLTool.selectNewPropertyMap(propertyMap,tokens);
         List<CglibBean> data=previous.getDatas();
         List names=DMLTool.getColumnNamesFromPropertyMap(property);
         for(int i=0;i<data.size();i++){
             CglibBean c=data.get(i);
-            CglibBean n=new CglibBean(property);
+            CglibBean n=new CglibBean(DMLTool.convertPropertyMap(property));
             for(int j=0;j<names.size();j++){
                 String columnname= (String) names.get(j);
                 int p1=cn.getColumnDescriptor(columnname).getPosition();

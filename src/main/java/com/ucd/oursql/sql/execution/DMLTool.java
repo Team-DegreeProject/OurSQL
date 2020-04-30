@@ -75,9 +75,26 @@ public class DMLTool {
 
 
     public static SqlType convertToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
-        Class c= (Class) propertyMap.get(att);
+        Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
-        value.setValue(str);
+        value.setValue(str,propertyMap,columnDescriptorList);
+        ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
+        DataTypeDescriptor dataTypeDescriptor=cd.getType();
+        if(dataTypeDescriptor.getScale()!=-1){
+            value.setScale(dataTypeDescriptor.getScale());
+        }
+        if(dataTypeDescriptor.getPrecision()!=-1){
+            value.setPrecision(dataTypeDescriptor.getPrecision());
+        }
+        value.updateValue();
+//        System.out.println("value:"+value.getClass().getName());
+        return value;
+    }
+
+    public static SqlType forXMLConvertStringToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
+        Class c= Class.forName((String) propertyMap.get(att));
+        SqlType value=(SqlType)c.newInstance();
+        value.setValue(str,propertyMap,columnDescriptorList);
         ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
         DataTypeDescriptor dataTypeDescriptor=cd.getType();
         if(dataTypeDescriptor.getScale()!=-1){
@@ -90,7 +107,35 @@ public class DMLTool {
         return value;
     }
 
+    public static  HashMap convertPropertyMap(HashMap propertyMap) throws ClassNotFoundException {
+        HashMap r=new HashMap();
+        Iterator it=propertyMap.keySet().iterator();
+        while(it.hasNext()){
+            String s= (String) it.next();
+            System.out.println(s+"    ===    "+propertyMap.get(s));
+            Class c=Class.forName((String) propertyMap.get(s));
+            r.put(s,c);
+        }
+//        System.out.println("44444444444444444");
+//        Iterator i=r.keySet().iterator();
+//        while(i.hasNext()){
+//            String s= (String) i.next();
+//            System.out.println(s+":"+r.get(s));
+//        }
+        return r;
+    }
 
+//    public static  HashMap convertPropertyMapBack(HashMap propertyMap){
+//        HashMap r=new HashMap();
+//        Iterator it=propertyMap.keySet().iterator();
+//        while(it.hasNext()){
+//            String s=(String)it.next();
+//            Class c= (Class) propertyMap.get(s);
+//            String v=c.getName();
+//            r.put(s,v);
+//        }
+//        return r;
+//    }
 
 
     public static ColumnDescriptor analyseOneRow(int k, List tokens,int position){
@@ -160,8 +205,8 @@ public class DMLTool {
             Object o=propertyMap.get(name);
             newProperty.put(name,o);
         }
-        Object pk=propertyMap.get("primary key");
-        newProperty.put("primary key",pk);
+        Object pk=propertyMap.get("primary_key");
+        newProperty.put("primary_key",pk);
         return newProperty;
     }
 
@@ -173,7 +218,7 @@ public class DMLTool {
             return tt;
         }
         ColumnDescriptorList list=td.getColumnDescriptorList();
-        ColumnDescriptor pk=list.getColumnDescriptor("primary key");
+        ColumnDescriptor pk=list.getColumnDescriptor("primary_key");
         ColumnDescriptorList newList=new ColumnDescriptorList();
         newList.add(pk);
         for(int i=0;i<list.size();i++){

@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.login;
 
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import net.sf.cglib.reflect.FastClass;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -19,6 +20,7 @@ public class loginFunc {
             for (Element el : list) {
                 String id = el.getChildText("id");
                 if(id.equals(accountid)){
+                    ExecuteStatement.setUser(accountid);
                     return true;
                 }
                 System.out.println("There is no such account!");

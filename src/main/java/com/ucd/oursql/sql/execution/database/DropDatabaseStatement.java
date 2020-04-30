@@ -3,7 +3,9 @@ package com.ucd.oursql.sql.execution.database;
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.TreeSaver;
 import com.ucd.oursql.sql.table.Table;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import java.util.List;
 
@@ -21,8 +23,13 @@ public class DropDatabaseStatement {
             return "Drop Database Wrong!";
         }
         String databaseName=((Token)statement.get(2)).image;
-        Table delete=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"databasename",EQ,databaseName);
-        ExecuteStatement.uad.getUserAccessedDatabase().deleteRows(delete);
+        Table delete=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"databasename",EQ,new SqlVarChar(databaseName));
+        boolean b=ExecuteStatement.uad.getUserAccessedDatabase().deleteRows(delete);
+        if(b){
+            TreeSaver ts=new TreeSaver();
+            ts.deleteTable(databaseName);
+        }
+
         String output=ExecuteStatement.uad.printUserAccessedDatabase();
         return output;
     }

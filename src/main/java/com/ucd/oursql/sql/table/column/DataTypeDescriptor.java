@@ -15,7 +15,7 @@ public class DataTypeDescriptor implements SqlConstant {
     public DataTypeDescriptor(int typeId, boolean isNullable,boolean primaryKey) {
         this.typeId = typeId;
         this.isNullable = isNullable;
-        this.primaryKey=true;
+        this.primaryKey=primaryKey;
     }
 
     public DataTypeDescriptor(int typeId, int precision,int scale,boolean isNullable,boolean primaryKey) {

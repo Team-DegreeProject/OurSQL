@@ -120,7 +120,7 @@ public class OrderByStatement {
         List<CglibBean> list=new ArrayList<>();
         for(int i=0;i<data.size();i++){
             CglibBean c= (CglibBean) data.get(i);
-            Comparable pk= (Comparable) c.getValue("primary key");
+            Comparable pk= (Comparable) c.getValue("primary_key");
             CglibBean c2= (CglibBean) tree.select(pk);
             if(c2!=null){
                 list.add(c2);

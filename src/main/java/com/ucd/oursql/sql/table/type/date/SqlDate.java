@@ -2,9 +2,11 @@ package com.ucd.oursql.sql.table.type.date;
 
 
 import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
 
 import java.sql.Date;
+import java.util.HashMap;
 
 //yyyy-[m]m-[d]d
 public class SqlDate implements SqlType {
@@ -18,7 +20,7 @@ public class SqlDate implements SqlType {
     }
 
     @Override
-    public void setValue(String o) {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl){
         o=DMLTool.removeQutationMark(o);
         this.date=Date.valueOf(o);
     }

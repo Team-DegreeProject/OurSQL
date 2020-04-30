@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="testTable">
-<tableName>testTable</tableName>
+<table name="tt">
+<tableName>tt</tableName>
 <schema>0</schema>
-<lockGranularity>a</lockGranularity>
+<lockGranularity>R</lockGranularity>
 <primaryKey>
-<primaryColumnName>Column1</primaryColumnName>
-<primaryColumnName>Column2</primaryColumnName>
+<primaryColumnName>tablename</primaryColumnName>
 </primaryKey>
 <columnDescriptorList>
 <columnDescriptor>
-<columnName>Column1</columnName>
+<columnName>primary_key</columnName>
 <columnPosition>0</columnPosition>
 <DataTypeDescriptor>
-<typeId>0</typeId>
+<typeId>322</typeId>
 <precision>-1</precision>
 <scale>-1</scale>
 <isNullable>false</isNullable>
-<isPrimaryKey>true</isPrimaryKey>
+<isPrimaryKey>false</isPrimaryKey>
 </DataTypeDescriptor>
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
 <autoincValue>0</autoincValue>
-<comment>null</comment>
+<Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>Column2</columnName>
+<columnName>tablename</columnName>
 <columnPosition>1</columnPosition>
 <DataTypeDescriptor>
-<typeId>0</typeId>
+<typeId>210</typeId>
 <precision>-1</precision>
 <scale>-1</scale>
 <isNullable>false</isNullable>
@@ -36,7 +35,7 @@
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
 <autoincValue>0</autoincValue>
-<comment>null</comment>
+<Unique>true</Unique>
 </columnDescriptor>
 </columnDescriptorList>
 </table>

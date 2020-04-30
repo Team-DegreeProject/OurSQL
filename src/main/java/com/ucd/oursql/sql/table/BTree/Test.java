@@ -1,6 +1,9 @@
 package com.ucd.oursql.sql.table.BTree;
 
+import com.ucd.oursql.sql.table.type.SqlType;
+
 import java.util.HashMap;
+import java.util.List;
 
 public class Test {
     public static void main(String[] args) throws ClassNotFoundException {
@@ -72,6 +75,13 @@ public class Test {
 //                System.out.print(templist.get(j)+"  ");
 //            }
 //        }
+        List list= b.getDatas();
+        for(int i=0;i<list.size();i++){
+            CglibBean c= (CglibBean) list.get(i);
+            SqlType o=(SqlType)c.getValue("name");
+            o.toString();
+        }
+
 
     }
 }

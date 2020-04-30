@@ -1,7 +1,10 @@
 package com.ucd.oursql.sql.table.type.number;
 
 
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
+
+import java.util.HashMap;
 
 //float型的数据存储大小为8个字节，可精确到小数点后第15位数字。
 //这种数据类型的数据存储范围为从-1.79E+308～-2.23E-308，0和2.23E+308～1.79E+308。
@@ -50,7 +53,7 @@ public class SqlFloat implements  SqlType {
     }
 
     @Override
-    public void setValue(String o) {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl) {
         setData(Float.parseFloat(o));
     }
 

@@ -2,6 +2,7 @@ package com.ucd.oursql.sql.execution.table;
 
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.TableDescriptor;
@@ -25,7 +26,7 @@ public class CreateTableStatement implements SqlConstant {
     public String createImpl() throws Exception {
         ColumnDescriptorList columns=new ColumnDescriptorList();
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
-        ColumnDescriptor columnp=new ColumnDescriptor("primary key",0,tp);
+        ColumnDescriptor columnp=new ColumnDescriptor("primary_key",0,tp);
         columns.add(columnp);
         TableDescriptor td=null;
         if(statement==null){
@@ -45,7 +46,10 @@ public class CreateTableStatement implements SqlConstant {
         td.setTableInColumnDescriptor(td);
         td.updatePriamryKey();
         Table table=new Table(td);
-        ExecuteStatement.db.insertTable(table);
+        boolean boo=ExecuteStatement.db.insertTable(table);
+        if(boo){
+            descriptorSaver ds=new descriptorSaver(table.getTd(),table.getPropertyMap(),table.getTree());
+        }
         String output=ExecuteStatement.db.printDatabase()+"\n"+table.printTable(null);
 //        td.printTableDescriptor();
         return output;

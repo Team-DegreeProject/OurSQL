@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.execution.data;
 
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 
 import com.ucd.oursql.sql.execution.other.*;
 import com.ucd.oursql.sql.parsing.Token;
@@ -29,12 +30,13 @@ public class SelectDataStatement {
 //        String tablename= tablenames.get(0).get(0).image;
 //        Table table= FromStatement.from(tablename);
         Table table= dealWithFrom();
-//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
 //        table.printTable(null);
-
+//        System.out.println("====from===");
+//        table.printTable(null);
         List<List<Token>> whereConsition=getWhhereToken();
         table=WhereStatament.whereImpl(table,whereConsition);
-//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
 //        table.printTable(null);
 
         List distinctNames=checkDistinct();
@@ -190,7 +192,7 @@ public class SelectDataStatement {
         while(iit.hasNext()){
             List<Token> name= (List<Token>) iit.next();
             List<Token> on= (List<Token>) inner.get(name);
-            Table t2= FromStatement.from(name.get(0).image);
+            Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
 //            System.out.println("++++++++++++++"+on.size());
 //            for(int i=0;i<on.size();i++){
 //                System.out.println(on.get(i).image);
@@ -201,14 +203,14 @@ public class SelectDataStatement {
         while(lit.hasNext()){
             List<Token> name= (List<Token>) lit.next();
             List<Token> on= (List<Token>) left.get(name);
-            Table t2= FromStatement.from(name.get(0).image);
+            Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
             table= LeftJoinStatement.leftJoinImpl(table,t2,on);
         }
 //        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         while(rit.hasNext()){
             List<Token> name= (List<Token>) lit.next();
             List<Token> on= (List<Token>) left.get(name);
-            Table t2= FromStatement.from(name.get(0).image);
+            Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
             table= RightJoinStatement.rightJoinImpl(table,t2,on);
         }
 //        table.printTable(null);

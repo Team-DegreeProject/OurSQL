@@ -52,8 +52,8 @@ public class LeafNode <T, V extends Comparable<V>> extends Node<T, V> {
                 System.out.println("low:"+low+"up:"+up+"middle: "+middle);
                 middleKey=(V) this.keys[middle];
                 System.out.println(key+" "+this.values[middle]);
-                ((PrimaryKey)key).printPK();
-                ((PrimaryKey)middleKey).printPK();
+//                ((PrimaryKey)key).printPK();
+//                ((PrimaryKey)middleKey).printPK();
                 if(key.compareTo(middleKey) == 0){
                     System.out.println("case4");
                     return (T) this.values[middle];
