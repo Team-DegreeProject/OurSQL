@@ -120,7 +120,9 @@ public class TreeSaver {
             File test = new File("data/" + tn);
             //创建文件夹
             test.mkdir();
-            outputter.output(document, new FileOutputStream(new File("data/" + tn + "/" + tn + ".xml")));
+            FileOutputStream fileStream = new FileOutputStream(new File("data/" + tn + "/" + tn + ".xml"));
+            outputter.output(document, fileStream);
+            fileStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
