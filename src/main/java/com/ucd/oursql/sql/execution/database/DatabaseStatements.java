@@ -5,7 +5,7 @@ import java.util.List;
 public class DatabaseStatements {
 
     public static String createDatabase(List tokens){
-        String out="Wrong: Create Database !";
+        String out="Error: Create Database !";
         try {
             CreateDatabaseStatement cds=new CreateDatabaseStatement(tokens);
             out=cds.createDatabaseImpl();
@@ -22,7 +22,7 @@ public class DatabaseStatements {
     }
 
     public static String renameDatabase(List tokens){
-        String out="Wrong: Rename Database !";
+        String out="Error: Rename Database !";
         try {
             RenameDatabaseStatement renameDatabaseStatement=new RenameDatabaseStatement(tokens);
             out=renameDatabaseStatement.renameDatabaseImpl();
@@ -33,14 +33,14 @@ public class DatabaseStatements {
     }
 
     public static String showDatabase(List tokens){
-        String out="Wrong: Show Database !";
+        String out="Error: Show Database !";
         ShowDatabaseStatement sds=new ShowDatabaseStatement();
         out=sds.showDatabaseStatementImpl();
         return out;
     }
 
     public static String dropDatabase(List tokens){
-        String out="Wrong: Drop Database !";
+        String out="Error: Drop Database !";
         try {
             DropDatabaseStatement dds=new DropDatabaseStatement(tokens);
             out=dds.dropDatabaseStatementImpl();

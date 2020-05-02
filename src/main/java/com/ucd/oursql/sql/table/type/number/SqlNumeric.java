@@ -3,18 +3,19 @@ package com.ucd.oursql.sql.table.type.number;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
-public class SqlDouble implements SqlType {
+public class SqlNumeric implements SqlType {
+    private BigDecimal data=new BigDecimal(0);
     private int scale=-1;
     private int precision=-1;
-    private Double data=0.0;
 
-    public SqlDouble(){}
+    public SqlNumeric(){}
 
-    public SqlDouble(double d){
-        data=d;
+    public SqlNumeric(BigDecimal data){
+        this.data=data;
         try {
             changeRange();
         } catch (Exception e) {
@@ -22,8 +23,19 @@ public class SqlDouble implements SqlType {
         }
     }
 
-    public SqlDouble(double d,int scale,int precision){
-        data=d;
+    public SqlNumeric(double data,int scale,int precision){
+        this.data=new BigDecimal(data);
+        this.scale=scale;
+        this.precision=precision;
+        try {
+            changeRange();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public SqlNumeric(BigDecimal data,int scale,int precision){
+        this.data=data;
         this.scale=scale;
         this.precision=precision;
         try {
@@ -43,13 +55,13 @@ public class SqlDouble implements SqlType {
             if(length>=scale){
                 String str=String.valueOf(temp);
                 str=str.substring(0,scale);
-                data=Double.parseDouble(str);
+                data=new BigDecimal(str);
             }else{
                 int size=scale-String.valueOf(temp).length();
                 NumberFormat nf = NumberFormat.getNumberInstance();
                 nf.setGroupingUsed(false);
                 nf.setMaximumFractionDigits(size);
-                data=Double.parseDouble(nf.format(data));
+                data=new BigDecimal(nf.format(data));
             }
         }else{
             int temp=data.intValue();
@@ -61,14 +73,24 @@ public class SqlDouble implements SqlType {
             }else{
                 nf.setMaximumFractionDigits(size);
             }
-            data=Double.parseDouble(nf.format(data));
+            data=new BigDecimal(nf.format(data));
         }
     }
 
-    public void setData(double data){
+    @Override
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl, String columnName) throws Exception {
+        this.data=new BigDecimal(o);
+        changeRange();
+    }
+
+    @Override
+    public SqlType addOne() throws Exception {
+        double d=data.doubleValue()+1;
+        return new SqlNumeric(d,this.scale,this.precision);
+    }
+
+    public void setData(BigDecimal data) {
         this.data = data;
-//        this.data = data;
-//        System.out.println("=============setValue"+this.data);
         try {
             changeRange();
         } catch (Exception e) {
@@ -76,24 +98,27 @@ public class SqlDouble implements SqlType {
         }
     }
 
-    public void setScale(int scale){
-        this.scale = scale;
+    public int getPrecision() {
+        return precision;
     }
 
     public int getScale() {
         return scale;
     }
 
-    public double getData() {
+    public BigDecimal getData() {
         return data;
     }
 
-    public int getPrecision() {
-        return precision;
+
+    @Override
+    public void setScale(int i) throws Exception {
+        this.scale=i;
     }
 
-    public void setPrecision(int precision) throws Exception {
-        this.precision = precision;
+    @Override
+    public void setPrecision(int i) throws Exception {
+        this.precision=i;
     }
 
     @Override
@@ -101,24 +126,8 @@ public class SqlDouble implements SqlType {
         changeRange();
     }
 
-
-    @Override
-    public String toString() {
-        return data.toString();
-    }
-
-    @Override
-    public SqlType addOne() throws Exception {
-        return new SqlDouble((this.data+1),this.scale,this.precision);
-    }
-
-    @Override
-    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName){
-        setData(Double.valueOf(o));
-    }
-
     @Override
     public int compareTo(Object o) {
-        return this.data.compareTo(((SqlDouble)o).data);
+        return this.data.compareTo(((SqlNumeric)o).data);
     }
 }

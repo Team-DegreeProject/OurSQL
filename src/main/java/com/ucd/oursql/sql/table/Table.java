@@ -508,7 +508,7 @@ public class Table extends SqlConstantImpl {
                     Comparable com= (Comparable) bean.getValue(name);
                     Class c=Class.forName((String) propertyMap.get(name));
                     SqlType st=(SqlType)c.newInstance();
-                    st.setValue(value.toString(),propertyMap,td.getColumnDescriptorList());
+                    st.setValue(value.toString(),propertyMap,td.getColumnDescriptorList(),name);
                     if(com.compareTo(st)==0){
                         System.out.println("Some attribute is unique");
                         return false;

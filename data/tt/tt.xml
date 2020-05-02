@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="GBK"?>
-<table name="tt">
-<entity>
-<tablename>py</tablename>
-<primary_key>tablename:py</primary_key>
-</entity>
-</table>

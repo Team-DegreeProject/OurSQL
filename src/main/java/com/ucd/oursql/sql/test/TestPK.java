@@ -7,7 +7,7 @@ public class TestPK {
         String str="name:wyx;type:1";
         PrimaryKey pk=new PrimaryKey();
         try {
-            pk.setValue(str,null,null);
+            pk.setValue(str,null,null,null);
             System.out.println(pk.toString());
         } catch (Exception e) {
             e.printStackTrace();

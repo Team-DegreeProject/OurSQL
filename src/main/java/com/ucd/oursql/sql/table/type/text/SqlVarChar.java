@@ -83,7 +83,7 @@ public class SqlVarChar implements SqlType {
     }
 
     @Override
-    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl) {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName) {
         setString(o);
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="py">
-<tableName>py</tableName>
+<table name="t3">
+<tableName>t3</tableName>
 <schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>
@@ -20,7 +20,7 @@
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
 <autoincValue>0</autoincValue>
-<Unique>false</Unique>
+<Unique>true</Unique>
 </columnDescriptor>
 <columnDescriptor>
 <columnName>id</columnName>
@@ -38,12 +38,12 @@
 <Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>cc</columnName>
+<columnName>vvar</columnName>
 <columnPosition>2</columnPosition>
 <DataTypeDescriptor>
-<typeId>113</typeId>
+<typeId>210</typeId>
 <precision>-1</precision>
-<scale>-1</scale>
+<scale>255</scale>
 <isNullable>true</isNullable>
 <isPrimaryKey>false</isPrimaryKey>
 </DataTypeDescriptor>
@@ -53,12 +53,12 @@
 <Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>bcc</columnName>
+<columnName>cchar</columnName>
 <columnPosition>3</columnPosition>
 <DataTypeDescriptor>
-<typeId>113</typeId>
+<typeId>35</typeId>
 <precision>-1</precision>
-<scale>-1</scale>
+<scale>255</scale>
 <isNullable>true</isNullable>
 <isPrimaryKey>false</isPrimaryKey>
 </DataTypeDescriptor>
