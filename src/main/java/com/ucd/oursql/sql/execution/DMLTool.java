@@ -81,6 +81,7 @@ public class DMLTool {
 //            System.out.println(s+"==="+propertyMap.get(s));
 //        }
 //        System.out.println(att);
+//        columnDescriptorList.printColumnDescriptorList();
         Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
         value.setValue(str,propertyMap,columnDescriptorList,att);

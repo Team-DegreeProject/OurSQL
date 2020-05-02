@@ -88,7 +88,7 @@ public class TreeLoader {
                 //??????????????????????????????????????????????????
                 try {
                     SqlType v = DMLTool.forXMLConvertStringToValue(valueName,valueMap.get(valueName).toString(),pm,columnDescriptorList);
-                    System.out.println(v+"====");
+//                    System.out.println(v+"====");
                     b.setValue(valueName, v);
                 }catch (Exception e){
                     e.printStackTrace();

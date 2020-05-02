@@ -6,6 +6,11 @@
 <user>root</user>
 </entity>
 <entity>
+<databasename>hhh</databasename>
+<primary_key>databasename:hhh</primary_key>
+<user>root</user>
+</entity>
+<entity>
 <databasename>testdb</databasename>
 <primary_key>databasename:testdb</primary_key>
 <user>root</user>
