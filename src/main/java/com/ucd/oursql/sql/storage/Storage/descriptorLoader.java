@@ -89,7 +89,7 @@ public class descriptorLoader {
                 int scale = Integer.valueOf(dataTypeDescriptor.getChildText("scale"));
                 boolean isNullable = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isNullable"));
                 boolean primaryKey = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));
-                DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,isNullable,primaryKey);
+                DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,precision,scale,isNullable,primaryKey);
 //                System.out.println("THE VALUE OF DATATYPE is:"+typeId);
 //                System.out.println("THE VALUE OF PRIMARYKEY is:"+primaryKey);
                 ColumnDescriptor columnDescriptor = new ColumnDescriptor(tableDescriptor,columnName,columnPosition,dataTypeDescriptor1,autoincStart,autoincInc,autoincValue,null,comment,unique);
