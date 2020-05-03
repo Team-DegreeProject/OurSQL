@@ -85,7 +85,7 @@ public class Table extends SqlConstantImpl {
         for(int i=0;i<list.size();i++){
             ColumnDescriptor cd=list.getColumnDescriptor(i);
             DataTypeDescriptor dtd=cd.getType();
-            System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
+//            System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
             propertyMap.put(cd.getColumnName(),sqlMap.get(dtd.getTypeId()));
         }
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
@@ -99,7 +99,7 @@ public class Table extends SqlConstantImpl {
         for(int i=0;i<list.size();i++){
             ColumnDescriptor cd=list.elementAt(i);
             DataTypeDescriptor dtd=cd.getType();
-            System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
+//            System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
             propertyMap.put(cd.getColumnName(), sqlMap.get(dtd.getTypeId()));
         }
 //        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
@@ -215,10 +215,10 @@ public class Table extends SqlConstantImpl {
                 ColumnDescriptor cd=td.getPrimaryKey().getColumnDescriptor(name);
                 if(cd!=null){
                     pk.addPrimaryKey(name,value);
-                    System.out.println("primary_key: "+value);
+//                    System.out.println("primary_key: "+value);
                 }
                 bean.setValue(name, value);
-                System.out.println(name+"--->>"+value);
+//                System.out.println(name+"--->>"+value);
             }
 
             //处理自增
@@ -376,7 +376,7 @@ public class Table extends SqlConstantImpl {
         for(int i=0;i<columns.size();i++){
             ColumnDescriptor cd=columns.get(i);
             DataTypeDescriptor dtd=cd.getType();
-            System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
+//            System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
             propertyMap.put(cd.getColumnName(), sqlMap.get(dtd.getTypeId()));
         }
         for(int i=0;i<data.size();i++){
