@@ -209,8 +209,8 @@ public class SelectDataStatement {
         }
 //        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
         while(rit.hasNext()){
-            List<Token> name= (List<Token>) lit.next();
-            List<Token> on= (List<Token>) left.get(name);
+            List<Token> name= (List<Token>) rit.next();
+            List<Token> on= (List<Token>) right.get(name);
             Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
             table= RightJoinStatement.rightJoinImpl(table,t2,on);
         }
