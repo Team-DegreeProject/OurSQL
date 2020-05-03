@@ -1,5 +1,8 @@
 package com.ucd.oursql.sql.table.type;
 
+import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +12,7 @@ public class PrimaryKey implements SqlType{
     List<String> names=new ArrayList<>();
 //    List<Comparable> list=null;
     public PrimaryKey(List names,List list){
+//        System.out.println("newpk");
 //        this.list=list;
         for(int i=0;i<names.size();i++){
             pkmap.put(names.get(i),list.get(i));
@@ -23,13 +27,18 @@ public class PrimaryKey implements SqlType{
 
 
     public void addPrimaryKey(String name,Comparable t){
+//        System.out.println("addPK");
+//        System.out.println("addPK:"+t.getClass().getName());
         pkmap.put(name,t);
+//        System.out.println("addPK:"+pkmap.get(name).getClass().getName());
         names.add(name);
 //        list.add(t);
     }
 
-    public  Comparable getPrimaryKey(String name){
-        return (Comparable) pkmap.get(name);
+    public  SqlType getPrimaryKey(String name){
+//        System.out.println("getpk");
+//        System.out.println(pkmap.get(name).getClass().getName()+ "   "+name);
+        return (SqlType) pkmap.get(name);
 //        return list.get(i);
     }
 
@@ -39,6 +48,7 @@ public class PrimaryKey implements SqlType{
 //    }
 
     public List<String> getKeys(){
+//        System.out.println("getPKKeys");
 //        Iterator it=pkmap.keySet().iterator();
 //        while(it.hasNext()){
 //            names.add((String) it.next());
@@ -53,6 +63,8 @@ public class PrimaryKey implements SqlType{
         for(int i=0;i<names.size();i++){
             Comparable c1= (Comparable) pkmap.get(names.get(i));
             Comparable c2= pk2.getPrimaryKey(names.get(i));
+//            System.out.println("c1:"+c1+";c2:"+c2);
+//            System.out.println(c1.getClass().getName()+"---"+c2.getClass().getName());
             outcome=c1.compareTo(c2);
             if(outcome!=0){
                 return outcome;
@@ -64,6 +76,7 @@ public class PrimaryKey implements SqlType{
 
     @Override
     public String toString(){
+//        System.out.println("toStringPK");
         boolean first=true;
         String str="";
         for(int j=0;j<names.size();j++){
@@ -78,14 +91,16 @@ public class PrimaryKey implements SqlType{
     }
 
     @Override
-    public void setValue(String o) throws Exception {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName) throws Exception {
+//        System.out.println("setValuePK");
         String[] pairs=o.split(";");
         for(int i=0;i<pairs.length;i++){
             String p= pairs[i];
             String[] l=p.split(":");
             String key=l[0];
             String value=l[1];
-            pkmap.put(key,value);
+            SqlType v=DMLTool.convertToValue(key,value,propertyMap,cl);
+            pkmap.put(key,v);
             names.add(key);
         }
     }

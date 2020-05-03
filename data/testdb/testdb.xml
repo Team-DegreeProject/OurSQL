@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="GBK"?>
+<table name="testdb">
+<entity>
+<tablename>t1</tablename>
+<primary_key>tablename:t1</primary_key>
+</entity>
+<entity>
+<tablename>tdate</tablename>
+<primary_key>tablename:tdate</primary_key>
+</entity>
+<entity>
+<tablename>tnum</tablename>
+<primary_key>tablename:tnum</primary_key>
+</entity>
+<entity>
+<tablename>ttext</tablename>
+<primary_key>tablename:ttext</primary_key>
+</entity>
+</table>

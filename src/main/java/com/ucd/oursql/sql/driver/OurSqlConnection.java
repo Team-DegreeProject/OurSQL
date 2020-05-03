@@ -6,12 +6,12 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class OurSqlConnection implements Connection{
-
+	OurSqlStatement oss=null;
 	OurSqlBridge bridge=null;
-
+	OurSqlPreparedStatement osps=null;
 	public OurSqlConnection(){
 		System.out.println("stream ok");
-		bridge=new OurSqlBridge();
+//		bridge=new OurSqlBridge();
 	}
 
 	@Override
@@ -81,8 +81,8 @@ public class OurSqlConnection implements Connection{
 
 	@Override
 	public Statement createStatement() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		oss=new OurSqlStatement();
+		return oss;
 	}
 
 	@Override
@@ -93,8 +93,8 @@ public class OurSqlConnection implements Connection{
 
 	@Override
 	public Statement createStatement(int arg0, int arg1, int arg2) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		oss=new OurSqlStatement();
+		return oss;
 	}
 
 	@Override
@@ -213,8 +213,8 @@ public class OurSqlConnection implements Connection{
 
 	@Override
 	public PreparedStatement prepareStatement(String arg0) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		osps=new OurSqlPreparedStatement(arg0);
+		return osps;
 	}
 
 	@Override

@@ -17,16 +17,29 @@ public class Test {
         BPlusTree<CglibBean, Integer> b = new BPlusTree<>(4);
         long time1 = System.nanoTime();
 
-        for (int i = 100; i >=0; i--) {
-            CglibBean bean = new CglibBean(propertyMap);
-            bean.setValue("id", new Integer(i));
-            bean.setValue("name", "test");
-            bean.setValue("address", "789");
-            b.insert(bean,(Integer) bean.getValue("id"));
-        }
+//        for (int i = 100; i >=0; i--) {
+//            CglibBean bean = new CglibBean(propertyMap);
+//            bean.setValue("id", new Integer(i));
+//            bean.setValue("name", "test");
+//            bean.setValue("address", "789");
+//            b.insert(bean,(Integer) bean.getValue("id"));
+//        }
+        CglibBean bean = new CglibBean(propertyMap);
+        bean.setValue("id", 2);
+        b.insert(bean,(Integer) bean.getValue("id"));
+
+        CglibBean bean1 = new CglibBean(propertyMap);
+        bean.setValue("id", 8);
+        b.insert(bean,(Integer) bean.getValue("id"));
+
+        CglibBean bean2 = new CglibBean(propertyMap);
+        bean.setValue("id", 10);
+        b.insert(bean,(Integer) bean.getValue("id"));
+
+
         b.getNodes(b.getRoot());
         System.out.println("-----------------------------------------------------");
-        b.delete(0);
+        b.delete(2);
         b.getNodes(b.getRoot());
 //        System.out.println("-----------------------------------------------------");
 
@@ -75,12 +88,12 @@ public class Test {
 //                System.out.print(templist.get(j)+"  ");
 //            }
 //        }
-        List list= b.getDatas();
-        for(int i=0;i<list.size();i++){
-            CglibBean c= (CglibBean) list.get(i);
-            SqlType o=(SqlType)c.getValue("name");
-            o.toString();
-        }
+//        List list= b.getDatas();
+//        for(int i=0;i<list.size();i++){
+//            CglibBean c= (CglibBean) list.get(i);
+//            SqlType o=(SqlType)c.getValue("name");
+//            o.toString();
+//        }
 
 
     }

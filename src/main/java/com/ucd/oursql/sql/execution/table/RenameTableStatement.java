@@ -29,8 +29,8 @@ public class RenameTableStatement {
 
     public String renameTableImpl() throws ClassNotFoundException {
         Table database=ExecuteStatement.db.getDatabase();
-        String oldName=((Token)statement.get(1)).image;
-        String newName=((Token)statement.get(3)).image;
+        String oldName=((Token)statement.get(2)).image;
+        String newName=((Token)statement.get(4)).image;
         String[] att={"tablename"};
         List values=new ArrayList();
 //        att.add("table");

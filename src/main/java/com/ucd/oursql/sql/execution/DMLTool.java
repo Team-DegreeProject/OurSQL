@@ -75,9 +75,16 @@ public class DMLTool {
 
 
     public static SqlType convertToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
+//        Iterator it=propertyMap.keySet().iterator();
+//        while(it.hasNext()){
+//            String s= (String) it.next();
+//            System.out.println(s+"==="+propertyMap.get(s));
+//        }
+//        System.out.println(att);
+//        columnDescriptorList.printColumnDescriptorList();
         Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
-        value.setValue(str);
+        value.setValue(str,propertyMap,columnDescriptorList,att);
         ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
         DataTypeDescriptor dataTypeDescriptor=cd.getType();
         if(dataTypeDescriptor.getScale()!=-1){
@@ -87,13 +94,14 @@ public class DMLTool {
             value.setPrecision(dataTypeDescriptor.getPrecision());
         }
         value.updateValue();
+//        System.out.println("value:"+value.getClass().getName());
         return value;
     }
 
     public static SqlType forXMLConvertStringToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
         Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
-        value.setValue(str);
+        value.setValue(str,propertyMap,columnDescriptorList,att);
         ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
         DataTypeDescriptor dataTypeDescriptor=cd.getType();
         if(dataTypeDescriptor.getScale()!=-1){
@@ -111,6 +119,7 @@ public class DMLTool {
         Iterator it=propertyMap.keySet().iterator();
         while(it.hasNext()){
             String s= (String) it.next();
+            System.out.println(s+"    ===    "+propertyMap.get(s));
             Class c=Class.forName((String) propertyMap.get(s));
             r.put(s,c);
         }

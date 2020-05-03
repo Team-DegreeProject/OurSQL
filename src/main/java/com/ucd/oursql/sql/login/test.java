@@ -7,7 +7,5 @@ public class test {
     public static void main(String[] args) {
         TreeSaver a = new TreeSaver();
         a.deleteTable("tt");
-
-
     }
 }

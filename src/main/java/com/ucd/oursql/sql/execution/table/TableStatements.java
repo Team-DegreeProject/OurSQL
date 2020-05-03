@@ -6,7 +6,7 @@ import java.util.List;
 public class TableStatements {
 
     public static String createTable(List tokens){
-        String out="Wrong: Create Table !";
+        String out="Error: Create Table !";
         try {
             CreateTableStatement createTableStatement=new CreateTableStatement(tokens);
             out=createTableStatement.createImpl();
@@ -23,7 +23,7 @@ public class TableStatements {
     }
 
     public static String dropTable(List tokens){
-        String out="Wrong: Drop Table !";
+        String out="Error: Drop Table !";
         try {
             DropTableStatement dropTableStatement=new DropTableStatement(tokens);
             out=dropTableStatement.dropTableImpl();
@@ -36,7 +36,7 @@ public class TableStatements {
 
 
     public static String renameTable(List tokens){
-        String out="Wrong: Remove Table !";
+        String out="Error: Remove Table !";
         try {
             RenameTableStatement renameTableStatement = new RenameTableStatement(tokens);
             out=renameTableStatement.renameTableImpl();
@@ -48,7 +48,7 @@ public class TableStatements {
 
 
     public static String alterTable(List tokens){
-        String out="Wrong: Alter Table !";
+        String out="Error: Alter Table !";
         try {
             AlterTableStatement alterTableStatement=new AlterTableStatement(tokens);
             out=alterTableStatement.alterTableImpl();
@@ -75,13 +75,20 @@ public class TableStatements {
     }
 
     public static String truncateTable(List tokens){
-        String out="Wrong: Truncate Table !";
+        String out="Error: Truncate Table !";
         try {
             TruncateTableStatement truncateTableStatement=new TruncateTableStatement(tokens);
             out=truncateTableStatement.truncateTableImpl();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return out;
+    }
+
+    public static String showTable(List tokens){
+        String out="Error: Show Table!";
+        ShowTableStatement showTableStatement=new ShowTableStatement(tokens);
+        out=showTableStatement.showDatabaseStatementImpl();
         return out;
     }
 }

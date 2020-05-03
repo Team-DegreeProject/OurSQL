@@ -1,6 +1,7 @@
 package com.ucd.oursql.sql.execution.other;
 
 import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
@@ -9,6 +10,7 @@ import com.ucd.oursql.sql.table.TableDescriptor;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.EQ;
@@ -18,7 +20,14 @@ public class InnerJoinStatement {
     public static Table innerJoinStartImpl(List<List<Token>> tokens) throws ClassNotFoundException {
         if(tokens.size()<2){
             String tablename= tokens.get(0).get(0).image;
-            Table table= FromStatement.from(tablename);
+            Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
+//            System.out.println("=========inner join===========");
+//            table.getTd().printTableDescriptor();
+//            Iterator it=table.getPropertyMap().keySet().iterator();
+//            while(it.hasNext()){
+//                String i= (String) it.next();
+//                System.out.println(i+"==="+table.getPropertyMap().get(i));
+//            }
             return table;
         }
         Table up=null;
@@ -26,13 +35,15 @@ public class InnerJoinStatement {
         for(int i=0;i<tokens.size();i++){
             List<Token> oneTable=tokens.get(i);
             if(first){
-                up= FromStatement.from(oneTable.get(0).image);
+                up= FromStatement.from(ExecuteStatement.db.getDatabase(),oneTable.get(0).image);
                 first=false;
             }else{
-                Table now=FromStatement.from(oneTable.get(0).image);
+                Table now=FromStatement.from(ExecuteStatement.db.getDatabase(),oneTable.get(0).image);
                 up=innerTwoStartTable(up,now);
             }
         }
+//        System.out.println("=========inner join===========");
+//        up.getTd().printTableDescriptor();
         return up;
     }
 

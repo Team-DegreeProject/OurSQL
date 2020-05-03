@@ -1,9 +1,11 @@
 package com.ucd.oursql.sql.table.type.date;
 
 import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
 
 import java.time.Year;
+import java.util.HashMap;
 
 public class SqlYear implements SqlType {
 
@@ -16,7 +18,7 @@ public class SqlYear implements SqlType {
     }
 
     @Override
-    public void setValue(String o) {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName) {
         o= DMLTool.removeQutationMark(o);
         this.year=Year.parse(o);
     }

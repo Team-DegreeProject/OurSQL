@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.execution.data;
 
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.FromStatement;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.table.Table;
@@ -26,7 +27,8 @@ InsertDataStatement {
     //value2),…;
     public String insertDataImpl() throws Exception {
         String tablename=((Token)statement.get(2)).image;
-        Table table= FromStatement.from(tablename);
+        Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
+        table.getTd().printTableDescriptor();
         List<Token> attibutes= (List<Token>) statement.get(3);
         table.insertRows(attibutes,statement,5);
         String output=table.printTable(null);

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="GBK"?>
+<table name="tnum">
+<entity>
+<id>1</id>
+<primary_key>id:1</primary_key>
+<ddo>1.1</ddo>
+<iin>1</iin>
+</entity>
+<entity>
+<id>2</id>
+<primary_key>id:2</primary_key>
+<ddo>1234567.333</ddo>
+<iin>2</iin>
+</entity>
+<entity>
+<id>3</id>
+<primary_key>id:3</primary_key>
+<ddo>1.23456789222E8</ddo>
+<iin>3</iin>
+</entity>
+<entity>
+<id>4</id>
+<primary_key>id:4</primary_key>
+<ddo>123.23</ddo>
+<iin>4</iin>
+</entity>
+<entity>
+<dde>1.2</dde>
+<id>5</id>
+<primary_key>id:5</primary_key>
+<ddo>1.1</ddo>
+<iin>5</iin>
+</entity>
+</table>

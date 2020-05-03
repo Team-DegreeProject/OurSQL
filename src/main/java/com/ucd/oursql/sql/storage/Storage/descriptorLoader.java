@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class descriptorLoader {
 
@@ -43,12 +44,15 @@ public class descriptorLoader {
         SAXBuilder saxBuilder = new SAXBuilder();
         TableDescriptor tableDescriptor = null;
         HashMap propertyMap = null;
+        String filepath = "data/" + tn + "/" + tn + "Descriptor.xml";
+        File localfile = new File(filepath);
         try {
             //首先读取propertyMap
             propertyMap = loadPropertyFromFile(tn);
 
-            String filepath = "data/" + tn + "/" + tn + "Descriptor.xml";
-            Document document1 = saxBuilder.build(new File(filepath));
+
+
+            Document document1 = saxBuilder.build(localfile);
             Element rootElement = document1.getRootElement();
 //            List<Element> elementList = rootElement.getChildren();
 
@@ -73,6 +77,7 @@ public class descriptorLoader {
                 boolean autoincInc = Boolean.valueOf(eachColunm.getChildText("autoincInc"));
                 long autoincValue = Long.valueOf(eachColunm.getChildText("autoincValue"));
                 String comment = eachColunm.getChildText("comment");
+                boolean unique = Boolean.parseBoolean(eachColunm.getChildText("Unique"));
 
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //                SqlType columnDefaultValue = DMLTool.convertToValue(columnName,eachColunm.getChildText("columnDefaultValue"),propertyMap);
@@ -84,10 +89,10 @@ public class descriptorLoader {
                 int scale = Integer.valueOf(dataTypeDescriptor.getChildText("scale"));
                 boolean isNullable = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isNullable"));
                 boolean primaryKey = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));
-                DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,isNullable,primaryKey);
+                DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,precision,scale,isNullable,primaryKey);
 //                System.out.println("THE VALUE OF DATATYPE is:"+typeId);
 //                System.out.println("THE VALUE OF PRIMARYKEY is:"+primaryKey);
-                ColumnDescriptor columnDescriptor = new ColumnDescriptor(columnName,columnPosition,dataTypeDescriptor1,tableDescriptor,autoincStart,autoincInc);
+                ColumnDescriptor columnDescriptor = new ColumnDescriptor(tableDescriptor,columnName,columnPosition,dataTypeDescriptor1,autoincStart,autoincInc,autoincValue,null,comment,unique);
                 columnDescriptorList.add(columnDescriptor);
 
 
@@ -105,6 +110,7 @@ public class descriptorLoader {
 //            e.printStackTrace();
             return null;
         }
+
         return tableDescriptor;
     }
 
@@ -116,8 +122,6 @@ public class descriptorLoader {
             HashMap propertyMap = loadPropertyFromFile(tableName);
             TreeLoader tl = new TreeLoader();
             BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList());
-
-
             Table resultTable = new Table(td,fileTree,propertyMap);
             return resultTable;
         }

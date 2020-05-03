@@ -1,8 +1,10 @@
 package com.ucd.oursql.sql.table.type.number;
 
+import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.type.SqlType;
 
 import java.text.NumberFormat;
+import java.util.HashMap;
 
 public class SqlDouble implements SqlType {
     private int scale=-1;
@@ -32,17 +34,22 @@ public class SqlDouble implements SqlType {
     }
 
     public void changeRange() throws Exception {
+        System.out.println("changerange");
         if(scale==-1&&precision==-1){
+            System.out.println("case1");
         }else if(scale<=precision){
             throw new Exception("Scale should not be smaller than or equal to precision.");
         }else if(precision==-1){
+            System.out.println("case2");
             int temp=data.intValue();
             int length=String.valueOf(temp).length();
             if(length>=scale){
+                System.out.println("case3");
                 String str=String.valueOf(temp);
                 str=str.substring(0,scale);
                 data=Double.parseDouble(str);
             }else{
+                System.out.println("case4");
                 int size=scale-String.valueOf(temp).length();
                 NumberFormat nf = NumberFormat.getNumberInstance();
                 nf.setGroupingUsed(false);
@@ -50,15 +57,22 @@ public class SqlDouble implements SqlType {
                 data=Double.parseDouble(nf.format(data));
             }
         }else{
+            System.out.println("case5");
+            System.out.println("scale and precision");
             int temp=data.intValue();
             int size=scale-String.valueOf(temp).length();
             NumberFormat nf = NumberFormat.getNumberInstance();
             nf.setGroupingUsed(false);
             if(size>=precision){
+                System.out.println("case6");
                 nf.setMaximumFractionDigits(precision);
+                System.out.println("P:"+precision);
             }else{
+                System.out.println("case7");
                 nf.setMaximumFractionDigits(size);
+                System.out.println("S:"+size);
             }
+            System.out.println(nf.format(data));
             data=Double.parseDouble(nf.format(data));
         }
     }
@@ -74,7 +88,7 @@ public class SqlDouble implements SqlType {
         }
     }
 
-    public void setScale(int scale) throws Exception {
+    public void setScale(int scale){
         this.scale = scale;
     }
 
@@ -111,7 +125,7 @@ public class SqlDouble implements SqlType {
     }
 
     @Override
-    public void setValue(String o){
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName){
         setData(Double.valueOf(o));
     }
 

@@ -26,6 +26,8 @@ public class SqlConstantImpl implements SqlConstant{
         sqlMap.put(TIMESTAMP,"com.ucd.oursql.sql.table.type.date.SqlTimeStamp");
         sqlMap.put(YEAR,"com.ucd.oursql.sql.table.type.date.SqlYear");
         sqlMap.put(TABLE_DESCRIPTOR,"com.ucd.oursql.sql.table.TableDescriptor");
+        sqlMap.put(BIGINT,"com.ucd.oursql.sql.table.type.number.SqlBigInt");
+        sqlMap.put(NUMERIC,"com.ucd.oursql.sql.table.type.number.SqlNumeric");
         sqlMap.put(USER,"com.ucd.oursql.sql.system.User");
         sqlMap.put(STRING,"java.lang.String");
         sqlMap.put(TABLE,"com.ucd.oursql.sql.table.Table");

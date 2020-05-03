@@ -27,6 +27,7 @@ public class CreateTableStatement implements SqlConstant {
         ColumnDescriptorList columns=new ColumnDescriptorList();
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
         ColumnDescriptor columnp=new ColumnDescriptor("primary_key",0,tp);
+        columnp.setUnique(true);
         columns.add(columnp);
         TableDescriptor td=null;
         if(statement==null){

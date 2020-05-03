@@ -52,9 +52,29 @@ public class TreeSaver {
             for (Object o : objectList) {
                 CglibBean cglibBean = (CglibBean) o;
                 for (String name : ColumnNameList) {
-                    String value = cglibBean.getValue(name).toString();
+                    Object value = cglibBean.getValue(name);
+                    if(value!=null){
+                        resultMap.put(name, value.toString());
+                    }
+//                    String value = cglibBean.getValue(name).toString();
 //                    System.out.println("the value is: "+value+" name: "+name);
-                    resultMap.put(name, value);
+//                    resultMap.put(name, value);
+                }
+                Element entity = new Element("entity");
+                table.addContent(entity);
+                Iterator iter = resultMap.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    String key = (String) entry.getKey();
+                    String val = (String) entry.getValue();
+
+                    //将对应的内容和key添加到xml中
+                    Element XML_entity = new Element(key).setText(val);
+                    System.out.println("!!!!!!!!!");
+                    System.out.println("The value of the val is: "+val);
+                    entity.addContent(XML_entity);
+
+
                 }
             }
 
@@ -84,22 +104,10 @@ public class TreeSaver {
 //                        }
 
 
-            Element entity = new Element("entity");
-            table.addContent(entity);
+
 
             //利用迭代器来遍历hashmap
-            Iterator iter = resultMap.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
-                String key = (String) entry.getKey();
-                String val = (String) entry.getValue();
 
-                //将对应的内容和key添加到xml中
-                Element XML_entity = new Element(key).setText(val);
-                entity.addContent(XML_entity);
-
-
-            }
 
 
             Format format = Format.getCompactFormat();
@@ -116,7 +124,9 @@ public class TreeSaver {
             File test = new File("data/" + tn);
             //创建文件夹
             test.mkdir();
-            outputter.output(document, new FileOutputStream(new File("data/" + tn + "/" + tn + ".xml")));
+            FileOutputStream fileStream = new FileOutputStream(new File("data/" + tn + "/" + tn + ".xml"));
+            outputter.output(document, fileStream);
+            fileStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

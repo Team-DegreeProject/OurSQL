@@ -1,5 +1,8 @@
 package com.ucd.oursql.sql.driver;
 
+import com.ucd.oursql.sql.login.account;
+import com.ucd.oursql.sql.login.loginFunc;
+
 import java.sql.*;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -41,9 +44,16 @@ public class OurSqlDriver implements Driver{
 		if(!acceptsURL(arg0)) {
 			return null;
 		}
-		Connection connection = null;
-		connection = new OurSqlConnection();
-		return connection;
+		account a=new account((String)arg1.get("user"),(String)arg1.get("password"));
+//		if(loginFunc.login(a)){
+			Connection connection = null;
+			connection = new OurSqlConnection();
+			return connection;
+//		}else{
+//			System.out.println("do not exit user");
+//			return null;
+//		}
+
 
 	}
 
