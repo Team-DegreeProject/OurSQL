@@ -28,7 +28,7 @@ InsertDataStatement {
     public String insertDataImpl() throws Exception {
         String tablename=((Token)statement.get(2)).image;
         Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
-        table.getTd().printTableDescriptor();
+//        table.getTd().printTableDescriptor();
         List<Token> attibutes= (List<Token>) statement.get(3);
         table.insertRows(attibutes,statement,5);
         String output=table.printTable(null);
