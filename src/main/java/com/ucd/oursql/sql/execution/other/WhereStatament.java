@@ -8,6 +8,7 @@ import com.ucd.oursql.sql.table.BTree.CglibBean;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.SqlType;
+import javafx.scene.control.Tab;
 
 import java.util.HashMap;
 import java.util.List;
@@ -187,7 +188,7 @@ public class WhereStatament {
 //            System.out.println("one condition==========");
             change=checkAType(conditions,table);
         }else if (first instanceof List){
-            System.out.println("multiple condition==========");
+//            System.out.println("multiple condition==========");
             boolean b=false;
             for(int i=0;i<conditions.size();i++){
                 Object o=conditions.get(i);
@@ -232,13 +233,65 @@ public class WhereStatament {
                 System.out.println("Between===========");
                 change=betweenCondition(table,condition);
                 break;
+            }else if(type==NOT_NULL){
+                System.out.println("Not Null===========");
+                change=notNullCondition(table,condition);
+                break;
+            }else if(type==NULL){
+                System.out.println("Null===========");
+                change=nullCondition(table,condition);
+                break;
             }
         }
 
         return change;
     }
 
+    public static Table nullCondition(Table t,List<Token> tokens) throws ClassNotFoundException {
+        String attribute=((Token)tokens.get(0)).image;
+        Table table=compareNull(t,attribute,NULL);
+        return table;
+    }
 
+    public static Table notNullCondition(Table t,List<Token> tokens) throws ClassNotFoundException {
+        String attribute=((Token)tokens.get(0)).image;
+        Table table=compareNull(t,attribute,NOT_NULL);
+        return table;
+    }
+
+    public static Table compareNull(Table table,String attribute,int type) throws ClassNotFoundException {
+        BPlusTree b=table.getTree();
+        BPlusTree returnTree=new BPlusTree();
+        List btree=b.getDatas();
+        if(type==NOT_NULL){
+            for(int i=0;i<btree.size();i++){
+                CglibBean temp= (CglibBean) btree.get(i);
+                Comparable c= (Comparable) temp.getValue(attribute);
+                if(c!=null){
+                    returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                }
+            }
+        }else if(type==NULL){
+            for(int i=0;i<btree.size();i++){
+                CglibBean temp= (CglibBean) btree.get(i);
+                Comparable c= (Comparable) temp.getValue(attribute);
+                if(c==null){
+                    returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                }
+            }
+        }
+        Table t=new Table(table.getTableDescriptor(),returnTree);
+        return t;
+    }
+
+//    public static Table basicCondition(Table t,List<Token> tokens) throws Exception {
+//        String attribute=((Token)tokens.get(0)).image;
+//        int type=((Token)tokens.get(1)).kind;
+//        String str= ((Token) tokens.get(2)).image;
+//        SqlType value= DMLTool.convertToValue(attribute,str,t.getPropertyMap(),t.getTableDescriptor().getColumnDescriptorList());
+//        Table table=compare(t,attribute,type,value);
+//        return table;
+//    }
 
 
 
