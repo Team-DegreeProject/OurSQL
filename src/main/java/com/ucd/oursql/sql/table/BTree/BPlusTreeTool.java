@@ -21,7 +21,7 @@ public class BPlusTreeTool {
         BPlusTree b = new BPlusTree<>(4);
         for (int i=0;i<list.size();i++){
             CglibBean c=list.get(i);
-            b.insert(c,(Comparable) c.getValue("primary key"));
+            b.insert(c,(Comparable) c.getValue("primary_key"));
         }
         return b;
     }
@@ -61,12 +61,19 @@ public class BPlusTreeTool {
      */
     public static List mergeListOr(List l1, List l2){
         if(l1!=null&&l2!=null){
+//            System.out.println("case1");
             l1.removeAll(l2);//l1中去掉两者共同有的数据
             l2.addAll(l1);
+//            for(int i=0;i<l2.size();i++){
+//                CglibBean c= (CglibBean) l2.get(i);
+//                System.out.println(c.getValue("id"));
+//            }
             return l2;
         } else if (l1 == null&&l2==null) {
+//            System.out.println("case2");
             return null;
         } else if(l1==null){
+//            System.out.println("case3");
             return l2;
         }
         return l1;

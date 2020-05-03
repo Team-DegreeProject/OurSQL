@@ -26,8 +26,8 @@ public class FromStatement {
         }
         descriptorLoader dl=new descriptorLoader();
         Table t=dl.loadFromFile(tableName);
-        System.out.println("====from====");
-        t.getTd().printTableDescriptor();
+//        System.out.println("====from====");
+//        t.getTd().printTableDescriptor();
         return t;
 //        for(int i=0;i<list.size();i++){
 //            CglibBean c=list.get(i);

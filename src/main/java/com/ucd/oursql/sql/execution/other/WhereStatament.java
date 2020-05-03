@@ -10,6 +10,7 @@ import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.SqlType;
 import javafx.scene.control.Tab;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +18,43 @@ import static com.ucd.oursql.sql.execution.DMLTool.convertToValue;
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
 
 public class WhereStatament {
+
+    public static Table whereImpl(Table table,List conditions) throws Exception {
+        if(conditions==null){
+//            table.printTable(null);
+            System.out.println("return table");
+            return table;
+        }
+        Table change=null;
+        Object first=conditions.get(0);
+        if(first instanceof Token){
+            change=checkAType(conditions,table);
+        }else if (first instanceof List){
+            boolean b=false;
+            for(int i=0;i<conditions.size();i++){
+                Object o=conditions.get(i);
+                if(o instanceof List){
+                    Table temp=checkAType((List) o,table);
+                    if(b){
+                        change=whereAnd(temp,change);
+                    }else{
+                        change=whereOr(temp,change);
+                    }
+                }else if(o instanceof Token){
+                    int type=((Token)o).kind;
+                    if(type==AND){
+                        b=true;
+                    }else if(type==OR){
+                        b=false;
+                    }
+                }
+            }
+        }
+        if(change==null){
+            System.out.println("There is no change");
+        }
+        return change;
+    }
 
     public static Table whereAnd(Table t1,Table t2) throws ClassNotFoundException {
         if(t1==null){
@@ -154,12 +192,26 @@ public class WhereStatament {
         String att=((Token)tokens.get(0)).image;
         HashMap propertyMap=t.getPropertyMap();
         Table temp=t;
-        String str1=tokens.get(2).image;
-        SqlType value1= convertToValue(att,str1,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
-        String str2=tokens.get(4).image;
-        SqlType value2= convertToValue(att,str2,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
-        temp=compare(temp, att, LQ, value1);
-        temp=compare(temp, att, RQ, value2);
+        if(tokens.get(1).kind==NOT){
+            String str1=tokens.get(3).image;
+            SqlType value1= convertToValue(att,str1,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
+            String str2=tokens.get(5).image;
+            SqlType value2= convertToValue(att,str2,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
+            Table temp1=compare(temp, att, RQ, value1);
+//            System.out.println("temp 1=====================");
+//            temp1.printTable(null);
+            Table temp2=compare(temp, att, LQ, value2);
+//            temp2.printTable(null);
+            temp=whereOr(temp1,temp2);
+//            temp.printTable(null);
+        }else{
+            String str1=tokens.get(2).image;
+            SqlType value1= convertToValue(att,str1,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
+            String str2=tokens.get(4).image;
+            SqlType value2= convertToValue(att,str2,propertyMap,t.getTableDescriptor().getColumnDescriptorList());
+            temp=compare(temp, att, GT, value1);
+            temp=compare(temp, att, LT, value2);
+        }
         if(t.equals(temp)){
             System.out.println("There is no change.");
             return null;
@@ -176,46 +228,7 @@ public class WhereStatament {
         return table;
     }
 
-    public static Table whereImpl(Table table,List conditions) throws Exception {
-        if(conditions==null){
-//            table.printTable(null);
-            System.out.println("return table");
-            return table;
-        }
-        Table change=null;
-        Object first=conditions.get(0);
-        if(first instanceof Token){
-//            System.out.println("one condition==========");
-            change=checkAType(conditions,table);
-        }else if (first instanceof List){
-//            System.out.println("multiple condition==========");
-            boolean b=false;
-            for(int i=0;i<conditions.size();i++){
-                Object o=conditions.get(i);
-                if(o instanceof List){
-                    Table temp=checkAType((List) o,table);
-                    if(b){
-                        change=whereAnd(temp,change);
-                    }else{
-                        change=whereOr(temp,change);
-                    }
-                }else if(o instanceof Token){
-                    int type=((Token)o).kind;
-                    if(type==AND){
-                        b=true;
-                    }else if(type==OR){
-                        b=false;
-                    }
-                }
-            }
-        }
-        if(change==null){
-            System.out.println("There is no change");
-        }
-//        change.printTable(null);
-//        change.createTable();
-        return change;
-    }
+
 
     public static Table checkAType(List condition,Table table) throws Exception {
         Table change=null;
