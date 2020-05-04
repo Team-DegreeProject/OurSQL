@@ -3,13 +3,14 @@
     height:500px;
     border:2px solid #CCFF99;
     margin:50px auto 0;
-    background:#f9f9f9;
+    background: #ededed;
+    /*background-image: url("3.jpg");*/
 }
 .record{
     width:580px;
     height:420px;
     border:1px solid #CCFF99;
-    background:#fff;
+    background: antiquewhite;
     margin:10px auto 0;
     overflow:auto;
 }
@@ -32,7 +33,7 @@
     display:inline-block;
     background:#BBFFEE;
     border-radius:10px;
-    color:#AAAAAA;
+    color: #5a6268;
     padding:5px 10px;
 }
 .guest{
@@ -43,6 +44,6 @@
     display:inline-block;
     background:#FFFFBB;
     border-radius:10px;
-    color:#AAAAAA;
+    color:#5a6268;
     padding:5px 10px;
 }

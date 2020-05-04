@@ -16,7 +16,7 @@ import static com.ucd.oursql.sql.parsing.SqlParserConstants.EQ;
 public class FromStatement {
 
     public static Table from(Table database,String tableName) throws ClassNotFoundException {
-        database.printTable(null);
+//        database.printTable(null);
 //        BPlusTree databaseTable=database.getTree();
 //        List<Table> tables=new ArrayList<>();
         Table com=WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(tableName));
@@ -26,6 +26,8 @@ public class FromStatement {
         }
         descriptorLoader dl=new descriptorLoader();
         Table t=dl.loadFromFile(tableName);
+//        System.out.println("====from====");
+//        t.getTd().printTableDescriptor();
         return t;
 //        for(int i=0;i<list.size();i++){
 //            CglibBean c=list.get(i);

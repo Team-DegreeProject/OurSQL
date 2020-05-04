@@ -5,7 +5,7 @@ import java.util.List;
 public class DataStatements {
 
     public static String insertData(List tokens){
-        String out="Wrong: Insert Data !";
+        String out="Error: Insert Data !";
         try {
             InsertDataStatement insertDataStatement=new InsertDataStatement(tokens);
             out=insertDataStatement.insertDataImpl();
@@ -22,7 +22,7 @@ public class DataStatements {
     }
 
     public static String deleteData(List tokens){
-        String out="Wrong: Delete Data !";
+        String out="Error: Delete Data !";
         try {
             DeleteDataStatement deleteDataStatement=new DeleteDataStatement(tokens);
             out=deleteDataStatement.deleteDataImpl();
@@ -39,7 +39,7 @@ public class DataStatements {
     }
 
     public static String updateData(List tokens) {
-        String out="Wrong: Update Data !";
+        String out="Error: Update Data !";
         try {
             UpdateDataStatement updateDataStatement=new UpdateDataStatement(tokens);
             out=updateDataStatement.updateDataImpl();
@@ -50,7 +50,7 @@ public class DataStatements {
     }
 
     public static String selectData(List tokens){
-        String out="Wrong: Select Data !";
+        String out="Error: Select Data !";
         try {
             SelectDataStatement selectDataStatement=new SelectDataStatement(tokens);
             out=selectDataStatement.selectDataImpl();

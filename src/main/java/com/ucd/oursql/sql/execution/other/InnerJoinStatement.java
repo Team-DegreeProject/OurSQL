@@ -91,7 +91,7 @@ public class InnerJoinStatement {
                 }
             }
             if(c2!=null){
-                CglibBean cn=new CglibBean(t3.getPropertyMap());
+                CglibBean cn=new CglibBean(DMLTool.convertPropertyMap(t3.getPropertyMap()));
                 for(int j=0;j<columns.size();j++){
                     String column=columns.get(j);
                     if(!column.equals("primary_key")){

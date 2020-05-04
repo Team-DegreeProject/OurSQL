@@ -52,9 +52,13 @@ public class TreeSaver {
             for (Object o : objectList) {
                 CglibBean cglibBean = (CglibBean) o;
                 for (String name : ColumnNameList) {
-                    String value = cglibBean.getValue(name).toString();
+                    Object value = cglibBean.getValue(name);
+                    if(value!=null){
+                        resultMap.put(name, value.toString());
+                    }
+//                    String value = cglibBean.getValue(name).toString();
 //                    System.out.println("the value is: "+value+" name: "+name);
-                    resultMap.put(name, value);
+//                    resultMap.put(name, value);
                 }
                 Element entity = new Element("entity");
                 table.addContent(entity);
@@ -120,7 +124,9 @@ public class TreeSaver {
             File test = new File("data/" + tn);
             //创建文件夹
             test.mkdir();
-            outputter.output(document, new FileOutputStream(new File("data/" + tn + "/" + tn + ".xml")));
+            FileOutputStream fileStream = new FileOutputStream(new File("data/" + tn + "/" + tn + ".xml"));
+            outputter.output(document, fileStream);
+            fileStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

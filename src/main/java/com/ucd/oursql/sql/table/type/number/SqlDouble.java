@@ -36,7 +36,7 @@ public class SqlDouble implements SqlType {
     public void changeRange() throws Exception {
         if(scale==-1&&precision==-1){
         }else if(scale<=precision){
-            throw new Exception("Scale should not be smaller than or equal to precision.");
+            throw new Exception("ERROR: For float(M,D),double(M,D) or decimal(M,D), M must be > D");
         }else if(precision==-1){
             int temp=data.intValue();
             int length=String.valueOf(temp).length();
@@ -76,7 +76,7 @@ public class SqlDouble implements SqlType {
         }
     }
 
-    public void setScale(int scale) throws Exception {
+    public void setScale(int scale){
         this.scale = scale;
     }
 
@@ -113,7 +113,7 @@ public class SqlDouble implements SqlType {
     }
 
     @Override
-    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl){
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName){
         setData(Double.valueOf(o));
     }
 

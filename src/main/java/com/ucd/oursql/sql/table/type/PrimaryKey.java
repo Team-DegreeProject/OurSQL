@@ -91,7 +91,7 @@ public class PrimaryKey implements SqlType{
     }
 
     @Override
-    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl) throws Exception {
+    public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName) throws Exception {
 //        System.out.println("setValuePK");
         String[] pairs=o.split(";");
         for(int i=0;i<pairs.length;i++){

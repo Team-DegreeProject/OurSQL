@@ -113,11 +113,12 @@ public class descriptorSaver {
                 if (!fileParent.exists()) {
                     fileParent.mkdirs();
                 }
-
-                XMLWriter writer=new XMLWriter(new FileOutputStream(file),format);
+                FileOutputStream fileStream = new FileOutputStream(file);
+                XMLWriter writer=new XMLWriter(fileStream,format);
                 //设置是否转义，默认设置是true,代表转义
                 writer.setEscapeText(false);
                 writer.write(doc);
+                fileStream.close();
                 writer.close();
 
             }
@@ -237,8 +238,9 @@ public class descriptorSaver {
             if (!fileParent.exists()) {
                 fileParent.mkdirs();
             }
-
-            outputter.output(document, new FileOutputStream(file));
+            FileOutputStream filestream = new FileOutputStream(file);
+            outputter.output(document, filestream);
+            filestream.close();
 
         }catch (Exception e){
             e.printStackTrace();

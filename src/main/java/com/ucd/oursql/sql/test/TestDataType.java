@@ -8,7 +8,7 @@ public class TestDataType {
         try {
             Class c=Class.forName("table.type.number.SqlInt");
             SqlType o=(SqlType)c.newInstance();
-            o.setValue("1",null,null);
+            o.setValue("1",null,null,null);
             System.out.println(o);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

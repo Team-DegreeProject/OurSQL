@@ -9,6 +9,7 @@ import com.ucd.oursql.sql.system.User;
 import com.ucd.oursql.sql.system.UserAccessedDatabases;
 import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
+import javafx.scene.control.Tab;
 
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class ExecuteStatement {
 
     public static String rename(List tokens){
         setAll();
-        String out="Wrong: Rename !";
+        String out="Error: Rename !";
         int type=((Token)tokens.get(1)).kind;
         if(type==DATABASE){
             out=DatabaseStatements.renameDatabase(tokens);
@@ -84,7 +85,7 @@ public class ExecuteStatement {
 
     public static String create(List tokens){
         setAll();
-        String out="Wrong: Create !";
+        String out="Error: Create !";
         int name=((Token)tokens.get(1)).kind;
         if(name==DATABASE){
             out=DatabaseStatements.createDatabase(tokens);
@@ -104,7 +105,7 @@ public class ExecuteStatement {
 
     public static String drop(List tokens){
         setAll();
-        String out="Wrong: Drop !";
+        String out="Error: Drop !";
         int type=((Token)tokens.get(1)).kind;
         if(type==DATABASE){
             out=DatabaseStatements.dropDatabase(tokens);
@@ -139,7 +140,17 @@ public class ExecuteStatement {
 
     public static String select(List tokens){setAll();return DataStatements.selectData(tokens);}
 
-    public static String show(List tokens){setAll();return DatabaseStatements.showDatabase(tokens);}
+    public static String show(List tokens){
+        setAll();
+        String out="Error: Show !";
+        Token t= (Token) tokens.get(1);
+        if(t.kind==TABLES){
+            out=TableStatements.showTable(tokens);
+        }else if(t.kind==DATABASES){
+            out=DatabaseStatements.showDatabase(tokens);
+        }
+        return out;
+    }
 
     public static String use(List tokens){
         System.out.println("use1");

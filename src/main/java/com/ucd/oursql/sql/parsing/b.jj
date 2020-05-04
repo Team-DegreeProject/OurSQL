@@ -476,7 +476,6 @@ TOKEN :
 {
 
 <ID :  <LETTER> (<LETTER>|<DIGIT>)*>
-
 |
 <NAME: <ID> ( "." <ID>)?>
 |
@@ -488,7 +487,7 @@ TOKEN :
 |
 <STRING : "/'" (~["/"])* ("///'")? (~["/"])* "/'">
 |
-<TEXT : <QUOTE> (<LETTER>|<DIGIT>) (<LETTER>|<DIGIT>|(" "))* <QUOTE> >
+<TEXT : <QUOTE> (<LETTER>|<DIGIT>) (<LETTER>|<DIGIT>|(" ")|(<QUOTE>))* <QUOTE> >
 |
 <TIMEORDATE: <QUOTE>( (<DIGIT>) (<DIGIT>|("-")|"_"|":"|" ")*   )<QUOTE>   >
 |
@@ -986,8 +985,8 @@ String delete(Token d) :
 
 
      {
-        String a = ExecuteStatement.delete(sql);
-//        String a = "test";
+//        String a = ExecuteStatement.delete(sql);
+        String a = "test";
         return a;
      }// %%
 
