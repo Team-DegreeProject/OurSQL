@@ -1,6 +1,7 @@
 package com.ucd.oursql.sql.execution.data;
 
 import com.sun.org.apache.bcel.internal.generic.RETURN;
+import com.ucd.oursql.sql.driver.OurSqlResultset;
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 
 import com.ucd.oursql.sql.execution.other.*;
@@ -67,6 +68,10 @@ public class SelectDataStatement {
 
         System.out.println("=================12345=====================");
         System.out.println(output);
+
+        OurSqlResultset rs=new OurSqlResultset(datas,show.getPropertyMap());
+        System.out.println("testRs:"+rs.getString("vvar"));
+
         return output;
     }
 
