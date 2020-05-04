@@ -2016,11 +2016,12 @@ void orderBy() :
        )*
        {saveTempListInList(list,sql);}
 
-       (
+//       (
 
-                       t =<LIMIT>  {   saveTokenInSQL(t);   }
-                       t=<NUMBER>  {   saveTokenInSQL(t);   }
-
+                      (
+                            t =<LIMIT>  {   saveTokenInSQL(t);   }
+                            t=<NUMBER>  {   saveTokenInSQL(t);   }
+                       )?
                        (
 
                            t = <OFFSET>{   saveTokenInSQL(t);   }
@@ -2039,7 +2040,7 @@ void orderBy() :
 
                         )?
 
-                   )?
+//                   )?
 
 
 

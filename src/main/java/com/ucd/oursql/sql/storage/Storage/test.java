@@ -16,5 +16,7 @@ public class test {
         HashMap propertyMap = descriptorLoader.loadPropertyFromFile("tdate");
         OurSqlResultset resultset = new OurSqlResultset(null,propertyMap);
         System.out.println(resultset.getDataStructure("td","com.ucd.oursql.sql.table.type.date.SqlDate"));
+        System.out.println("the name after convert is: "+resultset.convertStructureName("com.ucd.oursql.sql.table.type.date.SqlDate"));
+//        resultset.MethodInvoke("Date");
     }
 }
