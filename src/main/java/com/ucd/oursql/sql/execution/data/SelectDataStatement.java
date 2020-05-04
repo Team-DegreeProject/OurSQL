@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.execution.data;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 
 import com.ucd.oursql.sql.execution.other.*;
@@ -55,6 +56,12 @@ public class SelectDataStatement {
         List<List<Token>> orderbys=getOrderByLists();
         List datas=OrderByStatement.orderByImpl(show,orderbys,table);
 
+        Token off=checkOffset();
+        Token limit=checkLimit();
+        Token fetch=checkRowFetch();
+        datas=dealWithLimit(datas,limit,off,fetch);
+
+
         String output=show.printTable(datas);
 //        table.printTable(null);
 
@@ -62,6 +69,87 @@ public class SelectDataStatement {
         System.out.println(output);
         return output;
     }
+
+    public List dealWithLimit(List cs,Token l,Token off,Token rowFetch){
+        if(off!=null){
+            int offset=Integer.parseInt(off.image);
+            if(l!=null){
+                int limit=Integer.parseInt(l.image);
+                List ncs=new ArrayList();
+                for(int i=offset;i<limit+offset;i++){
+                    ncs.add(cs.get(i));
+                }
+                return ncs;
+            }else if(rowFetch!=null){
+                int fetch=Integer.parseInt(rowFetch.image);
+                List ncs=new ArrayList();
+                for(int i=offset;i<offset+fetch;i++){
+                    ncs.add(cs.get(i));
+                }
+                return ncs;
+            } else{
+                return cs;
+            }
+        }else{
+            if(l!=null){
+                int limit=Integer.parseInt(l.image);
+                List ncs=new ArrayList();
+                for(int i=0;i<limit;i++){
+                    ncs.add(cs.get(i));
+                }
+                return ncs;
+            }else if(rowFetch!=null){
+                int fetch=Integer.parseInt(rowFetch.image);
+                List ncs=new ArrayList();
+                for(int i=0;i<fetch;i++){
+                    ncs.add(cs.get(i));
+                }
+                return ncs;
+            } else{
+                return cs;
+            }
+        }
+    }
+
+    public Token checkOffset(){
+        for(int i=0;i<statement.size();i++){
+            Object o=statement.get(i);
+            if(o instanceof Token){
+                Token t=(Token)o;
+                if(t.kind==OFFSET){
+                    return (Token) statement.get(i+1);
+                }
+            }
+        }
+        return null;
+    }
+
+    public Token checkLimit(){
+        for(int i=0;i<statement.size();i++){
+            Object o=statement.get(i);
+            if(o instanceof Token){
+                Token t=(Token)o;
+                if(t.kind==LIMIT){
+                    return (Token) statement.get(i+1);
+                }
+            }
+        }
+        return null;
+    }
+
+    public Token checkRowFetch(){
+        for(int i=0;i<statement.size();i++){
+            Object o=statement.get(i);
+            if(o instanceof Token){
+                Token t=(Token)o;
+                if(t.kind==FETCH){
+                    return (Token) statement.get(i+2);
+                }
+            }
+        }
+        return null;
+    }
+
 
     public List checkDistinct(){
         List<List<Token>> list= getColumns();
@@ -84,7 +172,6 @@ public class SelectDataStatement {
         }
         return re;
     }
-
 
 
     public List<List<Token>> getColumns(){
@@ -194,21 +281,21 @@ public class SelectDataStatement {
                 List<Token> on= (List<Token>) inner.get(name);
                 Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
                 table=InnerJoinStatement.innerJoinImpl(table,t2,on);
-                System.out.println("inner");
-                table.printTable(null);
+//                System.out.println("inner");
+//                table.printTable(null);
             }else if(left.get(name)!=null){
 //                List<Token> name= (List<Token>) lit.next();
                 List<Token> on= (List<Token>) left.get(name);
                 Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
                 table= LeftJoinStatement.leftJoinImpl(table,t2,on);
-                System.out.println("left");
-                table.printTable(null);
+//                System.out.println("left");
+//                table.printTable(null);
             }else if(right.get(name)!=null){
                 List<Token> on= (List<Token>) right.get(name);
                 Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
                 table= RightJoinStatement.rightJoinImpl(table,t2,on);
-                System.out.println("right");
-                table.printTable(null);
+//                System.out.println("right");
+//                table.printTable(null);
             }
         }
 
