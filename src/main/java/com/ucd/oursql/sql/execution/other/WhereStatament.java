@@ -254,10 +254,86 @@ public class WhereStatament {
                 System.out.println("Null===========");
                 change=nullCondition(table,condition);
                 break;
+            }else if(type==LIKE){
+                System.out.println("Like===========");
+                change=likeCondition(table,condition);
+                break;
             }
         }
 
         return change;
+    }
+
+    public static Table likeCondition(Table t,List<Token> tokens) throws ClassNotFoundException {
+        String attribute=tokens.get(0).image;
+        String value=tokens.get(2).image;
+        int type=t.getTableDescriptor().getColumnDescriptorList().getColumnDescriptor(attribute).getType().getTypeId();
+        if(type==VARCHAR || type== CHAR){
+            value=value.substring(1,value.length()-1);
+        }
+        String regular=value;
+        String[] r=regular.split("%");
+        for(int i=0;i<r.length;i++){
+            System.out.println(i+":"+r[i]);
+        }
+        int ttype=-1;
+        if(r.length==0){
+            return t;
+        }else if(r.length==1){
+//                System.out.println("2222");
+                regular=r[0];
+                ttype=2;
+        }else if(r.length==2){
+            String sub=value.substring(value.length()-1,value.length());
+//            System.out.println("sub:"+sub);
+            if(sub.equals("%")){
+//                System.out.println("3333");
+                regular=r[1];
+                ttype=3;
+            }else{
+//                System.out.println("1111");
+                regular=r[1];
+                ttype=1;
+            }
+
+        }
+//        regular.replaceAll("\\%","");
+//        value.replaceAll("\\%","(\\s*\\S*)");
+//        String regular="/^"+value+"$/";
+//        int length=regular.length();
+//        regular.replaceAll("%","(\\s*\\S*)");
+//        for(int i=0;i<value.length()-1;i++){
+//            String v=value.substring(i,i+1);
+//            if(v.equals("%")){
+//                regular=regular.substring(0,i+2)+"(\\s+\\S*)"+regular.substring(i+1,length);
+//            }
+//        }
+//        regular="^"+regular+"$";
+        System.out.println("Regular Expression:"+regular);
+        Table change=compareLike(t,attribute,regular,value,ttype);
+        System.out.println("WhereLike");
+        change.printTable(null);
+        return change;
+    }
+
+    public static Table compareLike(Table table,String attribute,String regular,String value,int type) throws ClassNotFoundException {
+        BPlusTree b=table.getTree();
+        BPlusTree returnTree=new BPlusTree();
+        List btree=b.getDatas();
+        for(int i=0;i<btree.size();i++){
+            CglibBean temp= (CglibBean) btree.get(i);
+            SqlType c= (SqlType) temp.getValue(attribute);
+            String s=c.toString();
+//            System.out.println("S:"+s+";regular:"+regular);
+            int num=s.indexOf(regular);
+//            System.out.println("type:"+type+";num:"+num);
+            if((type==1&&num>1)||(type==2&&num==1)||(type==3&&num>1&&(num+regular.length())<s.length())){
+//                System.out.println("in-->"+s);
+                returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+            }
+        }
+        Table t=new Table(table.getTableDescriptor(),returnTree);
+        return t;
     }
 
     public static Table nullCondition(Table t,List<Token> tokens) throws ClassNotFoundException {
