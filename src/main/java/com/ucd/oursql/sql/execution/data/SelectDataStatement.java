@@ -63,14 +63,16 @@ public class SelectDataStatement {
         datas=dealWithLimit(datas,limit,off,fetch);
 
 
+        if(datas==null){
+            datas=show.getTree().getDatas();
+        }
         String output=show.printTable(datas);
-//        table.printTable(null);
 
         System.out.println("=================12345=====================");
         System.out.println(output);
 
         OurSqlResultset rs=new OurSqlResultset(datas,show.getPropertyMap());
-        System.out.println("testRs:"+rs.getString("vvar"));
+        System.out.println("testRs:"+rs.getInt("id"));
 
         return output;
     }

@@ -25,8 +25,8 @@ public class OurSqlResultset implements ResultSet {
         this.propertyMap = propertyMap;
     }
 
-    public OurSqlResultset() {
-    }
+//    public OurSqlResultset() {
+//    }
 
     private int next = 0;
 
@@ -192,6 +192,8 @@ public class OurSqlResultset implements ResultSet {
     @Override
     public int getInt(String s) throws SQLException {
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlInt")){
+//            System.out.println("next:==============="+next);
+//            System.out.println(datas==null);
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
             return Integer.valueOf(value);
