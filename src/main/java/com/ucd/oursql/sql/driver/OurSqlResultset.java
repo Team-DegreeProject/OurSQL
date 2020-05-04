@@ -5,6 +5,7 @@ import org.apache.tomcat.util.bcel.classfile.ClassFormatException;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
@@ -12,13 +13,19 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.ucd.oursql.sql.storage.Storage.UnCorrectDataStructureException;
 
 public class OurSqlResultset implements ResultSet {
+    private OurSqlResultset ourSqlResultset;
     List<CglibBean> datas;
     HashMap propertyMap;
+
     public OurSqlResultset(List<CglibBean> datas, HashMap propertyMap) {
         this.datas = datas;
         this.propertyMap = propertyMap;
+    }
+
+    public OurSqlResultset() {
     }
 
     private int next = 0;
@@ -32,6 +39,21 @@ public class OurSqlResultset implements ResultSet {
             return false;
         }
     }
+
+    public String convertStructureName(String name){
+        return name.substring(38);
+    }
+
+//    public void MethodInvoke(String SubName){
+//        String MethodName = "get"+SubName;
+//        try {
+//            this.getClass().getMethod(MethodName,new Class[]{String.class,String.class}).invoke(new OurSqlResultset(),new Object[]{"td","com.ucd.oursql.sql.table.type.date.SqlDate"});
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     public boolean getDataStructure(String columnName,String dataStructureRequired){
         String dataStructureName = (String)propertyMap.get(columnName);
@@ -139,7 +161,7 @@ public class OurSqlResultset implements ResultSet {
         }
         else {
             System.out.println("Uncorrect Data Structure");
-            throw new ClassCastException();
+            throw new UnCorrectDataStructureException();
         }
 
     }
@@ -153,7 +175,7 @@ public class OurSqlResultset implements ResultSet {
         }
         else {
             System.out.println("Uncorrect Data Structure");
-            throw new ClassCastException();
+            throw new UnCorrectDataStructureException();
         }
     }
 
@@ -176,7 +198,7 @@ public class OurSqlResultset implements ResultSet {
         }
         else {
             System.out.println("Uncorrect Data Structure");
-            throw new ClassCastException();
+            throw new UnCorrectDataStructureException();
         }
     }
 
@@ -199,13 +221,21 @@ public class OurSqlResultset implements ResultSet {
         }
         else {
             System.out.println("Uncorrect Data Structure");
-            throw new ClassCastException();
+            throw new UnCorrectDataStructureException();
         }
     }
 
     @Override
     public BigDecimal getBigDecimal(String s, int i) throws SQLException {
-        return null;
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlDecimal")){
+            CglibBean currentBean = datas.get(next);
+            String value = currentBean.getValue(s).toString();
+            return new BigDecimal(value);
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
     }
 
     @Override
@@ -215,25 +245,41 @@ public class OurSqlResultset implements ResultSet {
 
     @Override
     public Date getDate(String s) throws SQLException {
-        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlDate")){
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlDate")){
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
             return Date.valueOf(value);
         }
         else {
             System.out.println("Uncorrect Data Structure");
-            throw new ClassCastException();
+            throw new UnCorrectDataStructureException();
         }
     }
 
     @Override
     public Time getTime(String s) throws SQLException {
-        return null;
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlTime")){
+            CglibBean currentBean = datas.get(next);
+            String value = currentBean.getValue(s).toString();
+            return Time.valueOf(value);
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
     }
 
     @Override
     public Timestamp getTimestamp(String s) throws SQLException {
-        return null;
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlTimeStamp")){
+            CglibBean currentBean = datas.get(next);
+            String value = currentBean.getValue(s).toString();
+            return Timestamp.valueOf(value);
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
     }
 
     @Override
@@ -308,22 +354,22 @@ public class OurSqlResultset implements ResultSet {
 
     @Override
     public boolean isBeforeFirst() throws SQLException {
-        return false;
+        return (next < 0);
     }
 
     @Override
     public boolean isAfterLast() throws SQLException {
-        return false;
+        return (next > datas.size());
     }
 
     @Override
     public boolean isFirst() throws SQLException {
-        return false;
+        return (next == 0);
     }
 
     @Override
     public boolean isLast() throws SQLException {
-        return false;
+        return (next == datas.size());
     }
 
     @Override
@@ -343,12 +389,20 @@ public class OurSqlResultset implements ResultSet {
 
     @Override
     public boolean last() throws SQLException {
-        return false;
+        try{
+            next = datas.size();
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     @Override
     public int getRow() throws SQLException {
-        return 0;
+        return next;
     }
 
     @Override
