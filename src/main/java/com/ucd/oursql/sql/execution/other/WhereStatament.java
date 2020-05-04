@@ -282,26 +282,70 @@ public class WhereStatament {
             value=value.substring(1,value.length()-1);
         }
         String regular=value;
+        String regular2=value;
         String[] r=regular.split("%");
+//        String[] r2=regular2.split("_");
         for(int i=0;i<r.length;i++){
-            System.out.println(i+":"+r[i]);
+            System.out.println(i+"%:"+r[i]);
         }
+//        for(int i=0;i<r2.length;i++){
+//            System.out.println(i+"_:"+r2[i]);
+//        }
         int ttype=-1;
         if(r.length==0){
             return t;
         }else if(r.length==1){
-//                System.out.println("2222");
+            String subl=value.substring(value.length()-1,value.length());
+            String subf=value.substring(0,1);
+            if(subf.equals("_")==false){
+                //e%
+                System.out.println("2222");
                 regular=r[0];
                 ttype=2;
+            }else if(subf.equals("_")&&subl.equals("%")) {
+                //_e%
+                System.out.println("5555");
+                String[] r2 = r[0].split("_");
+                ttype = 5;
+                for (int i = 0; i < r2.length; i++) {
+                    System.out.println(i + "_:" + r2[i]);
+                    if(r2[i].equals("_")==false){
+                        regular = r2[i];
+                    }
+                }
+            }else if(subf.equals("_")&&subl.equals("_")){
+                //_e_
+                System.out.println("6666");
+                String[] r2 = r[0].split("_");
+                ttype = 6;
+                for (int i = 0; i < r2.length; i++) {
+                    System.out.println(i + "_:" + r2[i]);
+                    if(r2[i].equals("_")==false){
+                        regular = r2[i];
+                    }
+                }
+            }
         }else if(r.length==2){
-            String sub=value.substring(value.length()-1,value.length());
+            String subl=value.substring(value.length()-1,value.length());
+            String subf=value.substring(0,1);
 //            System.out.println("sub:"+sub);
-            if(sub.equals("%")){
-//                System.out.println("3333");
+            if(subf.equals("%")&&subl.equals("%")){
+                //%e%
+                System.out.println("3333");
                 regular=r[1];
                 ttype=3;
-            }else{
-//                System.out.println("1111");
+            }else if(subf.equals("%")&&subl.equals("_")){
+                //%e_
+                System.out.println("4444");
+                String[] r2=r[1].split("_");
+                regular=r2[0];
+                ttype=4;
+                for(int i=0;i<r2.length;i++){
+                    System.out.println(i+"_:"+r2[i]);
+                }
+            } else{
+                //%e
+                System.out.println("1111");
                 regular=r[1];
                 ttype=1;
             }
@@ -320,13 +364,13 @@ public class WhereStatament {
 //        }
 //        regular="^"+regular+"$";
         System.out.println("Regular Expression:"+regular);
-        Table change=compareLike(t,attribute,regular,ttype,not);
+        Table change=compareLike(t,attribute,value,regular,ttype,not);
         System.out.println("WhereLike");
         change.printTable(null);
         return change;
     }
 
-    public static Table compareLike(Table table,String attribute,String regular,int type,int not) throws ClassNotFoundException {
+    public static Table compareLike(Table table,String attribute,String value,String regular,int type,int not) throws ClassNotFoundException {
         BPlusTree b=table.getTree();
         BPlusTree returnTree=new BPlusTree();
         List btree=b.getDatas();
@@ -337,13 +381,102 @@ public class WhereStatament {
 //            System.out.println("S:"+s+";regular:"+regular);
             int num=s.indexOf(regular);
             if(not==1){
-//            System.out.println("type:"+type+";num:"+num);
-                if((type==1&&num>1)||(type==2&&num==1)||(type==3&&num>1&&(num+regular.length())<s.length())){
+                System.out.println("type:"+type+";num:"+num);
+                if((type==2&&num==1)||(type==3&&num!=-1)){
 //                System.out.println("in-->"+s);
                     returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                }else if(type==4){
+                    System.out.println("value:"+value);
+                    int vn=value.indexOf("_");
+                    int vnum=value.length()+1-vn;
+                    int snum=s.length()-num-regular.length();
+                    System.out.println("sl:"+s.length()+";rel:"+regular.length()+";"+"vn"+vn+";vl:"+value.length());
+                    System.out.println("snum:"+snum+";vnum:"+vnum);
+                    if(vnum==snum){
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    }
+                }else if(type==1){
+                    int t=num+regular.length()+1;
+                    System.out.println("t:"+t+";vl:"+s.length()+";valeu:"+s);
+                    if(t==s.length()){
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    }
+                }else if(type==5){
+                    int vn=value.lastIndexOf("_")+2;
+                    System.out.println("vn:"+vn);
+                    if(vn==num){
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    }
+                }else if(type==6&&num!=-1){
+                    String[] r=value.split("_");
+                    int vn=-1;
+                    for(int j=0;j<r.length;j++){
+                        System.out.println("r[j]"+r[j]);
+                        if(r[j].equals("")==false){
+                            vn=j;
+                            break;
+                        }
+                    }
+                    vn=vn+1;
+                    System.out.println("vn:"+vn);
+                    value=value.substring(num-1,value.length());
+                    System.out.println(value);
+                    int vnn=value.indexOf("_");
+                    int vnnn=value.length()-vnn;
+                    System.out.println("vnn:"+vnn+";vnnn:"+vnnn+";s:"+s.length()+";r:"+regular.length());
+                    if((num+vnnn+regular.length()+1)==s.length()&&vn==num){
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    }
                 }
             }else{
-                if((type==1&&num>1)||(type==2&&num==1)||(type==3&&num>1&&(num+regular.length())<s.length())){
+                System.out.println("type:"+type+";num:"+num);
+                if((type==2&&num==1)||(type==3&&num!=-1)){
+                }else if(type==4){
+                    System.out.println("value:"+value);
+                    int vn=value.indexOf("_");
+                    int vnum=value.length()+1-vn;
+                    int snum=s.length()-num-regular.length();
+                    System.out.println("sl:"+s.length()+";rel:"+regular.length()+";"+"vn"+vn+";vl:"+value.length());
+                    System.out.println("snum:"+snum+";vnum:"+vnum);
+                    if(vnum==snum){
+                    }else{
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    }
+                }else if(type==1){
+                    int t=num+regular.length()+1;
+                    System.out.println("t:"+t+";vl:"+s.length()+";valeu:"+s);
+                    if(t==s.length()){
+                    }else{
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    }
+                }else if(type==5){
+                    int vn=value.lastIndexOf("_")+2;
+                    System.out.println("vn:"+vn);
+                    if(vn==num){
+                    }else{
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    }
+                }else if(type==6&&num!=-1){
+                    String[] r=value.split("_");
+                    int vn=-1;
+                    for(int j=0;j<r.length;j++){
+                        System.out.println("r[j]"+r[j]);
+                        if(r[j].equals("")==false){
+                            vn=j;
+                            break;
+                        }
+                    }
+                    vn=vn+1;
+                    System.out.println("vn:"+vn);
+                    value=value.substring(num-1,value.length());
+                    System.out.println(value);
+                    int vnn=value.indexOf("_");
+                    int vnnn=value.length()-vnn;
+                    System.out.println("vnn:"+vnn+";vnnn:"+vnnn+";s:"+s.length()+";r:"+regular.length());
+                    if((num+vnnn+regular.length()+1)==s.length()&&vn==num){
+                    }else{
+                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    }
                 }else{
                     returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
                 }
