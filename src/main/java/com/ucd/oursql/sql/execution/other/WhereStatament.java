@@ -256,7 +256,12 @@ public class WhereStatament {
                 break;
             }else if(type==LIKE){
                 System.out.println("Like===========");
-                change=likeCondition(table,condition);
+                int t=((Token)condition.get(i-1)).kind;
+                if(condition.get(i-1)instanceof Token&&t==NOT){
+                    change=likeCondition(table,condition,2);
+                }else{
+                    change=likeCondition(table,condition,1);
+                }
                 break;
             }
         }
@@ -264,9 +269,14 @@ public class WhereStatament {
         return change;
     }
 
-    public static Table likeCondition(Table t,List<Token> tokens) throws ClassNotFoundException {
+    public static Table likeCondition(Table t,List<Token> tokens,int not) throws ClassNotFoundException {
         String attribute=tokens.get(0).image;
-        String value=tokens.get(2).image;
+        String value="";
+        if(not ==1){
+            value=tokens.get(2).image;
+        }else{
+            value=tokens.get(3).image;
+        }
         int type=t.getTableDescriptor().getColumnDescriptorList().getColumnDescriptor(attribute).getType().getTypeId();
         if(type==VARCHAR || type== CHAR){
             value=value.substring(1,value.length()-1);
@@ -310,13 +320,13 @@ public class WhereStatament {
 //        }
 //        regular="^"+regular+"$";
         System.out.println("Regular Expression:"+regular);
-        Table change=compareLike(t,attribute,regular,value,ttype);
+        Table change=compareLike(t,attribute,regular,ttype,not);
         System.out.println("WhereLike");
         change.printTable(null);
         return change;
     }
 
-    public static Table compareLike(Table table,String attribute,String regular,String value,int type) throws ClassNotFoundException {
+    public static Table compareLike(Table table,String attribute,String regular,int type,int not) throws ClassNotFoundException {
         BPlusTree b=table.getTree();
         BPlusTree returnTree=new BPlusTree();
         List btree=b.getDatas();
@@ -326,10 +336,17 @@ public class WhereStatament {
             String s=c.toString();
 //            System.out.println("S:"+s+";regular:"+regular);
             int num=s.indexOf(regular);
+            if(not==1){
 //            System.out.println("type:"+type+";num:"+num);
-            if((type==1&&num>1)||(type==2&&num==1)||(type==3&&num>1&&(num+regular.length())<s.length())){
+                if((type==1&&num>1)||(type==2&&num==1)||(type==3&&num>1&&(num+regular.length())<s.length())){
 //                System.out.println("in-->"+s);
-                returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                }
+            }else{
+                if((type==1&&num>1)||(type==2&&num==1)||(type==3&&num>1&&(num+regular.length())<s.length())){
+                }else{
+                    returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                }
             }
         }
         Table t=new Table(table.getTableDescriptor(),returnTree);
