@@ -4,12 +4,13 @@ import com.ucd.oursql.sql.driver.OurSqlDriver;
 import java.sql.*;
 
 public class TestDriver {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         // TODO Auto-generated method stub
         String URL = "jdbc:OurSql";
-        String USER = "xxx";
-        String PASSWORD = "xxx";
+        String USER = "user1";
+        String PASSWORD = "test";
         Connection conn=null;
+        PreparedStatement pst=null;
         try {
             Class.forName("com.ucd.oursql.sql.driver.OurSqlDriver");
 //            OurSqlDriver osd=new OurSqlDriver();
@@ -17,21 +18,18 @@ public class TestDriver {
 //            Statement st=conn.createStatement();
 //            st.executeQuery("create database tt;");
             String sql="create database ?;";
-            PreparedStatement pst=conn.prepareStatement(sql);
+            pst=conn.prepareStatement(sql);
             pst.setString(1,"tt");
             pst.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        if(conn!=null) {
-            try {
+        if(pst!=null){
+            pst.close();
+            if(conn!=null) {
                 conn.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         }
-
     }
 }
