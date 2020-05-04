@@ -3,7 +3,6 @@ window.onload = function() {
     var Record = document.getElementById("record");
     var Command = document.getElementById("command");
     var Command_sub = document.getElementById("command_sub");
-
     Command_sub.onclick = function () {
         //定义空字符串
         var str = "";
