@@ -27,7 +27,8 @@
     text-indent:10px;
 }
 .system{
-    margin:10px;
+    margin:0px;
+    text-align:left;
 }
 .system span{
     display:inline-block;
