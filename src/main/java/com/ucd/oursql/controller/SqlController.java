@@ -69,8 +69,8 @@ public class SqlController {
 //        return st.executeQuery(text);
         InputStream target = new ByteArrayInputStream(text.getBytes());
         SqlParser parser = new SqlParser(target);
-        String result=parser.parse();
-        return result;
+        Object result=parser.parse();
+        return result.toString();
     }
 
 }

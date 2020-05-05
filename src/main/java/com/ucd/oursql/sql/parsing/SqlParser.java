@@ -37,7 +37,7 @@ public class SqlParser implements SqlParserConstants {
         {
 
             SqlParser parser = new SqlParser(System.in);
-            String result=parser.parse();
+            Object result=parser.parse();
             System.out.println("result: "+result);
             System.out.println("sql is correct!");
             System.out.println();
@@ -51,10 +51,10 @@ public class SqlParser implements SqlParserConstants {
 
     }
 
-  final public String parse() throws ParseException {
+  final public Object parse() throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
-    String result=null;
+    Object result=null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case CREATE:
       //***************1	CREATE ************************************************
@@ -113,10 +113,11 @@ public class SqlParser implements SqlParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public String select(Token d) throws ParseException {
+  final public Object select(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
     t=d;
+
     System.out.println("------SELECT METHOD --------");
     saveTokenInSQL(t);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -262,7 +263,7 @@ public class SqlParser implements SqlParserConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-         String a = ExecuteStatement.select(sql);
+         Object a = ExecuteStatement.select(sql);
 //         String a = "test";
          {if (true) return a;}
     throw new Error("Missing return statement in function");
@@ -387,8 +388,9 @@ public class SqlParser implements SqlParserConstants {
         }
   }
 
-  final public String insert(Token d) throws ParseException {
+  final public Object insert(Token d) throws ParseException {
     Token t;
+
     sql = new ArrayList<Object>();
     list = new ArrayList<Object>();
     int i = 0;
@@ -479,14 +481,15 @@ public class SqlParser implements SqlParserConstants {
       throw new ParseException();
     }
         showStructure();
-   String a = ExecuteStatement.insert(sql);
+   Object a = ExecuteStatement.insert(sql);
 //   String a = "test";
     {if (true) return a;}
     throw new Error("Missing return statement in function");
   }
 
-  final public String create(Token d) throws ParseException {
+  final public Object create(Token d) throws ParseException {
     Token t;
+
     sql = new ArrayList<Object>();
         t=d;
         System.out.println("------CREATE METHOD --------");
@@ -525,7 +528,7 @@ public class SqlParser implements SqlParserConstants {
       throw new ParseException();
     }
      System.out.println("------ test interface position --------");
-    String a = ExecuteStatement.create(sql);// %%
+    Object a = ExecuteStatement.create(sql);// %%
 //    String a = "test";
     System.out.println("result: ----------"+a);
     {if (true) return a;}
@@ -888,8 +891,9 @@ templist = new ArrayList<Object>();
     }
   }
 
-  final public String delete(Token d) throws ParseException {
+  final public Object delete(Token d) throws ParseException {
     Token t;
+
     sql = new ArrayList<Object>();
         t=d;
         System.out.println("------DELETE METHOD --------");
@@ -935,14 +939,15 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-//        String a = ExecuteStatement.delete(sql);
-        String a = "test";
+        Object a = ExecuteStatement.delete(sql);
+//        String a = "test";
         {if (true) return a;}
     throw new Error("Missing return statement in function");
   }
 
-  final public String truncate(Token d) throws ParseException {
+  final public Object truncate(Token d) throws ParseException {
     Token t;
+
     sql = new ArrayList<Object>();
         t=d;
         System.out.println("------TRUNCATE METHOD --------");
@@ -973,14 +978,14 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-        String a = ExecuteStatement.truncate(sql);
+        Object a = ExecuteStatement.truncate(sql);
 //        String a = "test";
         {if (true) return a;}
     throw new Error("Missing return statement in function");
   }
 
 //2.1.1	DROP DATABSE databse_name;
-  final public String drop(Token d) throws ParseException {
+  final public Object drop(Token d) throws ParseException {
      Token t;
      sql = new ArrayList<Object>();
      t=d;
@@ -1032,14 +1037,14 @@ templist = new ArrayList<Object>();
       throw new ParseException();
     }
      System.out.println("------&&&&&&&&&&&&&&&&7--------");
-        String a = ExecuteStatement.drop(sql);
+        Object a = ExecuteStatement.drop(sql);
 //        String a = "test";
         {if (true) return a;}
     throw new Error("Missing return statement in function");
   }
 
 //3.1.1	RENAME DATABSE old_name TO new_name
-  final public String rename(Token d) throws ParseException {
+  final public Object rename(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1086,14 +1091,14 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-        String a = ExecuteStatement.rename(sql);
+        Object a = ExecuteStatement.rename(sql);
 //        String a = "test";
         {if (true) return a;}
     throw new Error("Missing return statement in function");
   }
 
 //5.1.1	SHOW DATABASE;SHOW TABLES;
-  final public String show(Token d) throws ParseException {
+  final public Object show(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1125,14 +1130,14 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-        String a = ExecuteStatement.show(sql);
+        Object a = ExecuteStatement.show(sql);
 //        String a = "test";
         {if (true) return a;}
     throw new Error("Missing return statement in function");
   }
 
 //4.1.1	USE database_name
-  final public String use(Token d) throws ParseException {
+  final public Object use(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1153,7 +1158,7 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-        String a = ExecuteStatement.use(sql);
+        Object a = ExecuteStatement.use(sql);
 //        String a = "test";
         {if (true) return a;}
     throw new Error("Missing return statement in function");
@@ -1163,7 +1168,7 @@ templist = new ArrayList<Object>();
   //3.1	UPDATE table SET column1 = value1, column2 = value2 WHERE condition;
   //3.2	UPDATE table SET column1 =	(SELECT a From b WHERE c = â€œeâ€?);
   //3.3	UPDATE table INNER JOIN table1 ON table.column1 = table2.column1 SET table.column2 = table1.coulmn2,â€? (WHERE);
-  final public String update(Token d) throws ParseException {
+  final public Object update(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1207,13 +1212,13 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-        String a = ExecuteStatement.update(sql);
+        Object a = ExecuteStatement.update(sql);
 //        String a = "test";
         {if (true) return a;}
     throw new Error("Missing return statement in function");
   }
 
-  final public String alter(Token d) throws ParseException {
+  final public Object alter(Token d) throws ParseException {
     Token t;
     sql = new ArrayList<Object>();
          t=d;
@@ -1321,7 +1326,7 @@ templist = new ArrayList<Object>();
       jj_consume_token(-1);
       throw new ParseException();
     }
-        String a = ExecuteStatement.alter(sql);
+        Object a = ExecuteStatement.alter(sql);
 //        String a = "test";
         {if (true) return a;}
     throw new Error("Missing return statement in function");

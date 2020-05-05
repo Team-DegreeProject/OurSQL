@@ -20,7 +20,7 @@ public class UseDatabaseStatement {
     public UseDatabaseStatement(List token){
         statement=token;
     }
-    public  String useDatabaseStatementImpl() throws ClassNotFoundException {
+    public  Object useDatabaseStatementImpl() throws ClassNotFoundException {
 //        descriptorLoader dl=new descriptorLoader();
 //        dl.loadFromFile(databaseName);
 //        ExecuteStatement.uad.printUserAccessedDatabase();
@@ -33,7 +33,7 @@ public class UseDatabaseStatement {
         if (t==null){
             String message="No database for this name";
             System.out.println(message);
-            return message;
+            return 0;
         }
 //        System.out.println("2222222222222");
 //        HashMap temp=t.getPropertyMap();
@@ -54,6 +54,6 @@ public class UseDatabaseStatement {
 //        database.printDatabase();
         ExecuteStatement.uad.printUserAccessedDatabase();
         String output=database.printDatabase();
-        return output;
+        return 1;
     }
 }

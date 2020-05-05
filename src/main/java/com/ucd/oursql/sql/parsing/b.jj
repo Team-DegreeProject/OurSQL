@@ -43,7 +43,7 @@ public class SqlParser {
         {
 
             SqlParser parser = new SqlParser(System.in);
-            String result=parser.parse();
+            Object result=parser.parse();
             System.out.println("result: "+result);
             System.out.println("sql is correct!");
             System.out.println();
@@ -504,11 +504,11 @@ TOKEN :
 <END : "!!">
 }
 
-String parse() :
+Object parse() :
 {
     Token t;
     sql = new ArrayList<Object>();
-    String result=null;
+    Object result=null;
 }
 {
  (
@@ -544,7 +544,6 @@ String parse() :
     //only support simple insert statement
     t = <INSERT>    {result=insert(t);}
 
-
     //***************UPDATE*******************************************************
     |t = <UPDATE>   {result=update(t);}
 
@@ -557,11 +556,12 @@ String parse() :
 
 }
 
-String select(Token d):
+Object select(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();
     t=d;
+
     System.out.println("------SELECT METHOD --------");
     saveTokenInSQL(t);
 }
@@ -595,7 +595,7 @@ String select(Token d):
     (<STATEMENT_END> | <END>)
 //
         {
-         String a = ExecuteStatement.select(sql);
+         Object a = ExecuteStatement.select(sql);
 //         String a = "test";
          return a;
         } // %%
@@ -704,9 +704,10 @@ void showStructure() :
         }
     }
 }
-String insert(Token d) :
+Object insert(Token d ) :
 {
     Token t;
+
     sql = new ArrayList<Object>();
     list = new ArrayList<Object>();
     int i = 0;//用于标记column的数量，用于和后面的value个数匹配判断
@@ -765,7 +766,7 @@ String insert(Token d) :
     //(<STATEMENT_END> | <END>)
 
    {
-   String a = ExecuteStatement.insert(sql);
+   Object a = ExecuteStatement.insert(sql);
 //   String a = "test";
     return a;
    }// %%
@@ -773,9 +774,10 @@ String insert(Token d) :
 
 }
 
-String create(Token d) :
+Object create(Token d) :
 {
     Token t;
+
     sql = new ArrayList<Object>();
 }
 {
@@ -813,7 +815,7 @@ String create(Token d) :
 
 
  {
-    String a = ExecuteStatement.create(sql);// %%
+    Object a = ExecuteStatement.create(sql);// %%
 //    String a = "test";
     System.out.println("result: ----------"+a);
     return a;
@@ -956,9 +958,10 @@ templist = new ArrayList<Object>();}
     {saveTempListInList(templist,list);}
 }
 
-String delete(Token d) :
+Object delete(Token d) :
 {
     Token t;
+
     sql = new ArrayList<Object>();
 }
 {
@@ -985,17 +988,18 @@ String delete(Token d) :
 
 
      {
-//        String a = ExecuteStatement.delete(sql);
-        String a = "test";
+        Object a = ExecuteStatement.delete(sql);
+//        String a = "test";
         return a;
      }// %%
 
 //    {test.testWhereAnd(sql);} // %%
 
 }
-String truncate(Token d) :
+Object truncate(Token d) :
 {
     Token t;
+
     sql = new ArrayList<Object>();
 }
 {
@@ -1016,7 +1020,7 @@ String truncate(Token d) :
 
 
    {
-        String a = ExecuteStatement.truncate(sql);
+        Object a = ExecuteStatement.truncate(sql);
 //        String a = "test";
         return a;
    } // %%
@@ -1026,7 +1030,7 @@ String truncate(Token d) :
 }
 
 //2.1.1	DROP DATABSE databse_name;
-String drop(Token d):
+Object drop(Token d):
 {
      Token t;
      sql = new ArrayList<Object>();
@@ -1063,7 +1067,7 @@ String drop(Token d):
 
 
      {
-        String a = ExecuteStatement.drop(sql);
+        Object a = ExecuteStatement.drop(sql);
 //        String a = "test";
         return a;
      } // %%
@@ -1071,7 +1075,7 @@ String drop(Token d):
 }
 
 //3.1.1	RENAME DATABSE old_name TO new_name
-String rename(Token d):
+Object rename(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1090,7 +1094,7 @@ String rename(Token d):
     (<STATEMENT_END> | <END>)
 
     {
-        String a = ExecuteStatement.rename(sql);
+        Object a = ExecuteStatement.rename(sql);
 //        String a = "test";
         return a;
     }
@@ -1099,7 +1103,7 @@ String rename(Token d):
 
 }
 //5.1.1	SHOW DATABASE;SHOW TABLES;
-String show(Token d):
+Object show(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1115,7 +1119,7 @@ String show(Token d):
     (<STATEMENT_END> | <END>)
 
     {
-        String a = ExecuteStatement.show(sql);
+        Object a = ExecuteStatement.show(sql);
 //        String a = "test";
         return a;
     }// %%
@@ -1124,7 +1128,7 @@ String show(Token d):
 
 }
 //4.1.1	USE database_name
-String use(Token d):
+Object use(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1141,7 +1145,7 @@ String use(Token d):
         (<STATEMENT_END> | <END>)
 
     {
-        String a = ExecuteStatement.use(sql);
+        Object a = ExecuteStatement.use(sql);
 //        String a = "test";
         return a;
     }// %%
@@ -1152,7 +1156,7 @@ String use(Token d):
   //3.1	UPDATE table SET column1 = value1, column2 = value2 WHERE condition;
   //3.2	UPDATE table SET column1 =	(SELECT a From b WHERE c = “e”);
   //3.3	UPDATE table INNER JOIN table1 ON table.column1 = table2.column1 SET table.column2 = table1.coulmn2,… (WHERE);
-String update(Token d):
+Object update(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1173,7 +1177,7 @@ String update(Token d):
     (<STATEMENT_END> | <END>)
 
      {
-        String a = ExecuteStatement.update(sql);
+        Object a = ExecuteStatement.update(sql);
 //        String a = "test";
         return a;
      }// %%
@@ -1181,7 +1185,7 @@ String update(Token d):
 
 }
 
-String alter(Token d):
+Object alter(Token d):
 {
     Token t;
     sql = new ArrayList<Object>();}
@@ -1250,7 +1254,7 @@ String alter(Token d):
     (<STATEMENT_END> | <END>)
 
     {
-        String a = ExecuteStatement.alter(sql);
+        Object a = ExecuteStatement.alter(sql);
 //        String a = "test";
         return a;
     }// %%
