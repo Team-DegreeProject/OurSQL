@@ -11,15 +11,13 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
 import java.sql.*;
+import java.sql.Date;
 import java.time.Year;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import com.ucd.oursql.sql.storage.Storage.UnCorrectDataStructureException;
 
 public class OurSqlResultset implements ResultSet {
-    private OurSqlResultset ourSqlResultset;
     List<CglibBean> datas;
     HashMap propertyMap;
 
@@ -43,6 +41,37 @@ public class OurSqlResultset implements ResultSet {
         }
     }
 
+    public String[][] getFormDatas(){
+        String[][] result = new String[datas.size()+1][propertyMap.size()];
+        int rowPosition = 0;
+        int columnPosition = 0;
+        List<String> ColumnNameList = new ArrayList<String>();
+        for(Object key : propertyMap.keySet()){
+            String keyValue = (String)key;
+            ColumnNameList.add(keyValue);
+            result[rowPosition][columnPosition] = keyValue;
+            columnPosition++;
+        }
+        columnPosition = 0;
+        rowPosition++;
+        while (rowPosition < datas.size()+1){
+            CglibBean cglibBean = (CglibBean) datas.get(rowPosition - 1);
+            for (String name : ColumnNameList) {
+                Object value = cglibBean.getValue(name);
+                if(value!=null){
+                    result[rowPosition][columnPosition] = value.toString();
+                }
+                columnPosition++;
+//                    String value = cglibBean.getValue(name).toString();
+//                    System.out.println("the value is: "+value+" name: "+name);
+//                    resultMap.put(name, value);
+            }
+            columnPosition = 0;
+            rowPosition++;
+        }
+        return result;
+    }
+
     public String convertStructureName(String name){
         return name.substring(38);
     }
@@ -60,8 +89,6 @@ public class OurSqlResultset implements ResultSet {
 
     public boolean getDataStructure(String columnName,String dataStructureRequired){
         String dataStructureName = (String)propertyMap.get(columnName);
-//        System.out.println(dataStructureName);
-//        System.out.println(dataStructureRequired);
         return dataStructureName.equals(dataStructureRequired);
     }
 
