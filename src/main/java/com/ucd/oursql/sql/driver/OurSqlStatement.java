@@ -65,7 +65,7 @@ public class OurSqlStatement implements Statement{
 		InputStream target = new ByteArrayInputStream(sql.getBytes());
 		SqlParser parser = new SqlParser(target);
 		try {
-			String result=parser.parse();
+			Object result=parser.parse();
 			System.out.println("result: "+result);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -102,7 +102,7 @@ public class OurSqlStatement implements Statement{
 		InputStream target = new ByteArrayInputStream(sql.getBytes());
 		SqlParser parser = new SqlParser(target);
 		try {
-			String result=parser.parse();
+			Object result=parser.parse();
 			System.out.println("result: "+result);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -115,7 +115,7 @@ public class OurSqlStatement implements Statement{
 		InputStream target = new ByteArrayInputStream(sql.getBytes());
 		SqlParser parser = new SqlParser(target);
 		try {
-			String result=parser.parse();
+			Object result=parser.parse();
 			System.out.println("result: "+result);
 		} catch (ParseException e) {
 			e.printStackTrace();
