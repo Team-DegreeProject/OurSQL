@@ -101,13 +101,14 @@ public class OurSqlStatement implements Statement{
 	public ResultSet executeQuery(String sql) throws SQLException {
 		InputStream target = new ByteArrayInputStream(sql.getBytes());
 		SqlParser parser = new SqlParser(target);
+		Object result = null;
 		try {
-			Object result=parser.parse();
+			result=parser.parse();
 			System.out.println("result: "+result);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return (ResultSet)result;
 	}
 
 	@Override
