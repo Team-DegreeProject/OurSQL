@@ -410,7 +410,34 @@ public class OurSqlResultset implements ResultSet {
 
     @Override
     public Object getObject(int i) throws SQLException {
-        return null;
+        String[][] result = new String[datas.size()+1][propertyMap.size()];
+        int rowPosition = 0;
+        int columnPosition = 0;
+        List<String> ColumnNameList = new ArrayList<String>();
+        for(Object key : propertyMap.keySet()){
+            String keyValue = (String)key;
+            ColumnNameList.add(keyValue);
+            result[rowPosition][columnPosition] = keyValue;
+            columnPosition++;
+        }
+        columnPosition = 0;
+        rowPosition++;
+        while (rowPosition < datas.size()+1){
+            CglibBean cglibBean = (CglibBean) datas.get(rowPosition - 1);
+            for (String name : ColumnNameList) {
+                Object value = cglibBean.getValue(name);
+                if(value!=null){
+                    result[rowPosition][columnPosition] = value.toString();
+                }
+                columnPosition++;
+//                    String value = cglibBean.getValue(name).toString();
+//                    System.out.println("the value is: "+value+" name: "+name);
+//                    resultMap.put(name, value);
+            }
+            columnPosition = 0;
+            rowPosition++;
+        }
+        return result;
     }
 
     @Override
