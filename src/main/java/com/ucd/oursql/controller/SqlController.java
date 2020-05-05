@@ -28,7 +28,7 @@ public class SqlController {
     Connection conn=null;
     Statement st=null;
     @PostMapping(value="/Guest/command")
-    public String GetDesText(@RequestParam("command") String text) throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, ParseException, SQLException {
+    public Object GetDesText(@RequestParam("command") String text) throws BadPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, ParseException, SQLException {
         if(permission==0){
             String[] stringArray=text.split(" ");
             if(stringArray.length==2){
@@ -67,10 +67,11 @@ public class SqlController {
             return "Bye!";
         }
 //        return st.executeQuery(text);
-        InputStream target = new ByteArrayInputStream(text.getBytes());
-        SqlParser parser = new SqlParser(target);
-        String result=parser.parse();
-        return result;
+        String[][] s={{"a","b","c"},{"d","e","f"},{"h","i","j"}};
+//        InputStream target = new ByteArrayInputStream(text.getBytes());
+//        SqlParser parser = new SqlParser(target);
+//        String result=parser.parse();
+        return s;
     }
 
 }

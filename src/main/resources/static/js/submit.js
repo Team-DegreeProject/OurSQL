@@ -1,8 +1,7 @@
-
+var Record = document.getElementById("record");
+var Command = document.getElementById("command");
+var Command_sub = document.getElementById("command_sub");
 window.onload = function() {
-    var Record = document.getElementById("record");
-    var Command = document.getElementById("command");
-    var Command_sub = document.getElementById("command_sub");
     Command_sub.onclick = function () {
         //定义空字符串
         var str = "";
@@ -18,9 +17,21 @@ window.onload = function() {
                 command: Command.value
             },
             function(result){
-                str = '<div class="system"><span>' + result + '</span></div>';
-                Record.innerHTML = Record.innerHTML + str;
-
+                if(typeof (result)=="string"){
+                    str = '<div class="system"><span>' + result + '</span></div>';
+                    Record.innerHTML = Record.innerHTML + str;
+                }else{
+                    str = '<div class="system"><span><table border="1">'
+                    for (var i = 0; i < result.length; i++) {
+                        str=str+"<tr>";
+                        for (var k in result[i]) {
+                            str=str+"<td>"+result[i][k]+"</td>";
+                        }
+                        str=str+'<tr>';
+                    }
+                    str=str+'</table></span></div>';
+                    Record.innerHTML = Record.innerHTML + str;
+                }
             });
 
     }
