@@ -43,13 +43,13 @@ public class TreeLoader {
         return resultList;
     }
 
-    public BPlusTree loadFromFile(String tableName, HashMap<String,String> pm, ColumnDescriptorList columnDescriptorList) throws JDOMException, IOException, ClassNotFoundException {
+    public BPlusTree loadFromFile(String tableName, HashMap<String,String> pm, ColumnDescriptorList columnDescriptorList, String userName) throws JDOMException, IOException, ClassNotFoundException {
         BPlusTree resultTree = new BPlusTree<>();
         SAXBuilder saxBuilder = new SAXBuilder();
         //你也可以将demo.xml放在resources目录下，然后通过下面方式获取
 //        InputStream resourceAsStream = JDOMParseXml.class.getClassLoader().getResourceAsStream("demo.xml");
 //        Document document1 = saxBuilder.build(new File("data/"+tableName+"/"+tableName+".xml"));
-        String filepath = "data/"+tableName+"/"+tableName+".xml";
+        String filepath = "data/"+userName+"/"+tableName+"/"+tableName+".xml";
         Document document1 = saxBuilder.build(new File(filepath));
         Element rootElement = document1.getRootElement();
 

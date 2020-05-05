@@ -27,7 +27,7 @@ public class TreeSaver {
 //        this.BplusTree = T;
 //    }
 
-    public void SaveAsXML(BPlusTree BplusTree, String tableName, List<String> ColumnNameList) throws Exception {
+    public void SaveAsXML(BPlusTree BplusTree, String tableName, List<String> ColumnNameList,String userName) throws Exception {
 
         List<LeafNode> leafNodes = BplusTree.getLeafNodes();
         try {
@@ -124,7 +124,7 @@ public class TreeSaver {
             File test = new File("data/" + tn);
             //创建文件夹
             test.mkdir();
-            FileOutputStream fileStream = new FileOutputStream(new File("data/" + tn + "/" + tn + ".xml"));
+            FileOutputStream fileStream = new FileOutputStream(new File("data/"+userName+"/" + tn + "/" + tn + ".xml"));
             outputter.output(document, fileStream);
             fileStream.close();
         } catch (Exception e) {

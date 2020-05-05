@@ -25,13 +25,14 @@ public class descriptorSaver {
     TableDescriptor tabledescriptor;
     HashMap propertyMap;
     BPlusTree btree;
+    String userName;
 
-    public descriptorSaver(TableDescriptor desToBeSaved,HashMap map, BPlusTree tree) {
-        tabledescriptor = desToBeSaved;
-        propertyMap = map;
-        btree = tree;
+    public descriptorSaver(TableDescriptor tabledescriptor, HashMap propertyMap, BPlusTree btree, String userName) {
+        this.tabledescriptor = tabledescriptor;
+        this.propertyMap = propertyMap;
+        this.btree = btree;
+        this.userName = userName;
     }
-
 
     public void saveAll(){
         try{
@@ -40,7 +41,7 @@ public class descriptorSaver {
             descriptorToXML();
             List<String> ColumnNameList = tabledescriptor.getColumnNamesList();
             TreeSaver ts = new TreeSaver();
-            ts.SaveAsXML(btree,tableName,ColumnNameList);
+            ts.SaveAsXML(btree,tableName,ColumnNameList,userName);
 
         }
         catch (Exception e){
@@ -107,7 +108,7 @@ public class descriptorSaver {
                 //生成不一样的编码
                 format.setEncoding("GBK");
                 //6.生成xml文件
-                File file=new File("data/"+tableName+"/"+tableName+"PropertyMap.xml");
+                File file=new File("data/"+userName+"/"+tableName+"/"+tableName+"PropertyMap.xml");
 
                 File fileParent = file.getParentFile();//判断是否存在
                 if (!fileParent.exists()) {
@@ -232,7 +233,7 @@ public class descriptorSaver {
             //4.????XMLOutputter?????
             XMLOutputter outputter=new XMLOutputter(format);
 
-            File file = new File("data/"+tableName+"/"+tableName+"Descriptor.xml");
+            File file = new File("data/"+userName+"/"+tableName+"/"+tableName+"Descriptor.xml");
 
             File fileParent = file.getParentFile();//判断是否存在
             if (!fileParent.exists()) {
