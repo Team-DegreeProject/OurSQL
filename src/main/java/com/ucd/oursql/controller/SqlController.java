@@ -40,7 +40,7 @@ public class SqlController {
             try {
                 Class.forName("com.ucd.oursql.sql.driver.OurSqlDriver");
                 conn = DriverManager.getConnection(URL, USER, PASSWORD);
-                Statement st=conn.createStatement();
+                st=conn.createStatement();
                 permission=1;
                 return "Welcome!";
 //                String sql="create database ?;";
