@@ -1,14 +1,17 @@
 package com.ucd.oursql.sql.driver;
 
 import com.ucd.oursql.sql.table.BTree.CglibBean;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 import org.apache.tomcat.util.bcel.classfile.ClassFormatException;
 
 import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.sql.*;
+import java.time.Year;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -179,6 +182,32 @@ public class OurSqlResultset implements ResultSet {
         }
     }
 
+    public char getChar(String s) throws SQLException{
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.text.SqlChar")){
+            CglibBean currentBean = datas.get(next);
+            String value = currentBean.getValue(s).toString();
+            return value.toCharArray()[0];
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
+    }
+
+    public BigInteger getBigInt(String s) throws SQLException{
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlBigInt")){
+            CglibBean currentBean = datas.get(next);
+            String value = currentBean.getValue(s).toString();
+            return new BigInteger(value);
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
+    }
+
+
+
     @Override
     public byte getByte(String s) throws SQLException {
         return 0;
@@ -211,7 +240,40 @@ public class OurSqlResultset implements ResultSet {
 
     @Override
     public float getFloat(String s) throws SQLException {
-        return 0;
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlFloat")){
+            CglibBean currentBean = datas.get(next);
+            String value = currentBean.getValue(s).toString();
+            return Float.valueOf(value);
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
+    }
+
+    public Year getYear(String s) throws SQLException{
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlYear")){
+            CglibBean currentBean = datas.get(next);
+            String value = currentBean.getValue(s).toString();
+//            return Year.parse(value.toCharArray());
+            return null;
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
+    }
+
+    public String getVarChar(String s) throws SQLException{
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.text.SqlVarChar")){
+            CglibBean currentBean = datas.get(next);
+            String value = currentBean.getValue(s).toString();
+            return String.valueOf(s);
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
     }
 
     @Override
