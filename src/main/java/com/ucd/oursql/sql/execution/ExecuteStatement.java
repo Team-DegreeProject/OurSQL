@@ -79,9 +79,8 @@ public class ExecuteStatement {
         if(type==DATABASE){
             return DatabaseStatements.renameDatabase(tokens);
         }else{
-            out=TableStatements.renameTable(tokens);
+           return TableStatements.renameTable(tokens);
         }
-        return out;
     }
 
     public static Object create(List tokens){
@@ -111,35 +110,33 @@ public class ExecuteStatement {
         if(type==DATABASE){
             return DatabaseStatements.dropDatabase(tokens);
         }else{
-            out=TableStatements.dropTable(tokens);
+            return TableStatements.dropTable(tokens);
         }
-        return out;
     }
 
-    public static String alter(List tokens){
+    public static Object alter(List tokens){
         setAll();
-        String out=TableStatements.alterTable(tokens);
-        return out;
+        return TableStatements.alterTable(tokens);
     }
 
-    public static String insert(List tokens){
+    public static Object insert(List tokens){
         setAll();
         return DataStatements.insertData(tokens);
     }
 
-    public static String delete(List tokens){
+    public static Object delete(List tokens){
         setAll();
         return DataStatements.deleteData(tokens);
     }
 
-    public static String update(List tokens){
+    public static Object update(List tokens){
         setAll();
         return DataStatements.updateData(tokens);
     }
 
-    public static String truncate(List tokens){setAll();return TableStatements.truncateTable(tokens);};
+    public static Object truncate(List tokens){setAll();return TableStatements.truncateTable(tokens);};
 
-    public static String select(List tokens){setAll();return DataStatements.selectData(tokens);}
+    public static Object select(List tokens){setAll();return DataStatements.selectData(tokens);}
 
     public static Object show(List tokens){
         setAll();

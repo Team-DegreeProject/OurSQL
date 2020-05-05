@@ -213,8 +213,9 @@ public class WhereStatament {
             temp=compare(temp, att, LT, value2);
         }
         if(t.equals(temp)){
-            System.out.println("There is no change.");
-            return null;
+            throw new Exception("Error:There is no change.");
+//            System.out.println("There is no change.");
+//            return null;
         }
         return temp;
     }

@@ -25,13 +25,13 @@ InsertDataStatement {
     //2.2.1 INSERT INTO table1 VALUES (value1, value2,…), (value1, value2,…),…;
     //2.2.2 INSERT INTO table1 (name1, name2) VALUES (value1, value2), (value1,
     //value2),…;
-    public String insertDataImpl() throws Exception {
+    public int insertDataImpl() throws Exception {
         String tablename=((Token)statement.get(2)).image;
         Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
 //        table.getTd().printTableDescriptor();
         List<Token> attibutes= (List<Token>) statement.get(3);
         table.insertRows(attibutes,statement,5);
         String output=table.printTable(null);
-        return output;
+        return 1;
     }
 }

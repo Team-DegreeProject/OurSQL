@@ -23,7 +23,7 @@ public class CreateTableStatement implements SqlConstant {
         statement=l;
     }
 
-    public String createImpl() throws Exception {
+    public int createImpl() throws Exception {
         ColumnDescriptorList columns=new ColumnDescriptorList();
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
         ColumnDescriptor columnp=new ColumnDescriptor("primary_key",0,tp);
@@ -31,7 +31,8 @@ public class CreateTableStatement implements SqlConstant {
         columns.add(columnp);
         TableDescriptor td=null;
         if(statement==null){
-            return null;
+            throw new Exception("Error:Create statement null");
+//            return null;
         }
         String tableName=((Token)statement.get(2)).image;
         List<List> attributes= (List) statement.get(3);
@@ -53,7 +54,7 @@ public class CreateTableStatement implements SqlConstant {
         }
         String output=ExecuteStatement.db.printDatabase()+"\n"+table.printTable(null);
 //        td.printTableDescriptor();
-        return output;
+        return 1;
     }
 
     public boolean isTableConstraint(List row,ColumnDescriptorList columnDescriptorList){

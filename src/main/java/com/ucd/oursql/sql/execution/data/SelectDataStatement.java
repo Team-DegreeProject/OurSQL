@@ -25,7 +25,7 @@ public class SelectDataStatement {
         statement=tokens;
     }
 
-    public String selectDataImpl() throws Exception {
+    public OurSqlResultset selectDataImpl() throws Exception {
 //        HashMap from=getFrom();
 
         List<List<Token>> tablenames= (List<List<Token>>) statement.get(3);
@@ -71,10 +71,10 @@ public class SelectDataStatement {
         System.out.println("=================12345=====================");
         System.out.println(output);
 
-//        OurSqlResultset rs=new OurSqlResultset(datas,show.getPropertyMap());
+        OurSqlResultset rs=new OurSqlResultset(datas,show.getPropertyMap());
 //        System.out.println("testRs:"+rs.getInt("id"));
 
-        return output;
+        return rs;
     }
 
     public List dealWithLimit(List cs,Token l,Token off,Token rowFetch){
@@ -272,7 +272,7 @@ public class SelectDataStatement {
         return hashMap;
     }
 
-    public Table dealWithFrom() throws ClassNotFoundException {
+    public Table dealWithFrom() throws Exception {
         HashMap from=getFrom();
         List<List<Token>> names= (List<List<Token>>) from.get("names");
         List<List<Token>> start= (List<List<Token>>) from.get("start");

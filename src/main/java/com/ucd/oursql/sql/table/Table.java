@@ -115,15 +115,17 @@ public class Table extends SqlConstantImpl {
 //        System.out.println("insertATable");
         String[] attributes=td.getColumnNamesArray();
         if(attributes.length!=values.size()){
-            System.out.println("The number of attributes is not equal to the number of values.");
-            return false;
+            throw new Exception("Error:The number of attributes is not equal to the number of values.");
+//            System.out.println("The number of attributes is not equal to the number of values.");
+//            return false;
         }
 
 
         boolean ub=checkUniqueOperationInsert(attributes,values);
         if(ub==false){
 //            System.out.println("Some attribute is unique");
-            return false;
+            throw new Exception("Error: Unique");
+//            return false;
         }
 //        System.out.println("5555555555");
 //        Iterator it=propertyMap.keySet().iterator();
@@ -167,22 +169,25 @@ public class Table extends SqlConstantImpl {
 //            System.out.print(attributes.get(i).image+" ");
 //        }
         if(attributes.size()!=values.size()){
-            System.out.println("The number of attributes is not equal to the number of values.");
-            return false;
+//            System.out.println("The number of attributes is not equal to the number of values.");
+//            return false;
+            throw new Exception("The number of attributes is not equal to the number of values.");
         }
         System.out.println("checkPK");
 
         boolean checkPk=td.getPrimaryKey().checkHavePrimaryKey(attributes);
         if(checkPk==false){
-            System.out.println("There is no enough primaryKey values.");
-            return false;
+            throw new Exception("Error: There is no enough primaryKey values.");
+//            System.out.println("There is no enough primaryKey values.");
+//            return false;
         }
 
         boolean checkNull=td.getColumnDescriptorList().checkNotNull(attributes,values);
 //        td.printTableDescriptor();
         if(checkNull==false){
-            System.out.println("Some attribute is not null.");
-            return false;
+            throw new Exception("Error: Some attribute is not null.");
+//            System.out.println("Some attribute is not null.");
+//            return false;
         }
 
         ColumnDescriptorList auto=td.getColumnDescriptorList().getAutoIncrementList();
@@ -194,7 +199,8 @@ public class Table extends SqlConstantImpl {
 
         boolean ub=checkUniqueOperation(attributes,values);
         if(ub==false){
-            return false;
+            throw new Exception("Error:Unique");
+//            return false;
         }
 
 //        System.out.print("maxValue:");

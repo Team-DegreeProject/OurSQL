@@ -17,7 +17,7 @@ import static com.ucd.oursql.sql.parsing.SqlParserConstants.EQ;
 
 public class InnerJoinStatement {
 
-    public static Table innerJoinStartImpl(List<List<Token>> tokens) throws ClassNotFoundException {
+    public static Table innerJoinStartImpl(List<List<Token>> tokens) throws Exception {
         if(tokens.size()<2){
             String tablename= tokens.get(0).get(0).image;
             Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);

@@ -15,14 +15,15 @@ import static com.ucd.oursql.sql.parsing.SqlParserConstants.EQ;
 
 public class FromStatement {
 
-    public static Table from(Table database,String tableName) throws ClassNotFoundException {
+    public static Table from(Table database,String tableName) throws Exception {
 //        database.printTable(null);
 //        BPlusTree databaseTable=database.getTree();
 //        List<Table> tables=new ArrayList<>();
         Table com=WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(tableName));
         if(com.getTree().getDataNumber()!=1){
-            System.out.println("Wrong: From statement!");
-            return null;
+            throw new Exception("Error: From statement!");
+//            System.out.println("Wrong: From statement!");
+//            return null;
         }
         descriptorLoader dl=new descriptorLoader();
         Table t=dl.loadFromFile(tableName,ExecuteStatement.user.getUserName());
