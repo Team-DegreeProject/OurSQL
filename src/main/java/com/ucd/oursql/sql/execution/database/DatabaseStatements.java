@@ -50,14 +50,15 @@ public class DatabaseStatements {
         return out;
     }
 
-    public static String useDatabase(List tokens){
+    public static Object useDatabase(List tokens){
         String out="Wrong: Use Database !";
         try {
             UseDatabaseStatement uds=new UseDatabaseStatement(tokens);
-            out=uds.useDatabaseStatementImpl();
+            return uds.useDatabaseStatementImpl();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return out;
+        System.out.println(out);
+        return 0;
     }
 }
