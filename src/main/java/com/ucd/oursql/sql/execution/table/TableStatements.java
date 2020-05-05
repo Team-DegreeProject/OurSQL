@@ -1,61 +1,60 @@
 package com.ucd.oursql.sql.execution.table;
 
+import javax.jws.Oneway;
 import java.util.List;
 
 
 public class TableStatements {
 
-    public static String createTable(List tokens){
+    public static Object createTable(List tokens){
         String out="Error: Create Table !";
         try {
             CreateTableStatement createTableStatement=new CreateTableStatement(tokens);
-            out=createTableStatement.createImpl();
-        } catch (ClassNotFoundException e) {
+            return createTableStatement.createImpl();
+        }catch (Exception e) {
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
-    public static String dropTable(List tokens){
+    public static Object dropTable(List tokens){
         String out="Error: Drop Table !";
         try {
             DropTableStatement dropTableStatement=new DropTableStatement(tokens);
-            out=dropTableStatement.dropTableImpl();
+            return dropTableStatement.dropTableImpl();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
 
 
-    public static String renameTable(List tokens){
+    public static Object renameTable(List tokens){
         String out="Error: Remove Table !";
         try {
             RenameTableStatement renameTableStatement = new RenameTableStatement(tokens);
-            out=renameTableStatement.renameTableImpl();
-        } catch (ClassNotFoundException e) {
+            return renameTableStatement.renameTableImpl();
+        }catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
 
-    public static String alterTable(List tokens){
+    public static Object alterTable(List tokens){
         String out="Error: Alter Table !";
         try {
             AlterTableStatement alterTableStatement=new AlterTableStatement(tokens);
-            out=alterTableStatement.alterTableImpl();
-        } catch (ClassNotFoundException e) {
+            return alterTableStatement.alterTableImpl();
+        } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
 //            Object o=tokens.get(3);
 //            if(o instanceof Token){
 //                int type=((Token)tokens.get(3)).kind;
@@ -74,15 +73,16 @@ public class TableStatements {
 //            }
     }
 
-    public static String truncateTable(List tokens){
+    public static Object truncateTable(List tokens){
         String out="Error: Truncate Table !";
         try {
             TruncateTableStatement truncateTableStatement=new TruncateTableStatement(tokens);
-            out=truncateTableStatement.truncateTableImpl();
+            return truncateTableStatement.truncateTableImpl();
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+
     }
 
     public static Object showTable(List tokens){

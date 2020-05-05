@@ -32,7 +32,7 @@ public class AlterTableStatement {
     //ADD max_limit INT AFTER course_name;
     //2.1.4 在 ALTER TABLE 子句之后指定要添加 table_name，表示列所在的表
     //2.1.5 将新列定义放在 ADD 子句之后。 如果要在表中指定新列的顺序，可以使用可选子句 AFTER existing_column
-    public Table alterTableAddColumnStatement() throws ClassNotFoundException {
+    public Table alterTableAddColumnStatement() throws Exception {
         String name=((Token)statement.get(2)).image;
         List<List> newColumns= (List) statement.get(3);
         Table change= FromStatement.from(ExecuteStatement.db.getDatabase(),name);
@@ -53,7 +53,7 @@ public class AlterTableStatement {
     //2.2 ALTER TABLE MODIFY // MODIFY 子句用于更改现有列的某些属性
     //2.2.1 ALTER TABLE tbname MODIFY column_definition;
     //2.2.2 ALTER TABLE tbname MODIFY fee NUMERIC (10,2) NOT NULL;
-    public Table alterModifyImpl() throws ClassNotFoundException {
+    public Table alterModifyImpl() throws Exception {
         String name=((Token)statement.get(2)).image;
         List<List> newColumns= (List) statement.get(4);
         Table change= FromStatement.from(ExecuteStatement.db.getDatabase(),name);
@@ -68,7 +68,7 @@ public class AlterTableStatement {
     //2.3.1.1 ALTER TABLE tbname DROP COLUMN column_name, DROP COLUMN
     //column_name.
     //2.3.1.2 ALTER TABLE tbname DROP COLUMN fee;
-    public Table alterTableDropImpl() throws ClassNotFoundException {
+    public Table alterTableDropImpl() throws Exception {
         String name=((Token)statement.get(2)).image;
         List<List> newColumns= (List) statement.get(3);
         Table change= FromStatement.from(ExecuteStatement.db.getDatabase(),name);
@@ -77,7 +77,7 @@ public class AlterTableStatement {
         return change;
     }
 
-    public String alterTableImpl() throws ClassNotFoundException {
+    public int alterTableImpl() throws Exception {
         Table change=null;
         Object o=statement.get(3);
         if(o instanceof Token){
@@ -100,7 +100,7 @@ public class AlterTableStatement {
 //        ts.deleteTable(change.getTableDescriptor().getTableName());
         descriptorSaver dl=new descriptorSaver(change.getTableDescriptor(), change.getPropertyMap(),change.getTree(),ExecuteStatement.user.getUserName());
         dl.saveAll();
-        return change.printTable(null);
+        return 1;
     }
 
 }

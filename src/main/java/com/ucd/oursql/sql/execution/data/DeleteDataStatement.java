@@ -45,7 +45,7 @@ public class DeleteDataStatement {
 //    }
 
 
-    public String deleteDataImpl() throws Exception {
+    public int deleteDataImpl() throws Exception {
         String tablename=((Token)statement.get(2)).image;
         Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
         List conditions= (List) statement.get(4);
@@ -80,7 +80,7 @@ public class DeleteDataStatement {
         change.printTable(null);
         table.deleteRows(change);
         String output=table.printTable(null);
-        return output;
+        return 1;
     }
 
 

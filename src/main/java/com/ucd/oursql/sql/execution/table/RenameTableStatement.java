@@ -27,7 +27,7 @@ public class RenameTableStatement {
         statement=tokens;
     }
 
-    public String renameTableImpl() throws ClassNotFoundException {
+    public int renameTableImpl() throws Exception {
         Table database=ExecuteStatement.db.getDatabase();
         String oldName=((Token)statement.get(2)).image;
         String newName=((Token)statement.get(4)).image;
@@ -39,8 +39,9 @@ public class RenameTableStatement {
         values.add(new SqlVarChar(newName));
         boolean bool=database.updateTable(att,values,change);
         if(bool==false){
-            database.printTable(null);
-            return "Rename Table Wrong!";
+//            database.printTable(null);
+            throw new Exception("Error:Rename");
+//            return "Rename Table Wrong!";
         }
 
         descriptorLoader dl=new descriptorLoader();
@@ -63,7 +64,7 @@ public class RenameTableStatement {
 //        bool=database.updateTable(namestt,values,change);
 
         String output=ExecuteStatement.db.printDatabase();
-        return output;
+        return 1;
     }
 
 }

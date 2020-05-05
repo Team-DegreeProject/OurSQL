@@ -4,61 +4,51 @@ import java.util.List;
 
 public class DataStatements {
 
-    public static String insertData(List tokens){
-        String out="Error: Insert Data !";
+    public static Object insertData(List tokens){
+//        String out="Error: Insert Data !";
         try {
             InsertDataStatement insertDataStatement=new InsertDataStatement(tokens);
-            out=insertDataStatement.insertDataImpl();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+            return insertDataStatement.insertDataImpl();
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
-    public static String deleteData(List tokens){
+    public static Object deleteData(List tokens){
         String out="Error: Delete Data !";
         try {
             DeleteDataStatement deleteDataStatement=new DeleteDataStatement(tokens);
-            out=deleteDataStatement.deleteDataImpl();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+            return deleteDataStatement.deleteDataImpl();
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
-    public static String updateData(List tokens) {
+    public static Object updateData(List tokens) {
         String out="Error: Update Data !";
         try {
             UpdateDataStatement updateDataStatement=new UpdateDataStatement(tokens);
-            out=updateDataStatement.updateDataImpl();
+            return updateDataStatement.updateDataImpl();
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
-    public static String selectData(List tokens){
+    public static Object selectData(List tokens){
         String out="Error: Select Data !";
         try {
             SelectDataStatement selectDataStatement=new SelectDataStatement(tokens);
-            out=selectDataStatement.selectDataImpl();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            return selectDataStatement.selectDataImpl();
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return out;
+//        return out;
     }
 }

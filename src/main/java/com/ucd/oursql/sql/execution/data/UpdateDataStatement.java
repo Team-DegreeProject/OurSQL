@@ -21,7 +21,7 @@ public class UpdateDataStatement {
         return true;
     }
 
-    public String updateDataImpl() throws Exception {
+    public int updateDataImpl() throws Exception {
         String tablename=((Token)statement.get(1)).image;
         Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
         List changes= (List) statement.get(3);
@@ -29,7 +29,7 @@ public class UpdateDataStatement {
         Table subTable= WhereStatament.whereImpl(table,conditions);
         table.updateTable(changes,subTable);
         String output=table.printTable(null);
-        return output;
+        return 1;
     }
 
 }
