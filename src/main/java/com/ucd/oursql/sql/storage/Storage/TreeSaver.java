@@ -121,7 +121,7 @@ public class TreeSaver {
             //测试命名和创建文件夹
             String tn = tableName;
             File targetFile = new File(tn + ".xml");
-            File test = new File("data/" + tn);
+            File test = new File("data/" + userName);
             //创建文件夹
             test.mkdir();
             FileOutputStream fileStream = new FileOutputStream(new File("data/"+userName+"/" + tn + "/" + tn + ".xml"));
