@@ -18,9 +18,10 @@ public class DropDatabaseStatement {
     public DropDatabaseStatement(List tokens){
         statement=tokens;
     }
-    public String dropDatabaseStatementImpl() throws ClassNotFoundException {
+    public int dropDatabaseStatementImpl() throws ClassNotFoundException {
         if(statement==null){
-            return "Drop Database Wrong!";
+            System.out.println("Drop Database Wrong!");
+            return 0;
         }
         String databaseName=((Token)statement.get(2)).image;
         Table delete=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"databasename",EQ,new SqlVarChar(databaseName));
@@ -31,6 +32,6 @@ public class DropDatabaseStatement {
         }
 
         String output=ExecuteStatement.uad.printUserAccessedDatabase();
-        return output;
+        return 1;
     }
 }

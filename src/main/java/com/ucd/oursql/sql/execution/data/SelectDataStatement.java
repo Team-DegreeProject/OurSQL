@@ -71,8 +71,8 @@ public class SelectDataStatement {
         System.out.println("=================12345=====================");
         System.out.println(output);
 
-        OurSqlResultset rs=new OurSqlResultset(datas,show.getPropertyMap());
-        System.out.println("testRs:"+rs.getInt("id"));
+//        OurSqlResultset rs=new OurSqlResultset(datas,show.getPropertyMap());
+//        System.out.println("testRs:"+rs.getInt("id"));
 
         return output;
     }

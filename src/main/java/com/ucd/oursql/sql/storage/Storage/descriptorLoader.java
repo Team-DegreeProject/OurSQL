@@ -21,11 +21,11 @@ import java.util.Locale;
 
 public class descriptorLoader {
 
-    public HashMap loadPropertyFromFile(String tn){
+    public HashMap loadPropertyFromFile(String tn, String userName){
         HashMap propertyMap = new HashMap();
         SAXBuilder saxBuilder = new SAXBuilder();
         try {
-            String filepath = "data/" + tn + "/" + tn + "PropertyMap.xml";
+            String filepath = "data/"+userName+"/" + tn + "/" + tn + "PropertyMap.xml";
             Document document1 = saxBuilder.build(new File(filepath));
             Element rootElement = document1.getRootElement();
             List<Element> elementList = rootElement.getChildren();
@@ -40,15 +40,15 @@ public class descriptorLoader {
     }
 
 
-    public TableDescriptor loadDescriptorFromFile(String tn) {
+    public TableDescriptor loadDescriptorFromFile(String tn,String userName) {
         SAXBuilder saxBuilder = new SAXBuilder();
         TableDescriptor tableDescriptor = null;
         HashMap propertyMap = null;
-        String filepath = "data/" + tn + "/" + tn + "Descriptor.xml";
+        String filepath = "data/"+userName+"/" + tn + "/" + tn + "Descriptor.xml";
         File localfile = new File(filepath);
         try {
             //首先读取propertyMap
-            propertyMap = loadPropertyFromFile(tn);
+            propertyMap = loadPropertyFromFile(tn,userName);
 
 
 
@@ -114,14 +114,12 @@ public class descriptorLoader {
         return tableDescriptor;
     }
 
-    public Table loadFromFile(String tableName){
+    public Table loadFromFile(String tableName,String userName){
         try{
-
-
-            TableDescriptor td = loadDescriptorFromFile(tableName);
-            HashMap propertyMap = loadPropertyFromFile(tableName);
+            TableDescriptor td = loadDescriptorFromFile(tableName,userName);
+            HashMap propertyMap = loadPropertyFromFile(tableName, userName);
             TreeLoader tl = new TreeLoader();
-            BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList());
+            BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList(),userName);
             Table resultTable = new Table(td,fileTree,propertyMap);
             return resultTable;
         }

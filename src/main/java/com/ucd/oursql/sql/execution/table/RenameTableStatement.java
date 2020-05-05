@@ -44,13 +44,13 @@ public class RenameTableStatement {
         }
 
         descriptorLoader dl=new descriptorLoader();
-        Table t=new Table(dl.loadFromFile(oldName));
+        Table t=new Table(dl.loadFromFile(oldName,ExecuteStatement.user.getUserName()));
         TreeSaver tl= new TreeSaver();
 //        System.out.println(databaseName);
         tl.deleteTable(oldName);
 //        Table t=database.getDatabase();
         t.getTableDescriptor().setTableName(newName);
-        descriptorSaver ds=new descriptorSaver(t.getTd(),t.getPropertyMap(),t.getTree());
+        descriptorSaver ds=new descriptorSaver(t.getTd(),t.getPropertyMap(),t.getTree(),ExecuteStatement.user.getUserName());
         ds.saveAll();
 
 //        List list= (List) change.getTree().getDatas();

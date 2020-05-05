@@ -85,10 +85,10 @@ public class TableStatements {
         return out;
     }
 
-    public static String showTable(List tokens){
+    public static Object showTable(List tokens){
         String out="Error: Show Table!";
         ShowTableStatement showTableStatement=new ShowTableStatement(tokens);
-        out=showTableStatement.showDatabaseStatementImpl();
-        return out;
+        return showTableStatement.showDatabaseStatementImpl();
+//        return out;
     }
 }
