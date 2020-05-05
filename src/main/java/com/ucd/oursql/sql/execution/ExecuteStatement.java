@@ -152,7 +152,7 @@ public class ExecuteStatement {
         return out;
     }
 
-    public static String use(List tokens){
+    public static Object use(List tokens){
         System.out.println("use1");
         setAll();
         System.out.println("use2");
