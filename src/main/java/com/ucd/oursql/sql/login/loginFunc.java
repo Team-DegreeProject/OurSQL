@@ -20,6 +20,7 @@ public class loginFunc {
             for (Element el : list) {
                 String id = el.getChildText("id");
                 if(id.equals(accountid)){
+                    System.out.println("==================success");
                     ExecuteStatement.setUser(accountid);
                     return true;
                 }

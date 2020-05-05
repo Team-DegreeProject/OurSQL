@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="GBK"?>
-<table name="test">
-<entity>
-<tablename>tdate</tablename>
-<primary_key>tablename:tdate</primary_key>
-</entity>
-</table>

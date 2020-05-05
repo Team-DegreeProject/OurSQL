@@ -23,7 +23,7 @@ public class RenameDatabaseStatement {
     public RenameDatabaseStatement(List l){
         statement=l;
     }
-    public int renameDatabaseImpl() throws ClassNotFoundException {
+    public int renameDatabaseImpl() throws Exception {
         boolean bool=true;
         String databaseName=((Token)statement.get(2)).image;
         String newDatabaseName=((Token)statement.get(4)).image;
@@ -40,8 +40,9 @@ public class RenameDatabaseStatement {
         values.add(new SqlVarChar(newDatabaseName));
         bool=usa.updateTable(att,values,change);
         if(bool==false){
-            System.out.println("Rename Database Wrong!");
-            return 0;
+            throw new Exception("Error:Rename Database Wrong");
+//            System.out.println("Rename Database Wrong!");
+//            return 0;
         }
 
 

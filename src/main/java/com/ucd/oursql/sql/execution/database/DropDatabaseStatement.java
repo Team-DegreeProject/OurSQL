@@ -18,10 +18,11 @@ public class DropDatabaseStatement {
     public DropDatabaseStatement(List tokens){
         statement=tokens;
     }
-    public int dropDatabaseStatementImpl() throws ClassNotFoundException {
+    public int dropDatabaseStatementImpl() throws Exception {
         if(statement==null){
-            System.out.println("Drop Database Wrong!");
-            return 0;
+            throw new Exception("Error: Drop statement null");
+//            System.out.println("Drop Database Wrong!");
+//            return 0;
         }
         String databaseName=((Token)statement.get(2)).image;
         Table delete=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"databasename",EQ,new SqlVarChar(databaseName));

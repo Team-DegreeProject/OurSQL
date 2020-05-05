@@ -77,7 +77,7 @@ public class SelectDataStatement {
         return rs;
     }
 
-    public List dealWithLimit(List cs,Token l,Token off,Token rowFetch){
+    public List dealWithLimit(List cs,Token l,Token off,Token rowFetch) throws Exception {
         if(off!=null){
             int offset=Integer.parseInt(off.image);
             if(l!=null){
@@ -95,7 +95,8 @@ public class SelectDataStatement {
                 }
                 return ncs;
             } else{
-                return cs;
+                throw new Exception("Error: No limit or fetch");
+//                return cs;
             }
         }else{
             if(l!=null){
@@ -158,7 +159,7 @@ public class SelectDataStatement {
     }
 
 
-    public List checkDistinct(){
+    public List checkDistinct() throws Exception {
         List<List<Token>> list= getColumns();
         List re=new ArrayList();
         for(int i=0;i<list.size();i++){
@@ -181,7 +182,7 @@ public class SelectDataStatement {
     }
 
 
-    public List<List<Token>> getColumns(){
+    public List<List<Token>> getColumns() throws Exception {
         Object o=statement.get(1);
         if(o instanceof Token){
             if(((Token) o).kind==ASTERISK ||((Token) o).kind==ALL){
@@ -190,7 +191,8 @@ public class SelectDataStatement {
         }else if(o instanceof List){
             return (List<List<Token>>) o;
         }
-        return null;
+        throw new Exception("Error: No column");
+//        return null;
     }
 
     public List changeReturnList(Object o){
@@ -213,7 +215,7 @@ public class SelectDataStatement {
         return null;
     }
 
-    public HashMap getFrom(){
+    public HashMap getFrom() throws Exception {
         List re=new ArrayList();
         for(int i=0;i<statement.size();i++){
             Object o=statement.get(i);
@@ -224,7 +226,8 @@ public class SelectDataStatement {
                 }
             }
         }
-        return null;
+        throw new Exception("Error:No from");
+//        return null;
     }
 
     public HashMap getJoin(int s){
