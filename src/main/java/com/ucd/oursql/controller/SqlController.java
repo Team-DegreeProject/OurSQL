@@ -66,7 +66,7 @@ public class SqlController {
             }
             return "Bye!";
         }
-    ResultSet rs=st.executeQuery(text);
+        ResultSet rs=st.executeQuery(text);
 //        String[][] s={{"a","b","c"},{"d","e","f"},{"h","i","j"}};
 //        InputStream target = new ByteArrayInputStream(text.getBytes());
 //        SqlParser parser = new SqlParser(target);
