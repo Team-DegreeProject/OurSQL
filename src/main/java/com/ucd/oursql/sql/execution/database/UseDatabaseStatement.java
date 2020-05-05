@@ -20,7 +20,7 @@ public class UseDatabaseStatement {
     public UseDatabaseStatement(List token){
         statement=token;
     }
-    public  Object useDatabaseStatementImpl() throws ClassNotFoundException {
+    public  int useDatabaseStatementImpl() throws ClassNotFoundException {
 //        descriptorLoader dl=new descriptorLoader();
 //        dl.loadFromFile(databaseName);
 //        ExecuteStatement.uad.printUserAccessedDatabase();

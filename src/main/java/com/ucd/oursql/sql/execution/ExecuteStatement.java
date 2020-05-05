@@ -11,6 +11,7 @@ import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
 import javafx.scene.control.Tab;
 
+import javax.jws.Oneway;
 import java.util.List;
 
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
@@ -71,24 +72,24 @@ public class ExecuteStatement {
 
 
 
-    public static String rename(List tokens){
+    public static Object rename(List tokens){
         setAll();
         String out="Error: Rename !";
         int type=((Token)tokens.get(1)).kind;
         if(type==DATABASE){
-            out=DatabaseStatements.renameDatabase(tokens);
+            return DatabaseStatements.renameDatabase(tokens);
         }else{
             out=TableStatements.renameTable(tokens);
         }
         return out;
     }
 
-    public static String create(List tokens){
+    public static Object create(List tokens){
         setAll();
         String out="Error: Create !";
         int name=((Token)tokens.get(1)).kind;
         if(name==DATABASE){
-            out=DatabaseStatements.createDatabase(tokens);
+            return DatabaseStatements.createDatabase(tokens);
         }else if(name==TABLE){
             try {
                 if(db==null){
@@ -103,12 +104,12 @@ public class ExecuteStatement {
         return out;
     }
 
-    public static String drop(List tokens){
+    public static Object drop(List tokens){
         setAll();
         String out="Error: Drop !";
         int type=((Token)tokens.get(1)).kind;
         if(type==DATABASE){
-            out=DatabaseStatements.dropDatabase(tokens);
+            return DatabaseStatements.dropDatabase(tokens);
         }else{
             out=TableStatements.dropTable(tokens);
         }
@@ -140,14 +141,14 @@ public class ExecuteStatement {
 
     public static String select(List tokens){setAll();return DataStatements.selectData(tokens);}
 
-    public static String show(List tokens){
+    public static Object show(List tokens){
         setAll();
         String out="Error: Show !";
         Token t= (Token) tokens.get(1);
         if(t.kind==TABLES){
-            out=TableStatements.showTable(tokens);
+            return TableStatements.showTable(tokens);
         }else if(t.kind==DATABASES){
-            out=DatabaseStatements.showDatabase(tokens);
+            return DatabaseStatements.showDatabase(tokens);
         }
         return out;
     }

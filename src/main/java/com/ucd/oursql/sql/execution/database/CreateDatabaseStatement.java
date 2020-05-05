@@ -19,9 +19,10 @@ public class CreateDatabaseStatement{
     }
     public CreateDatabaseStatement(){}
 
-    public String createDatabaseImpl() throws Exception {
+    public int createDatabaseImpl() throws Exception {
         if(statement==null){
-            return "Create Database Wrong!";
+            System.out.println("Create Database Wrong!");
+            return 0;
         }
         String databaseName=  ((Token)statement.get(2)).image;
         Table check=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"databasename",EQ,new SqlVarChar(databaseName));
@@ -39,7 +40,7 @@ public class CreateDatabaseStatement{
 //        ds.saveAll();
 
         String output=ExecuteStatement.uad.getUserAccessedDatabase().printTable(null);
-        return output;
+        return 1;
     }
 
 //    public Database createDatabaseImpl(int i) throws ClassNotFoundException, InstantiationException, IllegalAccessException {

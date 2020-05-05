@@ -4,11 +4,11 @@ import java.util.List;
 
 public class DatabaseStatements {
 
-    public static String createDatabase(List tokens){
+    public static Object createDatabase(List tokens){
         String out="Error: Create Database !";
         try {
             CreateDatabaseStatement cds=new CreateDatabaseStatement(tokens);
-            out=cds.createDatabaseImpl();
+            return cds.createDatabaseImpl();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -21,29 +21,29 @@ public class DatabaseStatements {
         return out;
     }
 
-    public static String renameDatabase(List tokens){
+    public static Object renameDatabase(List tokens){
         String out="Error: Rename Database !";
         try {
             RenameDatabaseStatement renameDatabaseStatement=new RenameDatabaseStatement(tokens);
-            out=renameDatabaseStatement.renameDatabaseImpl();
+            return renameDatabaseStatement.renameDatabaseImpl();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return out;
     }
 
-    public static String showDatabase(List tokens){
+    public static Object showDatabase(List tokens){
         String out="Error: Show Database !";
         ShowDatabaseStatement sds=new ShowDatabaseStatement();
-        out=sds.showDatabaseStatementImpl();
-        return out;
+        return sds.showDatabaseStatementImpl();
+//        return out;
     }
 
-    public static String dropDatabase(List tokens){
+    public static Object dropDatabase(List tokens){
         String out="Error: Drop Database !";
         try {
             DropDatabaseStatement dds=new DropDatabaseStatement(tokens);
-            out=dds.dropDatabaseStatementImpl();
+            return dds.dropDatabaseStatementImpl();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

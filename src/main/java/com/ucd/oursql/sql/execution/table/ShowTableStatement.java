@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.execution.table;
 
+import com.ucd.oursql.sql.driver.OurSqlResultset;
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 
 import java.util.List;
@@ -11,10 +12,11 @@ public class ShowTableStatement {
         this.statement=list;
     }
 
-    public String showDatabaseStatementImpl(){
+    public Object showDatabaseStatementImpl(){
 //        Table usa= ExecuteStatement.uad.getUserAccessedDatabase();
 //        usa.printTable();
         String output= ExecuteStatement.db.printDatabase();
-        return output;
+        OurSqlResultset ourSqlResultset=new OurSqlResultset(ExecuteStatement.db.getDatabase().getTree().getDatas(),ExecuteStatement.db.getDatabase().getPropertyMap());
+        return ourSqlResultset;
     }
 }

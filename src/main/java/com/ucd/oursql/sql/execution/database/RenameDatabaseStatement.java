@@ -23,7 +23,7 @@ public class RenameDatabaseStatement {
     public RenameDatabaseStatement(List l){
         statement=l;
     }
-    public String renameDatabaseImpl() throws ClassNotFoundException {
+    public int renameDatabaseImpl() throws ClassNotFoundException {
         boolean bool=true;
         String databaseName=((Token)statement.get(2)).image;
         String newDatabaseName=((Token)statement.get(4)).image;
@@ -40,7 +40,8 @@ public class RenameDatabaseStatement {
         values.add(new SqlVarChar(newDatabaseName));
         bool=usa.updateTable(att,values,change);
         if(bool==false){
-            return "Rename Database Wrong!";
+            System.out.println("Rename Database Wrong!");
+            return 0;
         }
 
 
@@ -67,7 +68,7 @@ public class RenameDatabaseStatement {
 //        PrimaryKey pk=new PrimaryKey(l);
 //        CglibBean ct= (CglibBean) usa.getTree().select(pk);
 //        System.out.println("===============================ct:"+((Database)ct.getValue("database")).getDatabaseName());
-        return output;
+        return 1;
     }
 
 }
