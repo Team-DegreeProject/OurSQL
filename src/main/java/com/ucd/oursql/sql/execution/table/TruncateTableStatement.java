@@ -23,7 +23,7 @@ public class TruncateTableStatement {
         String name=((Token)statement.get(1)).image;
         Table truncate=FromStatement.from(ExecuteStatement.db.getDatabase(),name);
         truncate.cleanAllData();
-        descriptorSaver ds=new descriptorSaver(truncate.getTd(),truncate.getPropertyMap(),truncate.getTree());
+        descriptorSaver ds=new descriptorSaver(truncate.getTd(),truncate.getPropertyMap(),truncate.getTree(),ExecuteStatement.user.getUserName());
         ds.saveAll();
         String output=truncate.printTable(null);
         return output;

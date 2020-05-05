@@ -29,7 +29,7 @@ public class UseDatabaseStatement {
 
 //        System.out.println(databaseName);
         descriptorLoader dl=new descriptorLoader();
-        Table t=dl.loadFromFile(databaseName);
+        Table t=dl.loadFromFile(databaseName,ExecuteStatement.user.getUserName());
         if (t==null){
             String message="No database for this name";
             System.out.println(message);

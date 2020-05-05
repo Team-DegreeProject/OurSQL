@@ -45,13 +45,13 @@ public class RenameDatabaseStatement {
 
 
         descriptorLoader dl=new descriptorLoader();
-        Database database=new Database(dl.loadFromFile(databaseName));
+        Database database=new Database(dl.loadFromFile(databaseName,ExecuteStatement.user.getUserName()));
         TreeSaver tl= new TreeSaver();
         System.out.println(databaseName);
         tl.deleteTable(databaseName);
         Table t=database.getDatabase();
         t.getTableDescriptor().setTableName(newDatabaseName);
-        descriptorSaver ds=new descriptorSaver(t.getTd(),t.getPropertyMap(),t.getTree());
+        descriptorSaver ds=new descriptorSaver(t.getTd(),t.getPropertyMap(),t.getTree(),ExecuteStatement.user.getUserName());
         ds.saveAll();
 
 //        String[] nameatt={"database"};

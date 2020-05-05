@@ -1,5 +1,6 @@
 package com.ucd.oursql.sql.system;
 
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
@@ -44,7 +45,7 @@ public class UserAccessedDatabases {
 
     public Table databaseList() throws ClassNotFoundException {
         descriptorLoader dl=new descriptorLoader();
-        Table temp=dl.loadFromFile("UserPermissionDatabaseScope");
+        Table temp=dl.loadFromFile("UserPermissionDatabaseScope", ExecuteStatement.user.getUserName());
         if(temp!=null){
             System.out.println("load UPDS from xml");
             userAccessedDatabase=temp;

@@ -1,6 +1,7 @@
 package com.ucd.oursql.sql.table;
 
 import com.ucd.oursql.sql.execution.DMLTool;
+import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
@@ -88,7 +89,7 @@ public class Table extends SqlConstantImpl {
 //            System.out.println(cd.getColumnName()+"--->"+sqlMap.get(dtd.getTypeId()));
             propertyMap.put(cd.getColumnName(),sqlMap.get(dtd.getTypeId()));
         }
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree, ExecuteStatement.user.getUserName());
         ds.saveAll();
         return propertyMap;
     }
@@ -141,7 +142,7 @@ public class Table extends SqlConstantImpl {
 //        System.out.println("11111111111111");
 //        this.printTable(null);
 
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
         return true;
     }
@@ -155,7 +156,7 @@ public class Table extends SqlConstantImpl {
        }
         System.out.println("============insert rows================");
        this.printTable(null);
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
     }
 
@@ -278,7 +279,7 @@ public class Table extends SqlConstantImpl {
             }
         }
         updatePrimaryKey();
-        descriptorSaver ds=new descriptorSaver(this.td,this.propertyMap,this.tree);
+        descriptorSaver ds=new descriptorSaver(this.td,this.propertyMap,this.tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
         return true;
     }
@@ -304,7 +305,7 @@ public class Table extends SqlConstantImpl {
             }
         }
         updatePrimaryKey();
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
         return true;
     }
@@ -348,7 +349,7 @@ public class Table extends SqlConstantImpl {
             this.printTable(null);
             System.out.println("===================");
         }
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
         return true;
     }
@@ -389,7 +390,7 @@ public class Table extends SqlConstantImpl {
         this.tree=newTree;
         td.updatePriamryKey();
         updatePrimaryKey();
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
     }
 
@@ -412,7 +413,7 @@ public class Table extends SqlConstantImpl {
         }
         td.updatePriamryKey();
         updatePrimaryKey();
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
     }
 
@@ -441,7 +442,7 @@ public class Table extends SqlConstantImpl {
         this.tree=newTree;
         td.updatePriamryKey();
         updatePrimaryKey();
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
     }
 
