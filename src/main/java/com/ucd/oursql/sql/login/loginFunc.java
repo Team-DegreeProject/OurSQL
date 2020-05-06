@@ -21,7 +21,6 @@ public class loginFunc {
                 String id = el.getChildText("id");
                 if(id.equals(accountid)){
                     System.out.println("==================success");
-                    ExecuteStatement.setUser(accountid);
                     return true;
                 }
                 System.out.println("There is no such account!");
@@ -49,6 +48,7 @@ public class loginFunc {
                 if(id.equals(idProvided)){
                     String password = SHAUtils.shaEncode(passwordProvided);
                     if (password.equals(el.getChildText("password"))){
+                        ExecuteStatement.setUser(id);
                         return true;
                     }else {
                         System.out.println("Password Wrong! Please try again");
