@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="UserPermissionDatabaseScope">
-<tableName>UserPermissionDatabaseScope</tableName>
-<schema>1</schema>
+<table name="ttt">
+<tableName>ttt</tableName>
+<schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>
-<primaryColumnName>databasename</primaryColumnName>
-<primaryColumnName>user</primaryColumnName>
+<primaryColumnName>tablename</primaryColumnName>
 </primaryKey>
 <columnDescriptorList>
 <columnDescriptor>
@@ -21,10 +20,10 @@
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
 <autoincValue>0</autoincValue>
-<Unique>true</Unique>
+<Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>databasename</columnName>
+<columnName>tablename</columnName>
 <columnPosition>1</columnPosition>
 <DataTypeDescriptor>
 <typeId>210</typeId>
@@ -36,22 +35,7 @@
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>
 <autoincValue>0</autoincValue>
-<Unique>false</Unique>
-</columnDescriptor>
-<columnDescriptor>
-<columnName>user</columnName>
-<columnPosition>2</columnPosition>
-<DataTypeDescriptor>
-<typeId>210</typeId>
-<precision>-1</precision>
-<scale>-1</scale>
-<isNullable>false</isNullable>
-<isPrimaryKey>true</isPrimaryKey>
-</DataTypeDescriptor>
-<autoincStart>0</autoincStart>
-<autoincInc>false</autoincInc>
-<autoincValue>0</autoincValue>
-<Unique>false</Unique>
+<Unique>true</Unique>
 </columnDescriptor>
 </columnDescriptorList>
 </table>

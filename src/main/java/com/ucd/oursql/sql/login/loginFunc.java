@@ -49,6 +49,7 @@ public class loginFunc {
                     String password = SHAUtils.shaEncode(passwordProvided);
                     if (password.equals(el.getChildText("password"))){
                         ExecuteStatement.setUser(id);
+                        System.out.println("Log In: success");
                         return true;
                     }else {
                         System.out.println("Password Wrong! Please try again");

@@ -37,7 +37,7 @@ public class RenameTableStatement {
 //        att.add("tablename");
         Table change= WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(oldName));
         values.add(new SqlVarChar(newName));
-        boolean bool=database.updateTable(att,values,change);
+        boolean bool=database.updateTable(att,values,change,1);
         if(bool==false){
 //            database.printTable(null);
             throw new Exception("Error:Rename");

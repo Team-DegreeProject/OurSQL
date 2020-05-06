@@ -101,7 +101,7 @@ public class Database{
 //        String[] attributes=database.getTableDescriptor().getColumnNamesArray();
 //        System.out.println("222222222222");
 //        database.printTable(null);
-        return database.insertARow(values);
+        return database.insertARow(values,1);
     }
 
     public String printDatabase(){

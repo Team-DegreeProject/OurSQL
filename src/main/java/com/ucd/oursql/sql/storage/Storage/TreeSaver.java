@@ -70,8 +70,8 @@ public class TreeSaver {
 
                     //将对应的内容和key添加到xml中
                     Element XML_entity = new Element(key).setText(val);
-                    System.out.println("!!!!!!!!!");
-                    System.out.println("The value of the val is: "+val);
+//                    System.out.println("!!!!!!!!!");
+//                    System.out.println("The value of the val is: "+val);
                     entity.addContent(XML_entity);
 
 

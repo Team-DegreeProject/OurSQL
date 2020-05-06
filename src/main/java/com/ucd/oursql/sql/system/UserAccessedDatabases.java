@@ -45,7 +45,7 @@ public class UserAccessedDatabases {
 
     public Table databaseList() throws ClassNotFoundException {
         descriptorLoader dl=new descriptorLoader();
-        Table temp=dl.loadFromFile("UserPermissionDatabaseScope", ExecuteStatement.user.getUserName());
+        Table temp=dl.loadFromFile("UserPermissionDatabaseScope", "root");
         if(temp!=null){
             System.out.println("load UPDS from xml");
             userAccessedDatabase=temp;
@@ -61,26 +61,29 @@ public class UserAccessedDatabases {
 //        primaryKey.add(column);
 //        columns.add(column);
         DataTypeDescriptor user= new DataTypeDescriptor(VARCHAR,false);
+        user.setPrimaryKey(true);
         ColumnDescriptor column=new ColumnDescriptor("user",2,user);
         columns.add(column);
+        primaryKey.add(column);
 //        DataTypeDescriptor t= new DataTypeDescriptor(DATABASE,false);
 //        column=new ColumnDescriptor("database",3,t);
 //        columns.add(column);
         DataTypeDescriptor tn= new DataTypeDescriptor(VARCHAR,false);
         tn.setPrimaryKey(true);
         column=new ColumnDescriptor("databasename",1,tn);
-        column.setUnique(true);
+//        column.setUnique(true);
         primaryKey.add(column);
         columns.add(column);
         DataTypeDescriptor tp=new DataTypeDescriptor(PRIMARY_KEY,false);
         column=new ColumnDescriptor("primary_key",0,tp);
+        column.setUnique(true);
         columns.add(column);
         tableDescriptor =new TableDescriptor(tableName,SYSTEM_TABLE_TYPE,columns,primaryKey);
         tableDescriptor .setTableInColumnDescriptor(tableDescriptor);
         tableDescriptor .printColumnName();
-        userAccessedDatabase=new Table(tableDescriptor);
-//        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree());
-//        ds.saveAll();
+        userAccessedDatabase=new Table(tableDescriptor,true);
+        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree(),"root");
+        ds.saveAll();
         return userAccessedDatabase;
     }
 
@@ -92,6 +95,7 @@ public class UserAccessedDatabases {
         PrimaryKey pk=new PrimaryKey();
 //        SqlInt sqlid=new SqlInt(id);
         pk.addPrimaryKey("databasename",n);
+        pk.addPrimaryKey("user",u);
         List values=new ArrayList();
         values.add(pk);
 //        values.add(sqlid);
@@ -99,7 +103,7 @@ public class UserAccessedDatabases {
         values.add(user.getUserName());
 //        values.add(database);
 //        values.add(database.getDatabaseName());
-        boolean instance = userAccessedDatabase.insertARow(values);
+        boolean instance = userAccessedDatabase.insertARow(values,0);
 
 //        descriptorSaver ds=new descriptorSaver(userAccessedDatabase.getTableDescriptor(),userAccessedDatabase.getPropertyMap(),userAccessedDatabase.getTree());
 //        ds.saveAll();
@@ -109,7 +113,7 @@ public class UserAccessedDatabases {
     public void returnUserAccessedDatabaseNames(){
         List names=new ArrayList();
         BPlusTree tree=userAccessedDatabase.getTree();
-        BPlusTreeTool.printBPlusTree(tree,"database");
+        BPlusTreeTool.printBPlusTree(tree,"databasename");
     }
 
     public String printUserAccessedDatabase(){

@@ -69,6 +69,7 @@ public class PrimaryKey implements SqlType{
             if(outcome!=0){
                 return outcome;
             }
+            System.out.println(c1+"  "+c2+"  "+outcome);
 
         }
         return outcome;

@@ -29,7 +29,7 @@ public class DropTableStatement {
         for(int i=0;i<names.size();i++){
             String name=((Token)names.get(i)).image;
             Table delete= WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(name));
-            database.deleteRows(delete);
+            database.deleteRows(delete,1);
             TreeSaver ts=new TreeSaver();
             ts.deleteTable(name);
         }

@@ -10,6 +10,7 @@ import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.BTree.CglibBean;
 import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
+import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import javax.xml.crypto.Data;
@@ -32,13 +33,18 @@ public class RenameDatabaseStatement {
 //        att.add("database");
 //        att.add("databasename");
         Table usa=ExecuteStatement.uad.getUserAccessedDatabase();
-        Table change=WhereStatament.compare(usa,"databasename",EQ,new SqlVarChar(databaseName));
+
+        PrimaryKey pk=new PrimaryKey();
+        pk.addPrimaryKey("databasename",new SqlVarChar(databaseName));
+        pk.addPrimaryKey("user",new SqlVarChar(ExecuteStatement.user.getUserName()));
+        Table change=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"primary_key",EQ,pk);
+//        Table change=WhereStatament.compare(usa,"databasename",EQ,new SqlVarChar(databaseName));
         List list=  change.getTree().getDatas();
         CglibBean c= (CglibBean) list.get(0);
 
 //        usa.printTable(null);
         values.add(new SqlVarChar(newDatabaseName));
-        bool=usa.updateTable(att,values,change);
+        bool=usa.updateTable(att,values,change,0);
         if(bool==false){
             throw new Exception("Error:Rename Database Wrong");
 //            System.out.println("Rename Database Wrong!");
@@ -63,7 +69,7 @@ public class RenameDatabaseStatement {
 //        database.setDatabaseName(newDatabaseName);
 //        bool=usa.updateTable(nameatt,values,change);
         String output=ExecuteStatement.uad.getUserAccessedDatabase().printTable(null);
-
+        ExecuteStatement.updateUAD();
 //        List l=new ArrayList();
 //        l.add(new SqlInt(0));
 //        PrimaryKey pk=new PrimaryKey(l);
@@ -71,5 +77,6 @@ public class RenameDatabaseStatement {
 //        System.out.println("===============================ct:"+((Database)ct.getValue("database")).getDatabaseName());
         return 1;
     }
+
 
 }
