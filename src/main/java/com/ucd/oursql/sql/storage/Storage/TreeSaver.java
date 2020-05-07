@@ -134,9 +134,9 @@ public class TreeSaver {
 
 
     }
-    public boolean deleteTable(String tableName){
+    public boolean deleteTable(String tableName,String userName){
 
-        File file = new File("data/" + tableName + "/");
+        File file = new File("data/"+userName+"/" + tableName + "/");
         if(!file.exists()){
             return false;
         }
@@ -151,7 +151,7 @@ public class TreeSaver {
                     return false;
                 }
             }else{
-                if(!this.deleteTable(f.getAbsolutePath())){
+                if(!this.deleteTable(f.getAbsolutePath(),userName)){
                     return false;
                 }
             }
