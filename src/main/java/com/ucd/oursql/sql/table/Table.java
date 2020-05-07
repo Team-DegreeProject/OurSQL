@@ -285,19 +285,22 @@ public class Table extends SqlConstantImpl {
     public boolean updateTable(String[] attributes,List values,Table t,int type) throws Exception {
 //        System.out.println(values.size()+"  ==  "+t.getTree().getDataNumber());
         if(t.getTree().getDataNumber()==0 ){
-            System.out.println("No update");
-            return false;
+            throw new Exception("Error: No update");
+//            System.out.println("No update");
+//            return false;
         }
         if(attributes.length!=values.size()){
-            System.out.println("The number of attributes is not equal to the number of values.");
-            return false;
+            throw new Exception("Error: The number of attributes is not equal to the number of values");
+//            System.out.println("The number of attributes is not equal to the number of values.");
+//            return false;
         }
 
 
         boolean ub=checkUniqueOperationUpdate(attributes,values);
 //        System.out.println("Unique:"+ub);
         if(ub==false){
-            return false;
+            throw new Exception("Error: checkUnique");
+//            return false;
         }
 
 

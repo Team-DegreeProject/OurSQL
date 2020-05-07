@@ -2,6 +2,7 @@ package com.ucd.oursql.sql.execution.table;
 
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.Table;
@@ -44,6 +45,14 @@ public class CreateTableStatement implements SqlConstant {
 //                DataTypeDescriptor dataTypeDescriptor = column.getType();
             }
         }
+
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table testDB=descriptorLoader.loadFromFile(tableName,ExecuteStatement.user.getUserName());
+        if(testDB!=null){
+            throw new Exception("Error: There is a folder with the same name.");
+        }
+
+
         td=new TableDescriptor(tableName,BASE_TABLE_TYPE,columns);
         td.setTableInColumnDescriptor(td);
         td.updatePriamryKey();

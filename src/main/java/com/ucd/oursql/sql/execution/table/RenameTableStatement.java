@@ -28,6 +28,7 @@ public class RenameTableStatement {
     }
 
     public int renameTableImpl() throws Exception {
+
         Table database=ExecuteStatement.db.getDatabase();
         String oldName=((Token)statement.get(2)).image;
         String newName=((Token)statement.get(4)).image;
@@ -35,6 +36,13 @@ public class RenameTableStatement {
         List values=new ArrayList();
 //        att.add("table");
 //        att.add("tablename");
+
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table testDB=descriptorLoader.loadFromFile(newName,ExecuteStatement.user.getUserName());
+        if(testDB!=null){
+            throw new Exception("Error: There is a folder with the same name.");
+        }
+
         Table change= WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(oldName));
         values.add(new SqlVarChar(newName));
         boolean bool=database.updateTable(att,values,change,1);

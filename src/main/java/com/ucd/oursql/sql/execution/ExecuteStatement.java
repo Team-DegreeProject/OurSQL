@@ -5,6 +5,7 @@ import com.ucd.oursql.sql.execution.database.*;
 import com.ucd.oursql.sql.execution.table.*;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
+import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.system.User;
 import com.ucd.oursql.sql.system.UserAccessedDatabases;
 import com.ucd.oursql.sql.table.Database;
@@ -58,6 +59,15 @@ public class ExecuteStatement {
         Table t=descriptorLoader.loadFromFile("UserPermissionDatabaseScope","root");
         uad.setUserAccessedDatabase(t);
     }
+
+//    public static void updateDB(){
+//        Table d=db.getDatabase();
+//        descriptorSaver descriptorSaver=new descriptorSaver(d.getTableDescriptor(),d.getPropertyMap(),d.getTree(),user.getUserName());
+//        descriptorSaver.saveAll();
+//        descriptorLoader descriptorLoader=new descriptorLoader();
+//        Table t=descriptorLoader.loadFromFile(,"root");
+//        uad.setUserAccessedDatabase(t);
+//    }
 
 
     public static UserAccessedDatabases getUserAccessedDatabases(){
