@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.ucd.oursql.sql.table.type</OriginalElement>
+  <nodes>
+    <node x="437.00000000000006" y="381.0">com.ucd.oursql.sql.table.type.date</node>
+    <node x="0.0" y="619.0">com.ucd.oursql.sql.table.type.SqlConstantImpl</node>
+    <node x="691.0" y="381.0">com.ucd.oursql.sql.table.type.number</node>
+    <node x="566.0" y="381.0">com.ucd.oursql.sql.table.type.text</node>
+    <node x="0.0" y="219.0">com.ucd.oursql.sql.table.type.PrimaryKey</node>
+    <node x="346.50000000000006" y="0.0">com.ucd.oursql.sql.table.type.SqlType</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.ucd.oursql.sql.table.type.date" target="com.ucd.oursql.sql.table.type.SqlType">
+      <point x="0.0" y="-15.5" />
+      <point x="491.50000000000006" y="194.0" />
+      <point x="502.87500000000006" y="194.0" />
+      <point x="-52.125" y="84.5" />
+    </edge>
+    <edge source="com.ucd.oursql.sql.table.type.number" target="com.ucd.oursql.sql.table.type.SqlType">
+      <point x="0.0" y="-15.5" />
+      <point x="755.0" y="194.0" />
+      <point x="711.375" y="194.0" />
+      <point x="156.375" y="84.5" />
+    </edge>
+    <edge source="com.ucd.oursql.sql.table.type.text" target="com.ucd.oursql.sql.table.type.SqlType">
+      <point x="0.0" y="-15.5" />
+      <point x="618.5" y="194.0" />
+      <point x="607.125" y="194.0" />
+      <point x="52.125" y="84.5" />
+    </edge>
+    <edge source="com.ucd.oursql.sql.table.type.PrimaryKey" target="com.ucd.oursql.sql.table.type.SqlType">
+      <point x="0.0" y="-177.5" />
+      <point x="208.5" y="194.0" />
+      <point x="398.62500000000006" y="194.0" />
+      <point x="-156.375" y="84.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7428896473265074" x="409.5" y="419.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

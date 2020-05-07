@@ -1,18 +1,15 @@
 package com.ucd.oursql.sql.system;
 
-import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.BTree.BPlusTree;
 import com.ucd.oursql.sql.table.BTree.BPlusTreeTool;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
-import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.TableDescriptor;
 import com.ucd.oursql.sql.table.column.ColumnDescriptor;
 import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
-import com.ucd.oursql.sql.table.type.number.SqlInt;
 import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import java.util.ArrayList;
@@ -20,7 +17,6 @@ import java.util.List;
 
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
 import static com.ucd.oursql.sql.table.TableSchema.SYSTEM_TABLE_TYPE;
-import static com.ucd.oursql.sql.table.type.SqlConstantImpl.*;
 
 public class UserAccessedDatabases {
     private User user;

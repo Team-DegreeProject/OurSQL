@@ -27,7 +27,7 @@ public class Table extends SqlConstantImpl {
     private TableDescriptor td;
     private BPlusTree tree=new BPlusTree<>(4);;
     private HashMap propertyMap = new HashMap();
-    private User user=new User("root");
+//    private User user=new User("root");
 
 
     public Table(){}

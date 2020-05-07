@@ -1,18 +1,12 @@
 package com.ucd.oursql.sql.execution.database;
 
 import com.ucd.oursql.sql.execution.ExecuteStatement;
-import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
-import com.ucd.oursql.sql.table.BTree.CglibBean;
-import com.ucd.oursql.sql.table.Database;
+import com.ucd.oursql.sql.system.Database;
 import com.ucd.oursql.sql.table.Table;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-
-import static com.ucd.oursql.sql.parsing.SqlParserConstants.EQ;
 
 public class UseDatabaseStatement {
     List statement=null;

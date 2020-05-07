@@ -1,6 +1,7 @@
 package com.ucd.oursql.sql.execution.table;
 
 import com.ucd.oursql.sql.execution.ExecuteStatement;
+import com.ucd.oursql.sql.parsing.SqlParserConstants;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
@@ -9,14 +10,13 @@ import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.TableDescriptor;
 import com.ucd.oursql.sql.table.column.ColumnDescriptor;
 import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
-import com.ucd.oursql.sql.table.type.SqlConstant;
 
 import java.util.List;
 
 import static com.ucd.oursql.sql.execution.DMLTool.analyseOneRow;
 import static com.ucd.oursql.sql.table.TableSchema.BASE_TABLE_TYPE;
 
-public class CreateTableStatement implements SqlConstant {
+public class CreateTableStatement implements SqlParserConstants {
 
     List statement;
 

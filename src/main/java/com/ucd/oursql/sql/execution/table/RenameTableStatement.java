@@ -6,8 +6,6 @@ import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.TreeSaver;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
-import com.ucd.oursql.sql.table.BTree.CglibBean;
-import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
