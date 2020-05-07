@@ -3,6 +3,7 @@ package com.ucd.oursql.sql.execution.database;
 import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
@@ -35,6 +36,12 @@ public class CreateDatabaseStatement{
         if(size>0){
             System.out.println("Error:There is a database with the same name!");
             throw new Exception("Error:There is a database with the same name!");
+        }
+
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table testDB=descriptorLoader.loadFromFile(databaseName,ExecuteStatement.user.getUserName());
+        if(testDB!=null){
+            throw new Exception("Error: There is a folder with the same name.");
         }
 
         Database db=new Database(databaseName);

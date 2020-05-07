@@ -32,6 +32,10 @@ public class DropDatabaseStatement {
         pk.addPrimaryKey("user",new SqlVarChar(ExecuteStatement.user.getUserName()));
         Table delete=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"primary_key",EQ,pk);
 //        Table delete=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"databasename",EQ,new SqlVarChar(databaseName));
+        if(delete.getTree().getDataNumber()==0){
+            throw new Exception("Error:Nothing to be deleted.");
+        }
+
         boolean b=ExecuteStatement.uad.getUserAccessedDatabase().deleteRows(delete,0);
         if(b){
             TreeSaver ts=new TreeSaver();

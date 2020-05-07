@@ -28,6 +28,13 @@ public class RenameDatabaseStatement {
         boolean bool=true;
         String databaseName=((Token)statement.get(2)).image;
         String newDatabaseName=((Token)statement.get(4)).image;
+
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table testDB=descriptorLoader.loadFromFile(newDatabaseName,ExecuteStatement.user.getUserName());
+        if(testDB!=null){
+            throw new Exception("Error: There is a folder with the same name.");
+        }
+
         String[] att={"databasename"};
         List values=new ArrayList();
 //        att.add("database");
