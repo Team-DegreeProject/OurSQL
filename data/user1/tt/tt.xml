@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="tt">
 <entity>
+<tablename>tdate</tablename>
+<primary_key>tablename:tdate</primary_key>
+</entity>
+<entity>
 <tablename>tnum</tablename>
 <primary_key>tablename:tnum</primary_key>
 </entity>

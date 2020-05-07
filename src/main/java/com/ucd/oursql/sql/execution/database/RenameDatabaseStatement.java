@@ -56,7 +56,7 @@ public class RenameDatabaseStatement {
         Database database=new Database(dl.loadFromFile(databaseName,ExecuteStatement.user.getUserName()));
         TreeSaver tl= new TreeSaver();
         System.out.println(databaseName);
-        tl.deleteTable(databaseName);
+        tl.deleteTable(databaseName,ExecuteStatement.user.getUserName());
         Table t=database.getDatabase();
         t.getTableDescriptor().setTableName(newDatabaseName);
         descriptorSaver ds=new descriptorSaver(t.getTd(),t.getPropertyMap(),t.getTree(),ExecuteStatement.user.getUserName());

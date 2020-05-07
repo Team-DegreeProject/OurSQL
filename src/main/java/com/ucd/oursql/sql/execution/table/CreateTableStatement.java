@@ -61,6 +61,7 @@ public class CreateTableStatement implements SqlConstant {
         if(boo){
             descriptorSaver ds=new descriptorSaver(table.getTd(),table.getPropertyMap(),table.getTree(),ExecuteStatement.user.getUserName());
         }
+        ExecuteStatement.updateDB();
         String output=ExecuteStatement.db.printDatabase()+"\n"+table.printTable(null);
 //        td.printTableDescriptor();
         return 1;

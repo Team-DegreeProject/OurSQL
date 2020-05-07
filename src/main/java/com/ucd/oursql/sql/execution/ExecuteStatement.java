@@ -60,14 +60,14 @@ public class ExecuteStatement {
         uad.setUserAccessedDatabase(t);
     }
 
-//    public static void updateDB(){
-//        Table d=db.getDatabase();
+    public static void updateDB(){
+        Table d=db.getDatabase();
 //        descriptorSaver descriptorSaver=new descriptorSaver(d.getTableDescriptor(),d.getPropertyMap(),d.getTree(),user.getUserName());
 //        descriptorSaver.saveAll();
-//        descriptorLoader descriptorLoader=new descriptorLoader();
-//        Table t=descriptorLoader.loadFromFile(,"root");
-//        uad.setUserAccessedDatabase(t);
-//    }
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table t=descriptorLoader.loadFromFile(d.getTd().getTableName(),user.getUserName());
+        db.setDatabase(t);
+    }
 
 
     public static UserAccessedDatabases getUserAccessedDatabases(){

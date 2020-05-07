@@ -56,7 +56,7 @@ public class RenameTableStatement {
         Table t=new Table(dl.loadFromFile(oldName,ExecuteStatement.user.getUserName()));
         TreeSaver tl= new TreeSaver();
 //        System.out.println(databaseName);
-        tl.deleteTable(oldName);
+        tl.deleteTable(oldName,ExecuteStatement.user.getUserName());
 //        Table t=database.getDatabase();
         t.getTableDescriptor().setTableName(newName);
         descriptorSaver ds=new descriptorSaver(t.getTd(),t.getPropertyMap(),t.getTree(),ExecuteStatement.user.getUserName());
@@ -70,7 +70,7 @@ public class RenameTableStatement {
 //        values.add(table);
 //        table.getTableDescriptor().setTableName(newName);
 //        bool=database.updateTable(namestt,values,change);
-
+        ExecuteStatement.updateDB();
         String output=ExecuteStatement.db.printDatabase();
         return 1;
     }

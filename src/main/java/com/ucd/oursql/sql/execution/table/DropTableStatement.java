@@ -34,8 +34,9 @@ public class DropTableStatement {
             }
             database.deleteRows(delete,1);
             TreeSaver ts=new TreeSaver();
-            ts.deleteTable(name);
+            ts.deleteTable(name,ExecuteStatement.user.getUserName());
         }
+        ExecuteStatement.updateDB();
         String output=database.printTable(null);
         return 1;
     }

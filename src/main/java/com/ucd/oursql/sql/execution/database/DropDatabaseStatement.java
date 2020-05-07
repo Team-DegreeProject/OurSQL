@@ -35,7 +35,7 @@ public class DropDatabaseStatement {
         boolean b=ExecuteStatement.uad.getUserAccessedDatabase().deleteRows(delete,0);
         if(b){
             TreeSaver ts=new TreeSaver();
-            ts.deleteTable(databaseName);
+            ts.deleteTable(databaseName,ExecuteStatement.user.getUserName());
         }else{
             throw new Exception("Error:Drop database!");
         }

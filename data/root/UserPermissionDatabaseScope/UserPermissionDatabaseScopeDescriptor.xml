@@ -4,8 +4,8 @@
 <schema>1</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>
-<primaryColumnName>user</primaryColumnName>
 <primaryColumnName>databasename</primaryColumnName>
+<primaryColumnName>user</primaryColumnName>
 </primaryKey>
 <columnDescriptorList>
 <columnDescriptor>
