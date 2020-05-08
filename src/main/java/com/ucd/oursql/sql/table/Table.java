@@ -673,7 +673,7 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public Table selectSomeColumns(List<List<Token>>from,List<List<Token>> tokens) throws ClassNotFoundException {
+    public Table selectSomeColumns(List<List<Token>>from,List<List<Token>> tokens) throws Exception {
         TableDescriptor newTD=DMLTool.changeTableDescriptor(td,tokens);
 //        System.out.println("NEWTD");
 //        System.out.println("=================");
@@ -682,10 +682,14 @@ public class Table extends SqlConstantImpl {
 //            return this;
 //        }
 
+        boolean isCalculatedColumns=DMLTool.checkManyToOne(tokens);
+
         Table table=new Table();
         table.setTd(newTD);
 //        System.out.println("NEWTABLE");
-        DMLTool.changeAs(table.getTableDescriptor(),tokens);
+        if(!isCalculatedColumns) {
+            DMLTool.changeAs(table.getTableDescriptor(), tokens);
+        }
 //        System.out.println("NEWCOLUMN");
 //        System.out.println("========some column=========");
 //        td.printTableDescriptor();
@@ -701,6 +705,15 @@ public class Table extends SqlConstantImpl {
 //            System.out.println(it.next());
 //        }
         BPlusTree ntree=BPlusTreeTool.getSubAttributes(td.getColumnDescriptorList(),newTD.getColumnDescriptorList(),tree,property);
+
+//        BPlusTreeTool.printBPlusTree(ntree,newTD);
+
+//        System.out.println("===================chek output"+isCalculatedColumns);
+        if(isCalculatedColumns){
+            ntree=DMLTool.dealWithCalculatedColumns(ntree,tokens,property,newTD);
+        }
+
+
         table.setTree(ntree);
 //        System.out.println("NEWTREE");
         DMLTool.checkChangeTableName(table,from);

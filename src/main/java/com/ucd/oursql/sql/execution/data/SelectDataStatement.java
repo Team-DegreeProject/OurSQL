@@ -47,8 +47,12 @@ public class SelectDataStatement {
 //        System.out.println("====from===");
 //        show.printTable(null);
 
+//        System.out.println("==========after where===========");
+//        show.printTable(null);
         List<List<Token>> columns= getColumns();
         show=show.selectSomeColumns(tablenames,columns);
+//        System.out.println("===========after select==========");
+//        show.printTable(null);
 //        System.out.println("====from===");
 //        show.printTable(null);
 //        show.printTable(null);

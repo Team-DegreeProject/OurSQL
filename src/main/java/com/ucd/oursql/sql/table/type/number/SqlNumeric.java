@@ -127,6 +127,19 @@ public class SqlNumeric implements SqlType {
     }
 
     @Override
+    public SqlType add(SqlType a) throws Exception {
+        this.data=this.data.add(((SqlNumeric)a).data);
+        changeRange();
+        return this;
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        this.data=this.data.divide(new BigDecimal(num));
+        changeRange();
+    }
+
+    @Override
     public int compareTo(Object o) {
         return this.data.compareTo(((SqlNumeric)o).data);
     }

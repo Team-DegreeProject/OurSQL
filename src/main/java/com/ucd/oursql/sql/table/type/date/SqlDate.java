@@ -64,4 +64,14 @@ public class SqlDate implements SqlType {
     public void updateValue() throws Exception {
 
     }
+
+    @Override
+    public SqlType add(SqlType a) throws Exception {
+        throw new Exception("Error:This type do not support ADD opertion.");
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        throw new Exception("Error:This type do not support AVE opertion.");
+    }
 }
