@@ -31,7 +31,12 @@ public class DatabaseStatements {
     public static Object showDatabase(List tokens){
         String out="Error: Show Database !";
         ShowDatabaseStatement sds=new ShowDatabaseStatement();
-        return sds.showDatabaseStatementImpl();
+        try {
+            return sds.showDatabaseStatementImpl();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
 //        return out;
     }
 

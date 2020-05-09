@@ -44,8 +44,9 @@ public class RenameDatabaseStatement {
         pk.addPrimaryKey("user",new SqlVarChar(ExecuteStatement.user.getUserName()));
         Table change=WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"primary_key",EQ,pk);
 //        Table change=WhereStatament.compare(usa,"databasename",EQ,new SqlVarChar(databaseName));
-        List list=  change.getTree().getDatas();
-        CglibBean c= (CglibBean) list.get(0);
+        if(change.getTree().getDataNumber()==0){
+            throw new Exception("Error:Nothing to be renamed.");
+        }
 
 //        usa.printTable(null);
         values.add(new SqlVarChar(newDatabaseName));
