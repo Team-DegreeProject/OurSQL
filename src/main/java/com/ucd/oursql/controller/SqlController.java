@@ -67,13 +67,21 @@ public class SqlController {
             }
             return "Bye!";
         }
-        rs=st.executeQuery(text);
+        String[] stringArray=text.split(" ");
+        if(stringArray[0].equals("show")||stringArray[0].equals("select")){
+            rs=st.executeQuery(text);
+            String[][] s=(String[][]) rs.getObject(0);
+            return s;
+        }else{
+            st.executeUpdate(text);
+            return null;
+        }
+
 //        String[][] s={{"a","b","c"},{"d","e","f"},{"h","i","j"}};
 //        InputStream target = new ByteArrayInputStream(text.getBytes());
 //        SqlParser parser = new SqlParser(target);
 //        String result=parser.parse();
-        String[][] s=(String[][]) rs.getObject(0);
-        return s;
+
 
     }
 

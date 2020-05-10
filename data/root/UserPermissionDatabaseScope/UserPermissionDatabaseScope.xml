@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="UserPermissionDatabaseScope">
 <entity>
-<databasename>tt</databasename>
-<primary_key>databasename:tt;user:user1</primary_key>
+<databasename>cv</databasename>
+<primary_key>databasename:cv;user:user1</primary_key>
 <user>user1</user>
 </entity>
 <entity>
-<databasename>ttt</databasename>
-<primary_key>databasename:ttt;user:user1</primary_key>
+<databasename>tt</databasename>
+<primary_key>databasename:tt;user:user1</primary_key>
 <user>user1</user>
 </entity>
 </table>

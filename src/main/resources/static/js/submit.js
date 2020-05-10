@@ -17,7 +17,10 @@ window.onload = function() {
                 command: Command.value
             },
             function(result){
-                if(typeof (result)=="string"){
+                if(result==""){
+                    str = '<div class="system"><span>' + "Done!" + '</span></div>';
+                    Record.innerHTML = Record.innerHTML + str;
+                }else if(typeof (result)=="string"){
                     str = '<div class="system"><span>' + result + '</span></div>';
                     Record.innerHTML = Record.innerHTML + str;
                 }else{
