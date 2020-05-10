@@ -1,21 +1,22 @@
 package com.ucd.oursql.sql.execution.table;
 
 import com.ucd.oursql.sql.execution.ExecuteStatement;
+import com.ucd.oursql.sql.parsing.SqlParserConstants;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.TableDescriptor;
 import com.ucd.oursql.sql.table.column.ColumnDescriptor;
 import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
-import com.ucd.oursql.sql.table.type.SqlConstant;
 
 import java.util.List;
 
 import static com.ucd.oursql.sql.execution.DMLTool.analyseOneRow;
 import static com.ucd.oursql.sql.table.TableSchema.BASE_TABLE_TYPE;
 
-public class CreateTableStatement implements SqlConstant {
+public class CreateTableStatement implements SqlParserConstants {
 
     List statement;
 
@@ -44,6 +45,14 @@ public class CreateTableStatement implements SqlConstant {
 //                DataTypeDescriptor dataTypeDescriptor = column.getType();
             }
         }
+
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table testDB=descriptorLoader.loadFromFile(tableName,ExecuteStatement.user.getUserName());
+        if(testDB!=null){
+            throw new Exception("Error: There is a folder with the same name.");
+        }
+
+
         td=new TableDescriptor(tableName,BASE_TABLE_TYPE,columns);
         td.setTableInColumnDescriptor(td);
         td.updatePriamryKey();
@@ -52,6 +61,7 @@ public class CreateTableStatement implements SqlConstant {
         if(boo){
             descriptorSaver ds=new descriptorSaver(table.getTd(),table.getPropertyMap(),table.getTree(),ExecuteStatement.user.getUserName());
         }
+        ExecuteStatement.updateDB();
         String output=ExecuteStatement.db.printDatabase()+"\n"+table.printTable(null);
 //        td.printTableDescriptor();
         return 1;

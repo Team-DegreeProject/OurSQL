@@ -101,6 +101,19 @@ public class SqlDouble implements SqlType {
         changeRange();
     }
 
+    @Override
+    public SqlType add(SqlType a) throws Exception {
+        this.data=this.data+(((SqlDouble)a).data);
+        changeRange();
+        return this;
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        this.data=this.data/num;
+        changeRange();
+    }
+
 
     @Override
     public String toString() {

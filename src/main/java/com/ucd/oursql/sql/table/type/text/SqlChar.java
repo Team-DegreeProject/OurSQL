@@ -99,6 +99,18 @@ public class SqlChar implements SqlType {
     }
 
     @Override
+    public SqlType add(SqlType a) throws Exception {
+        this.string=this.string+((SqlChar)a).string;
+        changeRange(this.string);
+        return  this;
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        throw new Exception("Error:This type do not support AVE opertion.");
+    }
+
+    @Override
     public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName) {
         setString(o);
     }

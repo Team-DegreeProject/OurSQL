@@ -6,6 +6,6 @@ import com.ucd.oursql.sql.storage.Storage.TreeSaver;
 public class test {
     public static void main(String[] args) {
         TreeSaver a = new TreeSaver();
-        a.deleteTable("tt");
+        a.deleteTable("tt","test");
     }
 }

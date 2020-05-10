@@ -41,10 +41,10 @@ public class FromStatement {
 //        return tables;
     }
 
-    public static Table from(String name) throws ClassNotFoundException {
-        Table database= ExecuteStatement.db.getDatabase();
-        Table t=WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(name));
-        return t;
-    }
+//    public static Table from(String name) throws ClassNotFoundException {
+//        Table database= ExecuteStatement.db.getDatabase();
+//        Table t=WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(name));
+//        return t;
+//    }
 
 }

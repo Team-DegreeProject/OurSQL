@@ -1,9 +1,11 @@
 package com.ucd.oursql.sql.table.type;
 
+import com.ucd.oursql.sql.parsing.SqlParserConstants;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class SqlConstantImpl implements SqlConstant{
+public class SqlConstantImpl implements SqlParserConstants {
 
     public static Map<Integer,String> sqlMap = new HashMap();
 
@@ -31,7 +33,7 @@ public class SqlConstantImpl implements SqlConstant{
         sqlMap.put(USER,"com.ucd.oursql.sql.system.User");
         sqlMap.put(STRING,"java.lang.String");
         sqlMap.put(TABLE,"com.ucd.oursql.sql.table.Table");
-        sqlMap.put(DATABASE,"com.ucd.oursql.sql.table.Database");
+        sqlMap.put(DATABASE,"com.ucd.oursql.sql.system.Database");
         sqlMap.put(PRIMARY_KEY,"com.ucd.oursql.sql.table.type.PrimaryKey");
         sqlMap.put(DISTINCT,"com.ucd.oursql.sql.table.type.Distinct");
     }

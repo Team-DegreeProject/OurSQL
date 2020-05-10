@@ -23,7 +23,7 @@ public class TableStatements {
         try {
             DropTableStatement dropTableStatement=new DropTableStatement(tokens);
             return dropTableStatement.dropTableImpl();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }

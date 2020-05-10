@@ -1,6 +1,10 @@
 package com.ucd.oursql.sql.execution;
 
+import com.ucd.oursql.sql.execution.other.LeftJoinStatement;
 import com.ucd.oursql.sql.parsing.Token;
+import com.ucd.oursql.sql.table.BTree.BPlusTree;
+import com.ucd.oursql.sql.table.BTree.BPlusTreeTool;
+import com.ucd.oursql.sql.table.BTree.CglibBean;
 import com.ucd.oursql.sql.table.ColumnDescriptorList;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.TableDescriptor;
@@ -72,7 +76,117 @@ public class DMLTool {
 //            }
 //        }
 //    }
+    public static boolean checkManyToOne(List<List<Token>> columns) throws Exception {
+        boolean isConvergeToOne=false;
+        for(int i=0;i<columns.size();i++){
+            List<Token> column=columns.get(i);
+            if(column.get(0).kind==MAX||column.get(0).kind==MIN||column.get(0).kind==SUM||column.get(0).kind==AVG){
+                isConvergeToOne=true;
+                break;
+            }
+        }
+        if(isConvergeToOne){
+            for(int i=0;i<columns.size();i++){
+                List<Token> column=columns.get(i);
+                if(column.get(0).kind==ID){
+                    throw new Exception("Error:Calculated columns can not be mixed with other normal clomuns!");
+                }
+            }
+        }
+        return isConvergeToOne;
+    }
 
+    public static BPlusTree dealWithCalculatedColumns(BPlusTree bPlusTree,List<List<Token>> columns,HashMap propertyMap,TableDescriptor td) throws Exception {
+        List<CglibBean> datas=bPlusTree.getDatas();
+        CglibBean start=datas.get(0);
+        HashMap<String,Integer> pairs=new HashMap();
+//        HashMap<String,Integer> types=new HashMap<>();
+        BPlusTree newTree=new BPlusTree();
+        List<String> countName=new ArrayList<>();
+        List<String> aveName=new ArrayList<>();
+        CglibBean cs=new CglibBean(DMLTool.convertPropertyMap(propertyMap));
+        for(int i=0;i<columns.size();i++){
+            String columnName=columns.get(i).get(1).image;
+            int type=columns.get(i).get(0).kind;
+            SqlType v= (SqlType) start.getValue(columnName);
+            pairs.put(columnName,type);
+            cs.setValue(columnName,v);
+            if(type==COUNT){
+                countName.add(columnName);
+            }else if(type==AVG){
+                aveName.add(columnName);
+            }
+//            types.put(columnName,columns.get(i).get(0).kind);
+        }
+        cs.setValue("primary_key",start.getValue("primary_key"));
+        newTree.insert(cs, (Comparable) cs.getValue("primary_key"));
+
+        BPlusTreeTool.printBPlusTree(newTree,propertyMap);
+
+//        HashMap ca=new HashMap();
+
+        if(datas.size()>1){
+            for(int i=1;i<datas.size();i++){
+                CglibBean cr=new CglibBean(DMLTool.convertPropertyMap(propertyMap));
+                CglibBean cd= datas.get(i);
+                CglibBean cn= (CglibBean) newTree.getDatas().get(0);
+                Iterator it=pairs.keySet().iterator();
+                while(it.hasNext()){
+                    String name= (String) it.next();
+                    SqlType vd= (SqlType) cd.getValue(name);
+                    SqlType vn= (SqlType) cn.getValue(name);
+                    int tp=pairs.get(name);
+                    if(tp==MAX){
+                        if(vd==null){
+                            cn.setValue(name,vn);
+                        }else if(vn==null){
+                            cn.setValue(name,vd);
+                        }else if(vd.compareTo(vn)>0){
+                            cn.setValue(name,vd);
+                        }
+                    }else if(tp==MIN){
+                        if(vd==null){
+                            cn.setValue(name,vn);
+                        }else if(vn==null){
+                            cn.setValue(name,vd);
+                        }else if(vd.compareTo(vn)<0){
+                            cn.setValue(name,vd);
+                        }
+                    }else if(tp==AVG||tp==SUM){
+//                        System.out.println(name);
+//                        System.out.println("vn:"+vn);
+//                        System.out.println("vd:"+vd);
+                        if(vd==null){
+                            cn.setValue(name,vn);
+                        }else if(vn==null){
+                            cn.setValue(name,vd);
+                        }else{
+                            vn=vn.add(vd);
+                            cn.setValue(name,vn);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        int count=datas.size();
+        CglibBean cn= (CglibBean) newTree.getDatas().get(0);
+        for(int i=0;i<aveName.size();i++){
+            SqlType value= (SqlType) cn.getValue(aveName.get(i));
+            if(value!=null){
+                value.ave(count);
+            }
+        }
+
+
+        return newTree;
+
+//        for(int i=0;i<countName.size();i++){
+//            cn.setValue(countName.get(i),count);
+//        }
+
+    }
 
     public static SqlType convertToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
 //        Iterator it=propertyMap.keySet().iterator();
@@ -231,12 +345,22 @@ public class DMLTool {
         for(int i=0;i<list.size();i++){
             String name=list.elementAt(i).getColumnName();
             for(int j=0;j<tokens.size();j++){
-                String com=tokens.get(j).get(0).image;
-                if(name.equals(com)){
+                Token t=tokens.get(j).get(0);
+                if(t.kind==ID){
+                    String com=tokens.get(j).get(0).image;
+                    if(name.equals(com)){
 //                    ColumnDescriptor cc=list.elementAt(i);
-                    newList.add(list.elementAt(i));
-                    break;
+                        newList.add(list.elementAt(i));
+                        break;
+                    }
+                }else{
+                    String com=tokens.get(j).get(1).image;
+                    if(name.equals(com)){
+                        newList.add(list.elementAt(i));
+                        break;
+                    }
                 }
+
             }
         }
         newList.printColumnDescriptorList();

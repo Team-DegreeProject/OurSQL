@@ -74,6 +74,19 @@ public class SqlReal implements  SqlType {
     }
 
     @Override
+    public SqlType add(SqlType a) throws Exception {
+        this.data=this.data+(((SqlReal)a).data);
+        changeRange();
+        return this;
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        this.data=this.data/num;
+        changeRange();
+    }
+
+    @Override
     public void setValue(String o, HashMap propertyMap, ColumnDescriptorList cl,String columnName) {
         setData(Float.parseFloat(o));
     }

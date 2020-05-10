@@ -69,6 +69,7 @@ public class PrimaryKey implements SqlType{
             if(outcome!=0){
                 return outcome;
             }
+            System.out.println(c1+"  "+c2+"  "+outcome);
 
         }
         return outcome;
@@ -121,5 +122,15 @@ public class PrimaryKey implements SqlType{
     @Override
     public void updateValue() throws Exception {
 
+    }
+
+    @Override
+    public SqlType add(SqlType a) throws Exception {
+        throw new Exception("Error:This type do not support ADD opertion.");
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        throw new Exception("Error:This type do not support AVE opertion.");
     }
 }

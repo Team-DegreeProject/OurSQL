@@ -9,16 +9,11 @@ public class DatabaseStatements {
         try {
             CreateDatabaseStatement cds=new CreateDatabaseStatement(tokens);
             return cds.createDatabaseImpl();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
     public static Object renameDatabase(List tokens){
@@ -26,16 +21,22 @@ public class DatabaseStatements {
         try {
             RenameDatabaseStatement renameDatabaseStatement=new RenameDatabaseStatement(tokens);
             return renameDatabaseStatement.renameDatabaseImpl();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
     public static Object showDatabase(List tokens){
         String out="Error: Show Database !";
         ShowDatabaseStatement sds=new ShowDatabaseStatement();
-        return sds.showDatabaseStatementImpl();
+        try {
+            return sds.showDatabaseStatementImpl();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
 //        return out;
     }
 
@@ -44,10 +45,11 @@ public class DatabaseStatements {
         try {
             DropDatabaseStatement dds=new DropDatabaseStatement(tokens);
             return dds.dropDatabaseStatementImpl();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return out;
+//        return out;
     }
 
     public static Object useDatabase(List tokens){
@@ -55,10 +57,11 @@ public class DatabaseStatements {
         try {
             UseDatabaseStatement uds=new UseDatabaseStatement(tokens);
             return uds.useDatabaseStatementImpl();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        System.out.println(out);
-        return 0;
+//        System.out.println(out);
+//        return 0;
     }
 }

@@ -70,8 +70,8 @@ public class TreeSaver {
 
                     //将对应的内容和key添加到xml中
                     Element XML_entity = new Element(key).setText(val);
-                    System.out.println("!!!!!!!!!");
-                    System.out.println("The value of the val is: "+val);
+//                    System.out.println("!!!!!!!!!");
+//                    System.out.println("The value of the val is: "+val);
                     entity.addContent(XML_entity);
 
 
@@ -134,9 +134,9 @@ public class TreeSaver {
 
 
     }
-    public boolean deleteTable(String tableName){
+    public boolean deleteTable(String tableName,String userName){
 
-        File file = new File("data/" + tableName + "/");
+        File file = new File("data/"+userName+"/" + tableName + "/");
         if(!file.exists()){
             return false;
         }
@@ -151,7 +151,7 @@ public class TreeSaver {
                     return false;
                 }
             }else{
-                if(!this.deleteTable(f.getAbsolutePath())){
+                if(!this.deleteTable(f.getAbsolutePath(),userName)){
                     return false;
                 }
             }

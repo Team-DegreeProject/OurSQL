@@ -16,10 +16,6 @@ public class UpdateDataStatement {
         statement=tokens;
     }
     //UPDATE table SET column1 = value1, column2 = value2 WHERE condition;
-    public boolean updateDataBasicImpl(){
-
-        return true;
-    }
 
     public int updateDataImpl() throws Exception {
         String tablename=((Token)statement.get(1)).image;

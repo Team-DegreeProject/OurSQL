@@ -47,8 +47,12 @@ public class SelectDataStatement {
 //        System.out.println("====from===");
 //        show.printTable(null);
 
+//        System.out.println("==========after where===========");
+//        show.printTable(null);
         List<List<Token>> columns= getColumns();
         show=show.selectSomeColumns(tablenames,columns);
+//        System.out.println("===========after select==========");
+//        show.printTable(null);
 //        System.out.println("====from===");
 //        show.printTable(null);
 //        show.printTable(null);
@@ -77,7 +81,7 @@ public class SelectDataStatement {
         return rs;
     }
 
-    public List dealWithLimit(List cs,Token l,Token off,Token rowFetch){
+    public List dealWithLimit(List cs,Token l,Token off,Token rowFetch) throws Exception {
         if(off!=null){
             int offset=Integer.parseInt(off.image);
             if(l!=null){
@@ -95,7 +99,8 @@ public class SelectDataStatement {
                 }
                 return ncs;
             } else{
-                return cs;
+                throw new Exception("Error: No limit or fetch");
+//                return cs;
             }
         }else{
             if(l!=null){
@@ -158,7 +163,7 @@ public class SelectDataStatement {
     }
 
 
-    public List checkDistinct(){
+    public List checkDistinct() throws Exception {
         List<List<Token>> list= getColumns();
         List re=new ArrayList();
         for(int i=0;i<list.size();i++){
@@ -181,7 +186,7 @@ public class SelectDataStatement {
     }
 
 
-    public List<List<Token>> getColumns(){
+    public List<List<Token>> getColumns() throws Exception {
         Object o=statement.get(1);
         if(o instanceof Token){
             if(((Token) o).kind==ASTERISK ||((Token) o).kind==ALL){
@@ -190,7 +195,8 @@ public class SelectDataStatement {
         }else if(o instanceof List){
             return (List<List<Token>>) o;
         }
-        return null;
+        throw new Exception("Error: No column");
+//        return null;
     }
 
     public List changeReturnList(Object o){
@@ -213,7 +219,7 @@ public class SelectDataStatement {
         return null;
     }
 
-    public HashMap getFrom(){
+    public HashMap getFrom() throws Exception {
         List re=new ArrayList();
         for(int i=0;i<statement.size();i++){
             Object o=statement.get(i);
@@ -224,7 +230,8 @@ public class SelectDataStatement {
                 }
             }
         }
-        return null;
+        throw new Exception("Error:No from");
+//        return null;
     }
 
     public HashMap getJoin(int s){
@@ -233,6 +240,7 @@ public class SelectDataStatement {
         HashMap inner= new HashMap();
         HashMap left= new HashMap();
         HashMap right= new HashMap();
+        HashMap full=new HashMap();
         List start= (List) statement.get(s+1);
         names.add(start);
 
@@ -240,7 +248,7 @@ public class SelectDataStatement {
             Object o=statement.get(i);
             if(o instanceof Token){
                 Token t=(Token)o;
-                if(t.kind==INNER){
+                if(t.kind==INNER || t.kind==CROSS){
                     Token nt= (Token) statement.get(i+2);
                     List rl=new ArrayList();
                     rl.add(nt);
@@ -261,6 +269,13 @@ public class SelectDataStatement {
                     List on= (List) statement.get(i+4);
                     names.add(rl);
                     right.put(rl,on);
+                }else if(t.kind==FULL){
+                    Token nt= (Token) statement.get(i+2);
+                    List fl=new ArrayList();
+                    fl.add(nt);
+                    List on= (List) statement.get(i+4);
+                    names.add(fl);
+                    full.put(fl,on);
                 }
             }
         }
@@ -269,6 +284,7 @@ public class SelectDataStatement {
         hashMap.put("inner",inner);
         hashMap.put("left",left);
         hashMap.put("right",right);
+        hashMap.put("full",full);
         return hashMap;
     }
 
@@ -279,6 +295,7 @@ public class SelectDataStatement {
         HashMap inner= (HashMap) from.get("inner");
         HashMap left= (HashMap) from.get("left");
         HashMap right= (HashMap) from.get("right");
+        HashMap full=(HashMap)from.get("full");
         Table table= InnerJoinStatement.innerJoinStartImpl(start);
 //        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
 
@@ -303,6 +320,10 @@ public class SelectDataStatement {
                 table= RightJoinStatement.rightJoinImpl(table,t2,on);
 //                System.out.println("right");
 //                table.printTable(null);
+            }else if(full.get(name)!=null){
+                List<Token> on= (List<Token>) full.get(name);
+                Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
+                table= FullJoinStatement.fullJoinImpl(table,t2,on);
             }
         }
 

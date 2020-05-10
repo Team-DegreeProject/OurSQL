@@ -20,7 +20,7 @@ public class loginFunc {
             for (Element el : list) {
                 String id = el.getChildText("id");
                 if(id.equals(accountid)){
-                    ExecuteStatement.setUser(accountid);
+                    System.out.println("==================success");
                     return true;
                 }
                 System.out.println("There is no such account!");
@@ -48,6 +48,8 @@ public class loginFunc {
                 if(id.equals(idProvided)){
                     String password = SHAUtils.shaEncode(passwordProvided);
                     if (password.equals(el.getChildText("password"))){
+                        ExecuteStatement.setUser(id);
+                        System.out.println("Log In: success");
                         return true;
                     }else {
                         System.out.println("Password Wrong! Please try again");
