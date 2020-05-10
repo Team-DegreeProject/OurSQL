@@ -107,6 +107,7 @@ public class OurSqlStatement implements Statement{
 			System.out.println("result: "+result);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return null;
 		}
 		return (ResultSet)result;
 	}
@@ -120,8 +121,9 @@ public class OurSqlStatement implements Statement{
 			System.out.println("result: "+result);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return 0;
 		}
-		return 0;
+		return 1;
 	}
 
 	@Override

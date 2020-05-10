@@ -70,11 +70,15 @@ public class SqlController {
         String[] stringArray=text.split(" ");
         if(stringArray[0].equals("show")||stringArray[0].equals("select")){
             rs=st.executeQuery(text);
-            String[][] s=(String[][]) rs.getObject(0);
-            return s;
+            if(rs!=null) {
+                String[][] s = (String[][]) rs.getObject(0);
+                return s;
+            }else{
+                return null;
+            }
         }else{
-            st.executeUpdate(text);
-            return null;
+            int re=st.executeUpdate(text);
+            return re;
         }
 
 //        String[][] s={{"a","b","c"},{"d","e","f"},{"h","i","j"}};

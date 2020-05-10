@@ -18,8 +18,16 @@ window.onload = function() {
             },
             function(result){
                 if(result==""){
-                    str = '<div class="system"><span>' + "Done!" + '</span></div>';
+                    str = '<div class="system"><span>' + "Error!" + '</span></div>';
                     Record.innerHTML = Record.innerHTML + str;
+                }else if(typeof (result)=="number"){
+                    if(result==1){
+                        str = '<div class="system"><span>' + "Done!" + '</span></div>';
+                        Record.innerHTML = Record.innerHTML + str;
+                    }else{
+                        str = '<div class="system"><span>' + "Error!" + '</span></div>';
+                        Record.innerHTML = Record.innerHTML + str;
+                    }
                 }else if(typeof (result)=="string"){
                     str = '<div class="system"><span>' + result + '</span></div>';
                     Record.innerHTML = Record.innerHTML + str;
