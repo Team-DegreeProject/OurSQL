@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK"?>
+<table name="person">
+<entity>
+<auu>3</auu>
+<nnu>"wueiwf"</nnu>
+<id>2</id>
+<primary_key>id:2</primary_key>
+</entity>
+<entity>
+<auu>2</auu>
+<nnu>"woweh"</nnu>
+<id>3</id>
+<primary_key>id:3</primary_key>
+</entity>
+<entity>
+<auu>1</auu>
+<nnu>"hwuqi"</nnu>
+<id>8</id>
+<primary_key>id:8</primary_key>
+</entity>
+</table>

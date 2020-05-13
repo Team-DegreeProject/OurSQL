@@ -31,7 +31,7 @@ public class UseDatabaseStatement {
         pk.addPrimaryKey("user",new SqlVarChar(ExecuteStatement.user.getUserName()));
         Table check= WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"primary_key",EQ,pk);
         int size=check.getTree().getDataNumber();
-        if(size>0){
+        if(size>1){
             throw new Exception("Error:There is a database with the same name!");
         }
 

@@ -30,7 +30,14 @@ InsertDataStatement {
         Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
 //        table.getTd().printTableDescriptor();
         List<Token> attibutes= (List<Token>) statement.get(3);
-        table.insertRows(attibutes,statement,5);
+        Object type=statement.get(4);
+        if(type instanceof Token){
+            table.insertRows(attibutes,statement,5);
+        }else{
+            List select= (List) statement.get(4);
+            table.insertRows(select);
+        }
+
         String output=table.printTable(null);
         return 1;
     }

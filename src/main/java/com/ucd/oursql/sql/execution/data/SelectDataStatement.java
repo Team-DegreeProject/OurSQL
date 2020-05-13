@@ -81,6 +81,63 @@ public class SelectDataStatement {
         return rs;
     }
 
+    public Table selectDataImplIn() throws Exception {
+//        HashMap from=getFrom();
+
+        List<List<Token>> tablenames= (List<List<Token>>) statement.get(3);
+//        String tablename= tablenames.get(0).get(0).image;
+//        Table table= FromStatement.from(tablename);
+        Table table= dealWithFrom();
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
+//        table.printTable(null);
+
+        List<List<Token>> whereConsition=getWhhereToken();
+        table=WhereStatament.whereImpl(table,whereConsition);
+
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
+//        table.printTable(null);
+
+        List distinctNames=checkDistinct();
+//        table.printTable(null);
+        Table show=DistinctStatement.distinctImpl(table,distinctNames);
+//        System.out.println("====from===");
+//        show.printTable(null);
+
+//        System.out.println("==========after where===========");
+//        show.printTable(null);
+        List<List<Token>> columns= getColumns();
+        show=show.selectSomeColumns(tablenames,columns);
+//        System.out.println("===========after select==========");
+//        show.printTable(null);
+//        System.out.println("====from===");
+//        show.printTable(null);
+//        show.printTable(null);
+
+
+        List<List<Token>> orderbys=getOrderByLists();
+        List datas=OrderByStatement.orderByImpl(show,orderbys,table);
+
+        Token off=checkOffset();
+        Token limit=checkLimit();
+        Token fetch=checkRowFetch();
+        datas=dealWithLimit(datas,limit,off,fetch);
+
+
+        if(datas==null){
+            datas=show.getTree().getDatas();
+        }
+        String output=show.printTable(datas);
+
+        System.out.println("=================12345=====================");
+        System.out.println(output);
+
+//        OurSqlResultset rs=new OurSqlResultset(datas,show.getPropertyMap());
+//        System.out.println("testRs:"+rs.getInt("id"));
+
+        return show;
+    }
+
+
     public List dealWithLimit(List cs,Token l,Token off,Token rowFetch) throws Exception {
         if(off!=null){
             int offset=Integer.parseInt(off.image);

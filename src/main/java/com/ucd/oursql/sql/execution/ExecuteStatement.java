@@ -118,11 +118,13 @@ public class ExecuteStatement {
             try {
                 if(db==null){
                     out="Wrong: There is no database !";
+                    return 0;
                 }
-                TableStatements.createTable(tokens);
-                out=db.printDatabase();
+                return TableStatements.createTable(tokens);
+//                out=db.printDatabase();
             } catch (Exception e) {
                 e.printStackTrace();
+                return 0;
             }
         }
         return out;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<table>
+  <address>com.ucd.oursql.sql.table.type.text.SqlVarChar</address>
+  <test>com.ucd.oursql.sql.table.type.number.SqlInt</test>
+  <FirstName>com.ucd.oursql.sql.table.type.text.SqlVarChar</FirstName>
+  <id>com.ucd.oursql.sql.table.type.number.SqlInt</id>
+  <LastName>com.ucd.oursql.sql.table.type.text.SqlVarChar</LastName>
+  <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
+</table>

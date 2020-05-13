@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="UserPermissionDatabaseScope">
-<tableName>UserPermissionDatabaseScope</tableName>
-<schema>1</schema>
+<table name="ttext">
+<tableName>ttext</tableName>
+<schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>
-<primaryColumnName>databasename</primaryColumnName>
-<primaryColumnName>user</primaryColumnName>
+<primaryColumnName>id</primaryColumnName>
 </primaryKey>
 <columnDescriptorList>
 <columnDescriptor>
@@ -24,13 +23,13 @@
 <Unique>true</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>databasename</columnName>
+<columnName>id</columnName>
 <columnPosition>1</columnPosition>
 <DataTypeDescriptor>
-<typeId>210</typeId>
+<typeId>113</typeId>
 <precision>-1</precision>
 <scale>-1</scale>
-<isNullable>false</isNullable>
+<isNullable>true</isNullable>
 <isPrimaryKey>true</isPrimaryKey>
 </DataTypeDescriptor>
 <autoincStart>0</autoincStart>
@@ -39,14 +38,29 @@
 <Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>user</columnName>
+<columnName>vvar</columnName>
 <columnPosition>2</columnPosition>
 <DataTypeDescriptor>
 <typeId>210</typeId>
 <precision>-1</precision>
-<scale>-1</scale>
-<isNullable>false</isNullable>
-<isPrimaryKey>true</isPrimaryKey>
+<scale>255</scale>
+<isNullable>true</isNullable>
+<isPrimaryKey>false</isPrimaryKey>
+</DataTypeDescriptor>
+<autoincStart>0</autoincStart>
+<autoincInc>false</autoincInc>
+<autoincValue>0</autoincValue>
+<Unique>false</Unique>
+</columnDescriptor>
+<columnDescriptor>
+<columnName>cchar</columnName>
+<columnPosition>3</columnPosition>
+<DataTypeDescriptor>
+<typeId>35</typeId>
+<precision>-1</precision>
+<scale>255</scale>
+<isNullable>true</isNullable>
+<isPrimaryKey>false</isPrimaryKey>
 </DataTypeDescriptor>
 <autoincStart>0</autoincStart>
 <autoincInc>false</autoincInc>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<table>
+  <td>com.ucd.oursql.sql.table.type.date.SqlDate</td>
+  <tt>com.ucd.oursql.sql.table.type.date.SqlTime</tt>
+  <tts>com.ucd.oursql.sql.table.type.date.SqlTimeStamp</tts>
+  <yyyy>com.ucd.oursql.sql.table.type.date.SqlYear</yyyy>
+  <id>com.ucd.oursql.sql.table.type.number.SqlInt</id>
+  <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
+</table>
