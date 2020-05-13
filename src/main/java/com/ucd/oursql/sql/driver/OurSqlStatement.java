@@ -123,11 +123,15 @@ public class OurSqlStatement implements Statement{
 		try {
 			Object result=parser.parse();
 			System.out.println("result: "+result);
+			if(result instanceof Integer){
+				return (int)result;
+			}else{
+				return 0;
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return 0;
 		}
-		return 1;
 	}
 
 	@Override
