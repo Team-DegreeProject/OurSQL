@@ -43,12 +43,11 @@ public class loginFunc {
             Element root = doc.getRootElement();
             List<Element> list = root.getChildren("account");
             for (Element el : list) {
-                String id = el.getChildText("id");
+                if(el.getChildText("id").equals(idProvided)){
 
-                if(id.equals(idProvided)){
                     String password = SHAUtils.shaEncode(passwordProvided);
                     if (password.equals(el.getChildText("password"))){
-                        ExecuteStatement.setUser(id);
+                        ExecuteStatement.setUser(el.getChildText("id"));
                         System.out.println("Log In: success");
                         return true;
                     }else {
@@ -57,9 +56,10 @@ public class loginFunc {
 
                     }
                 }
-                System.out.println("There is no such account!");
-                return false;
+
             }
+            System.out.println("there is no such account");
+            return false;
         } catch (Exception e) {
             e.printStackTrace();
         }

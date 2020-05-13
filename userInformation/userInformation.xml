@@ -4,5 +4,16 @@
     <id>user1</id>
     <password>a94a8fe5ccb19ba61c4c0873d391e987982fbbd3</password>
   </account>
+  <account xmlns="">
+    <id>user2</id>
+    <password>a1881c06eec96db9901c7bbfe41c42a3f08e9cb4</password>
+  </account>
+  <account xmlns="">
+    <id>user3</id>
+    <password>0b7f849446d3383546d15a480966084442cd2193</password>
+  </account>
+  <account xmlns="">
+    <id>user4</id>
+    <password>06e6eef6adf2e5f54ea6c43c376d6d36605f810e</password>
+  </account>
 </beans>
-
