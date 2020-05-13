@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<table>
+  <databasename>com.ucd.oursql.sql.table.type.text.SqlVarChar</databasename>
+  <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
+  <user>com.ucd.oursql.sql.table.type.text.SqlVarChar</user>
+</table>
