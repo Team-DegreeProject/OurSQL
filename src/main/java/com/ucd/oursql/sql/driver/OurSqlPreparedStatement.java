@@ -25,11 +25,15 @@ public class OurSqlPreparedStatement implements PreparedStatement {
         SqlParser parser = new SqlParser(target);
         try {
             Object result=parser.parse();
-            System.out.println("result: "+result);
+            if(result instanceof ResultSet){
+                return (ResultSet)result;
+            }else{
+                return null;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -38,11 +42,15 @@ public class OurSqlPreparedStatement implements PreparedStatement {
         SqlParser parser = new SqlParser(target);
         try {
             Object result=parser.parse();
-            System.out.println("result: "+result);
+            if(result instanceof Integer){
+                return (int)result;
+            }else{
+                return 0;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     @Override
@@ -96,7 +104,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     }
     @Override
     public void setLong(int i, long l) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+        findIndex(i,l);
     }
     public void findIndex(int i,float s){
         int index=-1;
@@ -113,7 +121,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     }
     @Override
     public void setFloat(int i, float v) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+        findIndex(i,v);
     }
     public void findIndex(int i,double s){
         int index=-1;
@@ -130,7 +138,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     }
     @Override
     public void setDouble(int i, double v) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+        findIndex(i,v);
     }
 
     @Override
@@ -252,11 +260,15 @@ public class OurSqlPreparedStatement implements PreparedStatement {
         SqlParser parser = new SqlParser(target);
         try {
             Object result=parser.parse();
-            System.out.println("result: "+result);
+            if(result instanceof ResultSet){
+                return true;
+            }else{
+                return false;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override

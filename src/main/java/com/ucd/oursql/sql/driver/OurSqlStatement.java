@@ -66,7 +66,11 @@ public class OurSqlStatement implements Statement{
 		SqlParser parser = new SqlParser(target);
 		try {
 			Object result=parser.parse();
-			System.out.println("result: "+result);
+			if(result instanceof ResultSet){
+				return true;
+			}else{
+				return false;
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
