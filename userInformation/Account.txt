@@ -1,4 +1,4 @@
-Name:user1 Password:user1
+Name:user1 Password:test
 Name:user2 Password:user2
 Name:user3 Password:user3
 Name:user4 Password:user4
