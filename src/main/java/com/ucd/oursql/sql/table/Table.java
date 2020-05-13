@@ -2,6 +2,7 @@ package com.ucd.oursql.sql.table;
 
 import com.ucd.oursql.sql.execution.DMLTool;
 import com.ucd.oursql.sql.execution.ExecuteStatement;
+import com.ucd.oursql.sql.execution.data.SelectDataStatement;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
@@ -179,6 +180,19 @@ public class Table extends SqlConstantImpl {
        }
         System.out.println("============insert rows================");
        this.printTable(null);
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
+        ds.saveAll();
+    }
+
+    public void insertRows(List list) throws Exception {
+        SelectDataStatement selectDataStatement=new SelectDataStatement(list);
+        Table t=selectDataStatement.selectDataImplIn();
+        System.out.println("============insert rows================");
+        List tr=t.getTree().getDatas();
+        for(int i=0;i<tr.size();i++){
+            CglibBean c= (CglibBean) tr.get(i);
+            this.tree.insert(c, (Comparable) c.getValue("primary_key"));
+        }
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
     }
