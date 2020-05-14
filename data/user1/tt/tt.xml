@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="tt">
 <entity>
-<tablename>mytable</tablename>
-<primary_key>tablename:mytable</primary_key>
+<tablename>testtable</tablename>
+<primary_key>tablename:testtable</primary_key>
 </entity>
 <entity>
 <tablename>person</tablename>

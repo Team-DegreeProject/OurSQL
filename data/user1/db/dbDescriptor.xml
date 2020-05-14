@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="dab">
-<tableName>dab</tableName>
+<table name="db">
+<tableName>db</tableName>
 <schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>

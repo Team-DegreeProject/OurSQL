@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="GBK"?>
-<table name="mytable">
-<tableName>mytable</tableName>
+<table name="testtable">
+<tableName>testtable</tableName>
 <schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>
