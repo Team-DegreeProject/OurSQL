@@ -143,4 +143,8 @@ public class SqlNumeric implements SqlType {
     public int compareTo(Object o) {
         return this.data.compareTo(((SqlNumeric)o).data);
     }
+
+    public String toString(){
+        return this.data.toString();
+    }
 }

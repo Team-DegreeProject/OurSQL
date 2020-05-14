@@ -177,6 +177,8 @@ public class Table extends SqlConstantImpl {
        for(int i=start;i<list.size();i++){
            List<List<Token>> l= (List<List<Token>>) list.get(i);
            insertARow(attributes,l);
+           System.out.println("==========insert a row ===========");
+           this.printTable(null);
        }
         System.out.println("============insert rows================");
        this.printTable(null);
@@ -390,8 +392,11 @@ public class Table extends SqlConstantImpl {
                 String v=((Token)now.get(2)).image;
                 SqlType value=DMLTool.convertToValue(attribute,v,propertyMap,columnDescriptors);
                 c.setValue((String) attribute,value);
+                System.out.println("attribute:"+attribute+",value:"+value);
             }
         }
+        System.out.println("=============after insert===========");
+        this.printTable(null);
         updatePrimaryKey();
         boolean pku=checkPKU();
         if(!pku){
