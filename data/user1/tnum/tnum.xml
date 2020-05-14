@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="tnum">
 <entity>
+<bi>18</bi>
 <id>1</id>
 <primary_key>id:1</primary_key>
 <ddo>1.1</ddo>
-<iin>00000001</iin>
+<iin>00000022</iin>
 </entity>
 <entity>
+<bi>18</bi>
 <id>2</id>
 <primary_key>id:2</primary_key>
 <ddo>1234567.33</ddo>
-<iin>00000002</iin>
+<iin>00000022</iin>
 </entity>
 <entity>
 <id>3</id>
