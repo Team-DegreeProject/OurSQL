@@ -15,10 +15,10 @@ import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.SqlConstantImpl;
 import com.ucd.oursql.sql.table.type.SqlType;
-import com.ucd.oursql.sql.table.type.number.SqlBigInt;
-import com.ucd.oursql.sql.table.type.number.SqlInt;
+import com.ucd.oursql.sql.table.type.number.*;
 import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -586,7 +586,22 @@ public class Table extends SqlConstantImpl {
 //                }
 //            }
             long max=auto.elementAt(i).getAutoincValue();
-            maxValues.add(new SqlInt((int)max));
+            int type=auto.elementAt(i).getType().getTypeId();
+            if(type==INT){
+                maxValues.add(new SqlInt((int)max));
+            }else if(type==DOUBLE){
+                maxValues.add(new SqlDouble(max));
+            }else if(type==FLOAT){
+                maxValues.add(new SqlFloat(max));
+            }else if(type==DECIMAL){
+                maxValues.add(new SqlDecimal(new BigDecimal(max)));
+            }else if(type==BIGINT){
+                maxValues.add(new SqlBigInt(max));
+            }else if(type==NUMERIC){
+                maxValues.add(new SqlNumeric(new BigDecimal(max)));
+            }else if(type==REAL){
+                maxValues.add(new SqlReal(max));
+            }
             max=max+1;
             auto.elementAt(i).setAutoincValue(max);
         }
