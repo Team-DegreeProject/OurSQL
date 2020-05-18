@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="tt">
 <entity>
-<tablename>testtable</tablename>
-<primary_key>tablename:testtable</primary_key>
-</entity>
-<entity>
 <tablename>person</tablename>
 <primary_key>tablename:person</primary_key>
 </entity>
 <entity>
-<tablename>persons</tablename>
-<primary_key>tablename:persons</primary_key>
-</entity>
-<entity>
 <tablename>tdate</tablename>
 <primary_key>tablename:tdate</primary_key>
+</entity>
+<entity>
+<tablename>testtable</tablename>
+<primary_key>tablename:testtable</primary_key>
 </entity>
 <entity>
 <tablename>tnum</tablename>

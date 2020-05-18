@@ -15,6 +15,9 @@ import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.SqlConstantImpl;
 import com.ucd.oursql.sql.table.type.SqlType;
+import com.ucd.oursql.sql.table.type.number.SqlBigInt;
+import com.ucd.oursql.sql.table.type.number.SqlInt;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -565,24 +568,27 @@ public class Table extends SqlConstantImpl {
         List<CglibBean> list=tree.getDatas();
 //        System.out.println("==============size:"+list.size());
         for(int i=0;i<auto.size();i++){
-            boolean first=true;
-            String name=auto.get(i).getColumnName();
-            Class cl= Class.forName((String) propertyMap.get(name));
-            SqlType max=(SqlType)cl.newInstance();
-            for(int j=0;j<list.size();j++){
-                CglibBean c=list.get(j);
-                SqlType temp= (SqlType) c.getValue(name);
-                if(first){
-                    max=temp;
-                    first=false;
-                }else{
-                    int out=max.compareTo(temp);
-                    if(out<0){
-                        max=temp;
-                    }
-                }
-            }
-            maxValues.add(max);
+//            boolean first=true;
+//            String name=auto.get(i).getColumnName();
+//            Class cl= Class.forName((String) propertyMap.get(name));
+//            SqlType max=(SqlType)cl.newInstance();
+//            for(int j=0;j<list.size();j++){
+//                CglibBean c=list.get(j);
+//                SqlType temp= (SqlType) c.getValue(name);
+//                if(first){
+//                    max=temp;
+//                    first=false;
+//                }else{
+//                    int out=max.compareTo(temp);
+//                    if(out<0){
+//                        max=temp;
+//                    }
+//                }
+//            }
+            long max=auto.elementAt(i).getAutoincValue();
+            maxValues.add(new SqlInt((int)max));
+            max=max+1;
+            auto.elementAt(i).setAutoincValue(max);
         }
         return maxValues;
     }

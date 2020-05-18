@@ -64,7 +64,7 @@
 </DataTypeDescriptor>
 <autoincStart>0</autoincStart>
 <autoincInc>true</autoincInc>
-<autoincValue>0</autoincValue>
+<autoincValue>3</autoincValue>
 <Unique>false</Unique>
 </columnDescriptor>
 </columnDescriptorList>
