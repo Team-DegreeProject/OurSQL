@@ -5,6 +5,10 @@
 <primary_key>tablename:tdate</primary_key>
 </entity>
 <entity>
+<tablename>tnum</tablename>
+<primary_key>tablename:tnum</primary_key>
+</entity>
+<entity>
 <tablename>ttext</tablename>
 <primary_key>tablename:ttext</primary_key>
 </entity>
