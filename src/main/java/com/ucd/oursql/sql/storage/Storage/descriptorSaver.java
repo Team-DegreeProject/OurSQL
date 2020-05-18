@@ -36,6 +36,10 @@ public class descriptorSaver {
 
     public void saveAll(){
         try{
+            File dataFolder = new File("data/");
+            if (!dataFolder.exists()) {
+                dataFolder.mkdirs();
+            }
             String tableName = tabledescriptor.getTableName();
             hashmapToXML();
             descriptorToXML();
@@ -114,6 +118,9 @@ public class descriptorSaver {
                 if (!fileParent.exists()) {
                     fileParent.mkdirs();
                 }
+
+
+
                 FileOutputStream fileStream = new FileOutputStream(file);
                 XMLWriter writer=new XMLWriter(fileStream,format);
                 //设置是否转义，默认设置是true,代表转义

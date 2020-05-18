@@ -16,6 +16,10 @@ public class RegristrationFunc {
     public void register(account newUser){
         String filePath = "userInformation/userInformation.xml" ;
         File userInformationFile = new File(filePath);
+        File userInformationFolder = new File("userInformation/");
+        if (!userInformationFolder.exists()) {
+            userInformationFolder.mkdirs();
+        }
         //当不存在的情况
         if(!userInformationFile.exists()){
             Document doc = new Document();

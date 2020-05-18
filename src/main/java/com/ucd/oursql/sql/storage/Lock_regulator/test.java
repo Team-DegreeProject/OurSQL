@@ -35,39 +35,36 @@ public class test {
         LockRegulator lr = new LockRegulator();
         test t = new test(lr);
         lr.AddLock("a",Configuration.EXCLUSIVELOCK);
-
+        long startTime = System.currentTimeMillis();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true){
-                    System.out.println(lr.AddLock("a",Configuration.SHARELOCK));
+                    System.out.println("add lock at system time:"+(System.currentTimeMillis()-startTime)+"--- result:"+lr.AddLock("a",Configuration.SHARELOCK));
                 }
 
             }
         }).start();
-
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Thread.sleep(2000);
-                    System.out.println("in!!!!!");
                     lr.tableUnlock("a");
                     System.out.println(lr.getSize());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                Thread.currentThread().stop();
 
             }
         }).start();
-
+    }
+}
 //        t1.start();
 //        t2.start();
 //        lockRegulator.AddLock("a",Configuration.SHARELOCK);
 //        while (true){
 //            System.out.println(lockRegulator.AddLock("a",Configuration.SHARELOCK));
 //        }
-    }
-
-}
