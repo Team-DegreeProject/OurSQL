@@ -15,7 +15,10 @@ import com.ucd.oursql.sql.table.column.DataTypeDescriptor;
 import com.ucd.oursql.sql.table.type.PrimaryKey;
 import com.ucd.oursql.sql.table.type.SqlConstantImpl;
 import com.ucd.oursql.sql.table.type.SqlType;
+import com.ucd.oursql.sql.table.type.number.*;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -177,6 +180,8 @@ public class Table extends SqlConstantImpl {
        for(int i=start;i<list.size();i++){
            List<List<Token>> l= (List<List<Token>>) list.get(i);
            insertARow(attributes,l);
+           System.out.println("==========insert a row ===========");
+           this.printTable(null);
        }
         System.out.println("============insert rows================");
        this.printTable(null);
@@ -390,8 +395,11 @@ public class Table extends SqlConstantImpl {
                 String v=((Token)now.get(2)).image;
                 SqlType value=DMLTool.convertToValue(attribute,v,propertyMap,columnDescriptors);
                 c.setValue((String) attribute,value);
+                System.out.println("attribute:"+attribute+",value:"+value);
             }
         }
+        System.out.println("=============after insert===========");
+        this.printTable(null);
         updatePrimaryKey();
         boolean pku=checkPKU();
         if(!pku){
@@ -560,24 +568,42 @@ public class Table extends SqlConstantImpl {
         List<CglibBean> list=tree.getDatas();
 //        System.out.println("==============size:"+list.size());
         for(int i=0;i<auto.size();i++){
-            boolean first=true;
-            String name=auto.get(i).getColumnName();
-            Class cl= Class.forName((String) propertyMap.get(name));
-            SqlType max=(SqlType)cl.newInstance();
-            for(int j=0;j<list.size();j++){
-                CglibBean c=list.get(j);
-                SqlType temp= (SqlType) c.getValue(name);
-                if(first){
-                    max=temp;
-                    first=false;
-                }else{
-                    int out=max.compareTo(temp);
-                    if(out<0){
-                        max=temp;
-                    }
-                }
+//            boolean first=true;
+//            String name=auto.get(i).getColumnName();
+//            Class cl= Class.forName((String) propertyMap.get(name));
+//            SqlType max=(SqlType)cl.newInstance();
+//            for(int j=0;j<list.size();j++){
+//                CglibBean c=list.get(j);
+//                SqlType temp= (SqlType) c.getValue(name);
+//                if(first){
+//                    max=temp;
+//                    first=false;
+//                }else{
+//                    int out=max.compareTo(temp);
+//                    if(out<0){
+//                        max=temp;
+//                    }
+//                }
+//            }
+            long max=auto.elementAt(i).getAutoincValue();
+            int type=auto.elementAt(i).getType().getTypeId();
+            if(type==INT){
+                maxValues.add(new SqlInt((int)max));
+            }else if(type==DOUBLE){
+                maxValues.add(new SqlDouble(max));
+            }else if(type==FLOAT){
+                maxValues.add(new SqlFloat(max));
+            }else if(type==DECIMAL){
+                maxValues.add(new SqlDecimal(new BigDecimal(max)));
+            }else if(type==BIGINT){
+                maxValues.add(new SqlBigInt(max));
+            }else if(type==NUMERIC){
+                maxValues.add(new SqlNumeric(new BigDecimal(max)));
+            }else if(type==REAL){
+                maxValues.add(new SqlReal(max));
             }
-            maxValues.add(max);
+            max=max+1;
+            auto.elementAt(i).setAutoincValue(max);
         }
         return maxValues;
     }

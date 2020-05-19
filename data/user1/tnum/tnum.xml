@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="GBK"?>
-<table name="tnum">
-<entity>
-<id>2</id>
-<primary_key>id:2</primary_key>
-<ddo>1234567.33</ddo>
-<iin>00000006</iin>
-</entity>
-</table>

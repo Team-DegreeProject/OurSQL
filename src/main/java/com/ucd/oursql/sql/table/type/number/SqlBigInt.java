@@ -89,4 +89,8 @@ public class SqlBigInt implements SqlType {
     public int compareTo(Object o) {
         return this.data.compareTo(((SqlBigInt)o).data);
     }
+
+    public String toString(){
+        return this.data.toString();
+    }
 }
