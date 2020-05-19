@@ -9,8 +9,8 @@ public class TestDriver {
     public static void main(String[] args) throws SQLException {
         // TODO Auto-generated method stub
         String URL = "jdbc:OurSql";
-        String USER = "user1";
-        String PASSWORD = "user1";
+        String USER = "user2";
+        String PASSWORD = "user2";
         Connection conn=null;
         PreparedStatement pst=null;
         try {
@@ -25,9 +25,9 @@ public class TestDriver {
             SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
             java.util.Date date = sdf.parse( "2015-5-6 10:30:00" );
             long lg = date.getTime(); // 日期 转 时间戳
-            String sql="INSERT into person values (?,?);";
+            String sql="INSERT into person (ID,date1) values (?,?);";
             pst=conn.prepareStatement(sql);
-            pst.setInt(1,2);
+            pst.setInt(1,3);
             pst.setDate( 2, new java.sql.Date( lg ) );
             pst.executeUpdate();
 //            Class.forName("com.ucd.oursql.sql.driver.OurSqlDriver");

@@ -45,11 +45,11 @@ public class OurSqlPreparedStatement implements PreparedStatement {
             if(result instanceof Integer){
                 return (int)result;
             }else{
-                return 0;
+                return -1;
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
     }
 
