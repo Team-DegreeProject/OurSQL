@@ -17,5 +17,11 @@ public class TestPK {
         account acc=new account("user","test");
         RegristrationFunc rf=new RegristrationFunc();
         rf.register(acc);
+        acc=new account("user2","user2");
+        rf.register(acc);
+        acc=new account("user3","user3");
+        rf.register(acc);
+        acc=new account("user4","user4");
+        rf.register(acc);
     }
 }
