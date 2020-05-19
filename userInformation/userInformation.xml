@@ -12,4 +12,8 @@
     <id>user4</id>
     <password>06e6eef6adf2e5f54ea6c43c376d6d36605f810e</password>
   </account>
+  <account>
+    <id>user1</id>
+    <password>b3daa77b4c04a9551b8781d03191fe098f325e67</password>
+  </account>
 </accountDetail>
