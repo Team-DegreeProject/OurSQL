@@ -45,11 +45,11 @@ public class OurSqlPreparedStatement implements PreparedStatement {
             if(result instanceof Integer){
                 return (int)result;
             }else{
-                return 0;
+                return -1;
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
     }
 
@@ -154,7 +154,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
             }
         }
         StringBuilder sb=new StringBuilder(sql);
-        sb.replace(index,index+1,s);
+        sb.replace(index,index+1,"\""+s+"\"");
         sql=sb.toString();
         System.out.println(sql);
     }
