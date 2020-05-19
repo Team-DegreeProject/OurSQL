@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="UserPermissionDatabaseScope">
 <entity>
+<databasename>aa</databasename>
+<primary_key>databasename:aa;user:user</primary_key>
+<user>user</user>
+</entity>
+<entity>
+<databasename>aaa</databasename>
+<primary_key>databasename:aaa;user:user</primary_key>
+<user>user</user>
+</entity>
+<entity>
+<databasename>cc</databasename>
+<primary_key>databasename:cc;user:user</primary_key>
+<user>user</user>
+</entity>
+<entity>
+<databasename>tt</databasename>
+<primary_key>databasename:tt;user:user</primary_key>
+<user>user</user>
+</entity>
+<entity>
 <databasename>tt</databasename>
 <primary_key>databasename:tt;user:user1</primary_key>
 <user>user1</user>
@@ -9,5 +29,15 @@
 <databasename>tt</databasename>
 <primary_key>databasename:tt;user:user2</primary_key>
 <user>user2</user>
+</entity>
+<entity>
+<databasename>ttt</databasename>
+<primary_key>databasename:ttt;user:user</primary_key>
+<user>user</user>
+</entity>
+<entity>
+<databasename>tttt</databasename>
+<primary_key>databasename:tttt;user:user</primary_key>
+<user>user</user>
 </entity>
 </table>

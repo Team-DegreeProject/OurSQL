@@ -17,7 +17,7 @@ window.onload = function() {
                 command: Command.value
             },
             function(result){
-                if(result==""){
+                if(result===""){
                     str = '<div class="system"><span>' + "Error!" + '</span></div>';
                     Record.innerHTML = Record.innerHTML + str;
                 }else if(typeof (result)=="number"){
