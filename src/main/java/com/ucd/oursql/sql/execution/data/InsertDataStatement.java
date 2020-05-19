@@ -26,19 +26,20 @@ InsertDataStatement {
     //2.2.2 INSERT INTO table1 (name1, name2) VALUES (value1, value2), (value1,
     //value2),…;
     public int insertDataImpl() throws Exception {
+        int re=-1;
         String tablename=((Token)statement.get(2)).image;
         Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
 //        table.getTd().printTableDescriptor();
         List<Token> attibutes= (List<Token>) statement.get(3);
         Object type=statement.get(4);
         if(type instanceof Token){
-            table.insertRows(attibutes,statement,5);
+            re=table.insertRows(attibutes,statement,5);
         }else{
             List select= (List) statement.get(4);
-            table.insertRows(select);
+            re=table.insertRows(select);
         }
 
         String output=table.printTable(null);
-        return 1;
+        return re;
     }
 }

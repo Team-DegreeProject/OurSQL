@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <accountDetail>
   <account>
+    <id>user</id>
+    <password>a94a8fe5ccb19ba61c4c0873d391e987982fbbd3</password>
+  </account>
+  <account>
     <id>user2</id>
     <password>a1881c06eec96db9901c7bbfe41c42a3f08e9cb4</password>
   </account>
@@ -11,9 +15,5 @@
   <account>
     <id>user4</id>
     <password>06e6eef6adf2e5f54ea6c43c376d6d36605f810e</password>
-  </account>
-  <account>
-    <id>user1</id>
-    <password>b3daa77b4c04a9551b8781d03191fe098f325e67</password>
   </account>
 </accountDetail>

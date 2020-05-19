@@ -176,20 +176,23 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public void insertRows(List<Token> attributes, List list, int start) throws Exception {
+    public int insertRows(List<Token> attributes, List list, int start) throws Exception {
+        int count=0;
        for(int i=start;i<list.size();i++){
            List<List<Token>> l= (List<List<Token>>) list.get(i);
            insertARow(attributes,l);
            System.out.println("==========insert a row ===========");
            this.printTable(null);
+           count++;
        }
         System.out.println("============insert rows================");
        this.printTable(null);
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
+        return count;
     }
 
-    public void insertRows(List list) throws Exception {
+    public int insertRows(List list) throws Exception {
         SelectDataStatement selectDataStatement=new SelectDataStatement(list);
         Table t=selectDataStatement.selectDataImplIn();
         System.out.println("============insert rows================");
@@ -200,6 +203,7 @@ public class Table extends SqlConstantImpl {
         }
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
+        return t.getTree().getDataNumber();
     }
 
 

@@ -80,7 +80,7 @@ public class DeleteDataStatement {
         change.printTable(null);
         table.deleteRows(change,1);
         String output=table.printTable(null);
-        return 1;
+        return change.getTree().getDataNumber();
     }
 
 
