@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="GBK"?>
-
-<table>
-  <ID>com.ucd.oursql.sql.table.type.number.SqlInt</ID>
-  <date1>com.ucd.oursql.sql.table.type.date.SqlDate</date1>
-  <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
-</table>
