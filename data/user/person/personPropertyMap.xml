@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<table>
+  <dde>com.ucd.oursql.sql.table.type.number.SqlDecimal</dde>
+  <rrea>com.ucd.oursql.sql.table.type.number.SqlReal</rrea>
+  <id>com.ucd.oursql.sql.table.type.number.SqlInt</id>
+  <fflo>com.ucd.oursql.sql.table.type.number.SqlFloat</fflo>
+  <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
+  <ddo>com.ucd.oursql.sql.table.type.number.SqlDouble</ddo>
+  <iin>com.ucd.oursql.sql.table.type.number.SqlInt</iin>
+</table>
