@@ -189,6 +189,9 @@ public class Table extends SqlConstantImpl {
        this.printTable(null);
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
+        if(count==0){
+            throw new Exception("Error: No insert.");
+        }
         return count;
     }
 
@@ -197,6 +200,9 @@ public class Table extends SqlConstantImpl {
         Table t=selectDataStatement.selectDataImplIn();
         System.out.println("============insert rows================");
         List tr=t.getTree().getDatas();
+        if(tr.size()==0){
+            throw new Exception("Error: No insert.");
+        }
         for(int i=0;i<tr.size();i++){
             CglibBean c= (CglibBean) tr.get(i);
             this.tree.insert(c, (Comparable) c.getValue("primary_key"));
@@ -385,8 +391,8 @@ public class Table extends SqlConstantImpl {
 
     public boolean updateTable(List changes,Table t) throws Exception {
         if(t.getTree().getDataNumber()==0 ){
-            System.out.println("No update");
-            return false;
+//            System.out.println("No update");
+            throw new Exception("Error: No update.");
         }
 //        t.getTableDescriptor().updatePriamryKey();
         ColumnDescriptorList columnDescriptors=td.getColumnDescriptorList();
@@ -439,9 +445,9 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public boolean deleteRows(Table t,int type){
+    public boolean deleteRows(Table t,int type) throws Exception {
         if(t.getTree().getDataNumber()==0){
-            return false;
+            throw new Exception("Error: There is no row to be deleted.");
         }
 //        this.printTable(null);
         List<CglibBean> list=t.getTree().getDatas();
@@ -643,7 +649,7 @@ public class Table extends SqlConstantImpl {
                     st.setValue(value.toString(),propertyMap,td.getColumnDescriptorList(),name);
                     if(com.compareTo(st)==0){
                         System.out.println("Some attribute is unique");
-                        return false;
+                        throw new Exception("Error: Some attribute is unique.");
                     }
                 }
             }
@@ -655,7 +661,7 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public boolean checkUniqueOperationUpdate(String[] attributes,List values){
+    public boolean checkUniqueOperationUpdate(String[] attributes,List values) throws Exception {
 //        System.out.println("=====checkUNique");
         this.printTable(null);
 //        td.printTableDescriptor();
@@ -672,7 +678,7 @@ public class Table extends SqlConstantImpl {
 //                    System.out.println("Unique:"+com+"-"+value);
                     if(com.compareTo(value)==0){
                         System.out.println("Some attribute is unique");
-                        return false;
+                        throw new Exception("Error: Some attribute is unique.");
                     }
                 }
             }
@@ -706,7 +712,7 @@ public class Table extends SqlConstantImpl {
                     SqlType com= (SqlType) bean.getValue(name);
                     if(com.compareTo(v)==0){
                         System.out.println("Some attribute is unique");
-                        return false;
+                        throw new Exception("Error: Some attribute is unique.");
                     }
                 }
             }

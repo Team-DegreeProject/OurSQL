@@ -11,7 +11,7 @@ public class DatabaseStatements {
             return cds.createDatabaseImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }
@@ -23,7 +23,7 @@ public class DatabaseStatements {
             return renameDatabaseStatement.renameDatabaseImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }
@@ -47,7 +47,7 @@ public class DatabaseStatements {
             return dds.dropDatabaseStatementImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }
@@ -59,7 +59,7 @@ public class DatabaseStatements {
             return uds.useDatabaseStatementImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        System.out.println(out);
 //        return 0;

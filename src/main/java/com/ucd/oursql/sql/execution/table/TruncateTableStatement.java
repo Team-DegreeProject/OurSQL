@@ -26,6 +26,6 @@ public class TruncateTableStatement {
         descriptorSaver ds=new descriptorSaver(truncate.getTd(),truncate.getPropertyMap(),truncate.getTree(),ExecuteStatement.user.getUserName());
         ds.saveAll();
         String output=truncate.printTable(null);
-        return 1;
+        return 0;
     }
 }

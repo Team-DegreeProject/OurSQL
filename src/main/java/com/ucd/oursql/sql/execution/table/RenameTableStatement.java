@@ -71,7 +71,7 @@ public class RenameTableStatement {
 //        bool=database.updateTable(namestt,values,change);
         ExecuteStatement.updateDB();
         String output=ExecuteStatement.db.printDatabase();
-        return 1;
+        return 0;
     }
 
 }

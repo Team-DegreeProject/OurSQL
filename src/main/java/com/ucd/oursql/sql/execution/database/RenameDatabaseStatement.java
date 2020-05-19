@@ -82,7 +82,7 @@ public class RenameDatabaseStatement {
 //        PrimaryKey pk=new PrimaryKey(l);
 //        CglibBean ct= (CglibBean) usa.getTree().select(pk);
 //        System.out.println("===============================ct:"+((Database)ct.getValue("database")).getDatabaseName());
-        return 1;
+        return 0;
     }
 
 

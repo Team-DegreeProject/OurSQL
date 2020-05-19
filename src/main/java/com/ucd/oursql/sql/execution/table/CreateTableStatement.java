@@ -64,7 +64,7 @@ public class CreateTableStatement implements SqlParserConstants {
         ExecuteStatement.updateDB();
         String output=ExecuteStatement.db.printDatabase()+"\n"+table.printTable(null);
 //        td.printTableDescriptor();
-        return 1;
+        return 0;
     }
 
     public boolean isTableConstraint(List row,ColumnDescriptorList columnDescriptorList){

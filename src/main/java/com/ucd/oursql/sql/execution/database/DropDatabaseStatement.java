@@ -45,6 +45,6 @@ public class DropDatabaseStatement {
         }
         ExecuteStatement.updateUAD();
         String output=ExecuteStatement.uad.printUserAccessedDatabase();
-        return 1;
+        return 0;
     }
 }

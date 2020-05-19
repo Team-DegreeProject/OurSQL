@@ -54,7 +54,7 @@ public class CreateDatabaseStatement{
 //        ds.saveAll();
 
         String output=ExecuteStatement.uad.getUserAccessedDatabase().printTable(null);
-        return 1;
+        return 0;
     }
 
 //    public Database createDatabaseImpl(int i) throws ClassNotFoundException, InstantiationException, IllegalAccessException {

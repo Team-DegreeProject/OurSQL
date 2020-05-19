@@ -13,7 +13,7 @@ public class TableStatements {
             return createTableStatement.createImpl();
         }catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }
@@ -25,7 +25,7 @@ public class TableStatements {
             return dropTableStatement.dropTableImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }
@@ -39,7 +39,7 @@ public class TableStatements {
             return renameTableStatement.renameTableImpl();
         }catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }
@@ -52,7 +52,7 @@ public class TableStatements {
             return alterTableStatement.alterTableImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
 //            Object o=tokens.get(3);
@@ -80,7 +80,7 @@ public class TableStatements {
             return truncateTableStatement.truncateTableImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 
     }

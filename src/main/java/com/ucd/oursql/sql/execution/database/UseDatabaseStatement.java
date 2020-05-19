@@ -64,6 +64,6 @@ public class UseDatabaseStatement {
 //        database.printDatabase();
         ExecuteStatement.uad.printUserAccessedDatabase();
         String output=database.printDatabase();
-        return 1;
+        return 0;
     }
 }

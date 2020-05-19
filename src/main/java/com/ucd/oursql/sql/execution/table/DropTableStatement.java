@@ -38,6 +38,6 @@ public class DropTableStatement {
         }
         ExecuteStatement.updateDB();
         String output=database.printTable(null);
-        return 1;
+        return 0;
     }
 }
