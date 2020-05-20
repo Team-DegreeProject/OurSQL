@@ -272,7 +272,7 @@ public class OurSqlResultset implements ResultSet {
             CglibBean currentBean = datas.get(next);
             SqlBigInt columnData = (SqlBigInt) currentBean.getValue("s");
             String value = currentBean.getValue(s).toString();
-            return columnData.getData();
+            return Long.valueOf(value);
         }
         else {
             System.out.println("Uncorrect Data Structure");
