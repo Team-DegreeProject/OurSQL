@@ -5,6 +5,10 @@
 <primary_key>tablename:person</primary_key>
 </entity>
 <entity>
+<tablename>pkk</tablename>
+<primary_key>tablename:pkk</primary_key>
+</entity>
+<entity>
 <tablename>tdate</tablename>
 <primary_key>tablename:tdate</primary_key>
 </entity>
