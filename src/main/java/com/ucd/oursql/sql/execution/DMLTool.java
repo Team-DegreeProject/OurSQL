@@ -198,33 +198,41 @@ public class DMLTool {
 //        columnDescriptorList.printColumnDescriptorList();
         Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
-        value.setValue(str,propertyMap,columnDescriptorList,att);
-        ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
-        DataTypeDescriptor dataTypeDescriptor=cd.getType();
-        if(dataTypeDescriptor.getScale()!=-1){
-            value.setScale(dataTypeDescriptor.getScale());
+//        System.out.println("convert"+str);
+        if(str.equals("null")){
+            value=null;
+        }else{
+            value.setValue(str,propertyMap,columnDescriptorList,att);
+            ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
+            DataTypeDescriptor dataTypeDescriptor=cd.getType();
+            if(dataTypeDescriptor.getScale()!=-1){
+                value.setScale(dataTypeDescriptor.getScale());
+            }
+            if(dataTypeDescriptor.getPrecision()!=-1){
+                value.setPrecision(dataTypeDescriptor.getPrecision());
+            }
+            value.updateValue();
         }
-        if(dataTypeDescriptor.getPrecision()!=-1){
-            value.setPrecision(dataTypeDescriptor.getPrecision());
-        }
-        value.updateValue();
-//        System.out.println("value:"+value.getClass().getName());
         return value;
     }
 
     public static SqlType forXMLConvertStringToValue(String att, String str, HashMap propertyMap,ColumnDescriptorList columnDescriptorList) throws Exception {
         Class c= Class.forName((String) propertyMap.get(att));
         SqlType value=(SqlType)c.newInstance();
-        value.setValue(str,propertyMap,columnDescriptorList,att);
-        ColumnDescriptor cd=columnDescriptorList.getColumnDescriptor(att);
-        DataTypeDescriptor dataTypeDescriptor=cd.getType();
-        if(dataTypeDescriptor.getScale()!=-1){
-            value.setScale(dataTypeDescriptor.getScale());
+        if(str.equals("null")){
+            value=null;
+        }else {
+            value.setValue(str, propertyMap, columnDescriptorList, att);
+            ColumnDescriptor cd = columnDescriptorList.getColumnDescriptor(att);
+            DataTypeDescriptor dataTypeDescriptor = cd.getType();
+            if (dataTypeDescriptor.getScale() != -1) {
+                value.setScale(dataTypeDescriptor.getScale());
+            }
+            if (dataTypeDescriptor.getPrecision() != -1) {
+                value.setPrecision(dataTypeDescriptor.getPrecision());
+            }
+            value.updateValue();
         }
-        if(dataTypeDescriptor.getPrecision()!=-1){
-            value.setPrecision(dataTypeDescriptor.getPrecision());
-        }
-        value.updateValue();
         return value;
     }
 
@@ -332,7 +340,7 @@ public class DMLTool {
     }
 
     //select中对于列操作的支持函数
-    public static TableDescriptor changeTableDescriptor(TableDescriptor td,List<List<Token>> tokens){
+    public static TableDescriptor changeTableDescriptor(TableDescriptor td,List<List<Token>> tokens) throws Exception {
         if(checkAllSelected(tokens)){
             TableDescriptor tt=new TableDescriptor(td.getName(),td.getSchema(),td.getColumnDescriptorList().getNewColumnDescriptorList());
             tt.updatePriamryKey();
@@ -449,7 +457,7 @@ public class DMLTool {
         }
     }
 
-    public static TableDescriptor changeTD(TableDescriptor td1,TableDescriptor td2){
+    public static TableDescriptor changeTD(TableDescriptor td1,TableDescriptor td2) throws Exception {
 //        System.out.println("td1");
 //        td1.printTableDescriptor();
 //        System.out.println("td2");

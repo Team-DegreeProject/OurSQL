@@ -49,7 +49,7 @@ public class InnerJoinStatement {
 
 
 
-    public static Table innerJoinImpl(Table t1,Table t2,List<Token> on) throws ClassNotFoundException {
+    public static Table innerJoinImpl(Table t1,Table t2,List<Token> on) throws Exception {
         String tablename=t2.getTableDescriptor().getName();
         HashMap hashMap=new HashMap();
         for(int i=0;i<on.size();i++){
@@ -119,7 +119,7 @@ public class InnerJoinStatement {
 
 
 
-    public static Table innerTwoStartTable(Table t1,Table t2) throws ClassNotFoundException {
+    public static Table innerTwoStartTable(Table t1,Table t2) throws Exception {
         TableDescriptor newTD=DMLTool.changeTD(t1.getTd(),t2.getTd());
         Table t3=new Table();
         t3.setTd(newTD);

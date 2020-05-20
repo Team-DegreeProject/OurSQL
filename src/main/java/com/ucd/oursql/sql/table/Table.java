@@ -181,17 +181,17 @@ public class Table extends SqlConstantImpl {
        for(int i=start;i<list.size();i++){
            List<List<Token>> l= (List<List<Token>>) list.get(i);
            insertARow(attributes,l);
-           System.out.println("==========insert a row ===========");
-           this.printTable(null);
+//           System.out.println("==========insert a row ===========");
+//           this.printTable(null);
            count++;
        }
         System.out.println("============insert rows================");
-       this.printTable(null);
-        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
-        ds.saveAll();
+        this.printTable(null);
         if(count==0){
             throw new Exception("Error: No insert.");
         }
+        descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
+        ds.saveAll();
         return count;
     }
 
@@ -434,7 +434,7 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public boolean updatePrimaryKey(){
+    public boolean updatePrimaryKey() throws Exception {
         td.updatePriamryKey();
         ColumnDescriptorList pkn=td.getPrimaryKey();
 //        System.out.println("update");
@@ -498,7 +498,7 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public void addColumns(ColumnDescriptorList columns) throws ClassNotFoundException {
+    public void addColumns(ColumnDescriptorList columns) throws Exception {
         BPlusTree newTree=new BPlusTree();
         ColumnDescriptorList list=td.getColumnDescriptorList();
         list.addColumns(columns);
@@ -525,7 +525,7 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public void modifyColumns(List<List> tokens) throws ClassNotFoundException {
+    public void modifyColumns(List<List> tokens) throws Exception {
         ColumnDescriptorList list=td.getColumnDescriptorList();
         ColumnDescriptorList primaryKeys=td.getPrimaryKey();
         for(int i=0;i<tokens.size();i++){
@@ -548,7 +548,7 @@ public class Table extends SqlConstantImpl {
 
 
 
-    public void dropColumns(List<List> tokens) throws ClassNotFoundException {
+    public void dropColumns(List<List> tokens) throws Exception {
         ColumnDescriptorList list=td.getColumnDescriptorList();
         ColumnDescriptorList primaryKeys=td.getPrimaryKey();
         for(int i=0;i<tokens.size();i++){

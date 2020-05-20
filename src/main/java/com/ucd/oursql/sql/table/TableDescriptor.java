@@ -172,7 +172,7 @@ public class TableDescriptor implements TableSchema {
         this.columnDescriptorList = columnDescriptorList;
     }
 
-    public void updatePriamryKey(){
+    public void updatePriamryKey() throws Exception {
 //        System.out.println("updatePK");
 //        columnDescriptorList.printColumnDescriptorList();
         primaryKey=new ColumnDescriptorList();
@@ -181,6 +181,9 @@ public class TableDescriptor implements TableSchema {
             if(cd.getType().isPrimaryKey()){
                 primaryKey.add(cd);
             }
+        }
+        if(primaryKey.size()<1){
+            throw new Exception("Error: No primary key");
         }
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.EQ;
 
 public class LeftJoinStatement {
-    public static Table leftJoinImpl(Table t1, Table t2, List<Token> on) throws ClassNotFoundException {
+    public static Table leftJoinImpl(Table t1, Table t2, List<Token> on) throws Exception {
         String tablename=t2.getTableDescriptor().getName();
         HashMap hashMap=new HashMap();
         for(int i=0;i<on.size();i++){
