@@ -36,18 +36,14 @@ public class TestDriver {
             pst.executeUpdate();
             ResultSet rs=st.executeQuery("select * from person;");
             System.out.println(rs);
-            st.close();
-            pst.close();
-            conn.close();
             while (rs.next()) {
                 int id=rs.getInt("id");
-//                Date date1=rs.getDate("date1");
-//                Long A1=rs.getLong("a1");
-//                Double A2=rs.getDouble("a2");
-//                Float A3=rs.getFloat("a3");
-//                String A4=rs.getString("a4");
-//                System.out.println(id+" "+date1+" "+A1+" "+A2+" "+A3+" "+A4);
-                System.out.println("id is: "+id);
+                Date date1=rs.getDate("date1");
+                Long A1=rs.getLong("a1");
+                Double A2=rs.getDouble("a2");
+                Float A3=rs.getFloat("a3");
+                String A4=rs.getString("a4");
+                System.out.println(id+" "+date1+" "+A1+" "+A2+" "+A3+" "+A4);
             }
 //            Class.forName("com.ucd.oursql.sql.driver.OurSqlDriver");
 //            OurSqlDriver osd=new OurSqlDriver();
