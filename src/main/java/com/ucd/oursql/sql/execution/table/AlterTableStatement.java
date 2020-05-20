@@ -100,7 +100,7 @@ public class AlterTableStatement {
 //        ts.deleteTable(change.getTableDescriptor().getTableName());
         descriptorSaver dl=new descriptorSaver(change.getTableDescriptor(), change.getPropertyMap(),change.getTree(),ExecuteStatement.user.getUserName());
         dl.saveAll();
-        return 1;
+        return 0;
     }
 
 }

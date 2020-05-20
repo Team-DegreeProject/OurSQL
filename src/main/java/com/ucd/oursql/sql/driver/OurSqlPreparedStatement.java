@@ -25,11 +25,15 @@ public class OurSqlPreparedStatement implements PreparedStatement {
         SqlParser parser = new SqlParser(target);
         try {
             Object result=parser.parse();
-            System.out.println("result: "+result);
+            if(result instanceof ResultSet){
+                return (ResultSet)result;
+            }else{
+                return null;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -38,11 +42,15 @@ public class OurSqlPreparedStatement implements PreparedStatement {
         SqlParser parser = new SqlParser(target);
         try {
             Object result=parser.parse();
-            System.out.println("result: "+result);
+            if(result instanceof Integer){
+                return (int)result;
+            }else{
+                return -1;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
+            return -1;
         }
-        return 0;
     }
 
     @Override
@@ -59,10 +67,22 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     public void setByte(int i, byte b) throws SQLException {
         throw new SQLFeatureNotSupportedException();
     }
-
+    public void findIndex(int i,short s){
+        int index=-1;
+        if(sql.indexOf("?")!=0){
+            index=sql.indexOf("?");
+            for(int j=2; j<=i;j++){
+                index=sql.indexOf("?",index);
+            }
+        }
+        StringBuilder sb=new StringBuilder(sql);
+        sb.replace(index,index+1, String.valueOf(s));
+        sql=sb.toString();
+        System.out.println(sql);
+    }
     @Override
     public void setShort(int i, short i1) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+        findIndex(i,i1);
     }
     public void findIndex(int i,int s){
         int index=-1;
@@ -96,7 +116,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     }
     @Override
     public void setLong(int i, long l) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+        findIndex(i,l);
     }
     public void findIndex(int i,float s){
         int index=-1;
@@ -113,7 +133,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     }
     @Override
     public void setFloat(int i, float v) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+        findIndex(i,v);
     }
     public void findIndex(int i,double s){
         int index=-1;
@@ -130,7 +150,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     }
     @Override
     public void setDouble(int i, double v) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+        findIndex(i,v);
     }
 
     @Override
@@ -146,7 +166,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
             }
         }
         StringBuilder sb=new StringBuilder(sql);
-        sb.replace(index,index+1,s);
+        sb.replace(index,index+1,"\""+s+"\"");
         sql=sb.toString();
         System.out.println(sql);
     }
@@ -252,11 +272,15 @@ public class OurSqlPreparedStatement implements PreparedStatement {
         SqlParser parser = new SqlParser(target);
         try {
             Object result=parser.parse();
-            System.out.println("result: "+result);
+            if(result instanceof ResultSet){
+                return true;
+            }else{
+                return false;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override

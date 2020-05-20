@@ -25,7 +25,7 @@ public class UpdateDataStatement {
         Table subTable= WhereStatament.whereImpl(table,conditions);
         table.updateTable(changes,subTable);
         String output=table.printTable(null);
-        return 1;
+        return subTable.getTree().getDataNumber();
     }
 
 }

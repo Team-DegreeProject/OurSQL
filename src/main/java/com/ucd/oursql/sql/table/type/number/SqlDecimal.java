@@ -93,6 +93,19 @@ public class SqlDecimal implements SqlType {
         changeRange();
     }
 
+    @Override
+    public SqlType add(SqlType a) throws Exception {
+        this.data=this.data.add(((SqlDecimal)a).data);
+        changeRange();
+        return this;
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        this.data=this.data.divide(new BigDecimal(num));
+        changeRange();
+    }
+
     public int getPrecision() {
         return precision;
     }

@@ -65,19 +65,19 @@ public class ColumnDescriptorList extends ArrayList<ColumnDescriptor> {
 //            System.out.print(columnNames.get(i).image+" ");
 //        }
 //        System.out.println();
+        boolean in=false;
         for (ColumnDescriptor columnDescriptor : this) {
-            boolean in=false;
             for(int i=0;i<columnNames.size();i++){
                 String columnName=columnNames.get(i).image;
                 if (columnName.equals(columnDescriptor.getColumnName()) ) {
                     in=true;
                 }
             }
-            if(!in){
-                return false;
-            }
+//            if(!in){
+//                return false;
+//            }
         }
-        return true;
+        return in;
     }
 
 

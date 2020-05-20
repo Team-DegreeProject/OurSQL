@@ -11,7 +11,7 @@ public class DataStatements {
             return insertDataStatement.insertDataImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }
@@ -23,7 +23,7 @@ public class DataStatements {
             return deleteDataStatement.deleteDataImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }
@@ -35,7 +35,7 @@ public class DataStatements {
             return updateDataStatement.updateDataImpl();
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
 //        return out;
     }

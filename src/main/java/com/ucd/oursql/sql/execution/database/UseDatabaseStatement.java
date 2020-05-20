@@ -4,12 +4,11 @@ import com.ucd.oursql.sql.execution.ExecuteStatement;
 import com.ucd.oursql.sql.execution.other.WhereStatament;
 import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
-import com.ucd.oursql.sql.table.BTree.CglibBean;
-import com.ucd.oursql.sql.table.Database;
+import com.ucd.oursql.sql.system.Database;
 import com.ucd.oursql.sql.table.Table;
+import com.ucd.oursql.sql.table.type.PrimaryKey;
+import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.EQ;
@@ -24,8 +23,18 @@ public class UseDatabaseStatement {
 //        descriptorLoader dl=new descriptorLoader();
 //        dl.loadFromFile(databaseName);
 //        ExecuteStatement.uad.printUserAccessedDatabase();
-        Table table=ExecuteStatement.uad.getUserAccessedDatabase();
         String databaseName=((Token)statement.get(1)).image;
+
+
+        PrimaryKey pk=new PrimaryKey();
+        pk.addPrimaryKey("databasename",new SqlVarChar(databaseName));
+        pk.addPrimaryKey("user",new SqlVarChar(ExecuteStatement.user.getUserName()));
+        Table check= WhereStatament.compare(ExecuteStatement.uad.getUserAccessedDatabase(),"primary_key",EQ,pk);
+        int size=check.getTree().getDataNumber();
+        if(size>1){
+            throw new Exception("Error:There is a database with the same name!");
+        }
+
 
 //        System.out.println(databaseName);
         descriptorLoader dl=new descriptorLoader();
@@ -55,6 +64,6 @@ public class UseDatabaseStatement {
 //        database.printDatabase();
         ExecuteStatement.uad.printUserAccessedDatabase();
         String output=database.printDatabase();
-        return 1;
+        return 0;
     }
 }

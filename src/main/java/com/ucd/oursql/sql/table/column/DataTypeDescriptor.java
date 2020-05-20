@@ -1,10 +1,10 @@
 package com.ucd.oursql.sql.table.column;
 
-import com.ucd.oursql.sql.table.type.SqlConstant;
+import com.ucd.oursql.sql.parsing.SqlParserConstants;
 
 import static com.ucd.oursql.sql.table.type.SqlConstantImpl.sqlMap;
 
-public class DataTypeDescriptor implements SqlConstant {
+public class DataTypeDescriptor implements SqlParserConstants {
 
     private int typeId;
     private int precision=-1;

@@ -57,7 +57,7 @@ public class SqlController {
 
 //            }
         }
-        if (text.equals("exit;")) {
+        if (text.equals("exit;")||text.equals("EXIT;")) {
             permission = 0;
             if (st != null) {
                 st.close();
@@ -67,13 +67,25 @@ public class SqlController {
             }
             return "Bye!";
         }
-        rs=st.executeQuery(text);
+        String[] stringArray=text.split(" ");
+        if(stringArray[0].equals("show")||stringArray[0].equals("SHOW")||stringArray[0].equals("select")||stringArray[0].equals("SELECT")){
+            rs=st.executeQuery(text);
+            if(rs!=null) {
+                String[][] s = (String[][]) rs.getObject(0);
+                return s;
+            }else{
+                return null;
+            }
+        }else{
+            int re=st.executeUpdate(text);
+            return re;
+        }
+
 //        String[][] s={{"a","b","c"},{"d","e","f"},{"h","i","j"}};
 //        InputStream target = new ByteArrayInputStream(text.getBytes());
 //        SqlParser parser = new SqlParser(target);
 //        String result=parser.parse();
-        String[][] s=(String[][]) rs.getObject(0);
-        return s;
+
 
     }
 

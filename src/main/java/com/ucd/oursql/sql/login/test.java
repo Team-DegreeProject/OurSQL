@@ -5,7 +5,8 @@ import com.ucd.oursql.sql.storage.Storage.TreeSaver;
 
 public class test {
     public static void main(String[] args) {
-        TreeSaver a = new TreeSaver();
-        a.deleteTable("tt");
+        RegristrationFunc testRegristration = new RegristrationFunc();
+        testRegristration.register(new account("user1","user1"));
+
     }
 }

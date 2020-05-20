@@ -23,17 +23,21 @@ public class DropTableStatement {
         statement=tokens;
     }
 
-    public int dropTableImpl() throws ClassNotFoundException {
+    public int dropTableImpl() throws Exception {
         Table database=ExecuteStatement.db.getDatabase();
         List names= (List) statement.get(2);
         for(int i=0;i<names.size();i++){
             String name=((Token)names.get(i)).image;
             Table delete= WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(name));
-            database.deleteRows(delete);
+            if(delete.getTree().getDataNumber()==0){
+                throw new Exception("Error:Nothing to be deleted.");
+            }
+            database.deleteRows(delete,1);
             TreeSaver ts=new TreeSaver();
-            ts.deleteTable(name);
+            ts.deleteTable(name,ExecuteStatement.user.getUserName());
         }
+        ExecuteStatement.updateDB();
         String output=database.printTable(null);
-        return 1;
+        return 0;
     }
 }

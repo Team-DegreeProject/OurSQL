@@ -7,11 +7,9 @@ import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.system.User;
 import com.ucd.oursql.sql.system.UserAccessedDatabases;
-import com.ucd.oursql.sql.table.Database;
+import com.ucd.oursql.sql.system.Database;
 import com.ucd.oursql.sql.table.Table;
-import javafx.scene.control.Tab;
 
-import javax.jws.Oneway;
 import java.util.List;
 
 import static com.ucd.oursql.sql.parsing.SqlParserConstants.*;
@@ -22,29 +20,51 @@ public class ExecuteStatement {
     public static UserAccessedDatabases uad=null;//%%
     public static Database db=null;
 
-    public static User setUserTest(String name){
-        User u=new User(name);
-//        uad=user.getUserAccessedDatabases();
-//        uad.setUser(user);
-        return u;
-//        return uad;
-    }
+//    public static User setUserTest(String name){
+//        User u=new User(name);
+////        uad=user.getUserAccessedDatabases();
+////        uad.setUser(user);
+//        return u;
+////        return uad;
+//    }
 
-    public static void setAll(){
-        if(user == null){
-            user=setUserTest("root");
+//    public static void setAll(){
+//        if(user == null){
+//            user=setUserTest("root");
+//        }
+//        if(uad==null){
+//            uad=getUserAccessedDatabases();
+//        }
+//    }
+
+    public static void setUser(String name){
+        if(name!=null){
+            user=new User(name);
+        }else{
+            user=new User("root");
         }
         if(uad==null){
             uad=getUserAccessedDatabases();
         }
-    }
-
-    public static void setUser(String name){
-        user=new User(name);
 //        uad=user.getUserAccessedDatabases();
 //        return uad;
     }
 
+
+    public static void updateUAD(){
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table t=descriptorLoader.loadFromFile("UserPermissionDatabaseScope","root");
+        uad.setUserAccessedDatabase(t);
+    }
+
+    public static void updateDB(){
+        Table d=db.getDatabase();
+//        descriptorSaver descriptorSaver=new descriptorSaver(d.getTableDescriptor(),d.getPropertyMap(),d.getTree(),user.getUserName());
+//        descriptorSaver.saveAll();
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table t=descriptorLoader.loadFromFile(d.getTd().getTableName(),user.getUserName());
+        db.setDatabase(t);
+    }
 
 
     public static UserAccessedDatabases getUserAccessedDatabases(){
@@ -53,10 +73,15 @@ public class ExecuteStatement {
             u = new UserAccessedDatabases();
             u.setUser(user);
             descriptorLoader dl=new descriptorLoader();
-            Table t=dl.loadFromFile("UserPermissionDatabaseScope",user.getUserName());
+            Table t=dl.loadFromFile("UserPermissionDatabaseScope","root");
+//            System.out.println("UPDS===null");
 //            t.printTable(null);
             if(t==null){
                 System.out.println("====null=====");
+//                Table t1=dl.loadFromFile("UserPermissionDatabaseScope",user.getUserName());
+//                if(t1==null){
+//                    System.out.println("Here null");
+//                }
                 u.databaseList();
             }else{
                 System.out.println("====!null=====");
@@ -73,7 +98,7 @@ public class ExecuteStatement {
 
 
     public static Object rename(List tokens){
-        setAll();
+//        setAll();
         String out="Error: Rename !";
         int type=((Token)tokens.get(1)).kind;
         if(type==DATABASE){
@@ -84,7 +109,7 @@ public class ExecuteStatement {
     }
 
     public static Object create(List tokens){
-        setAll();
+//        setAll();
         String out="Error: Create !";
         int name=((Token)tokens.get(1)).kind;
         if(name==DATABASE){
@@ -93,18 +118,20 @@ public class ExecuteStatement {
             try {
                 if(db==null){
                     out="Wrong: There is no database !";
+                    return 0;
                 }
-                TableStatements.createTable(tokens);
-                out=db.printDatabase();
+                return TableStatements.createTable(tokens);
+//                out=db.printDatabase();
             } catch (Exception e) {
                 e.printStackTrace();
+                return 0;
             }
         }
         return out;
     }
 
     public static Object drop(List tokens){
-        setAll();
+//        setAll();
         String out="Error: Drop !";
         int type=((Token)tokens.get(1)).kind;
         if(type==DATABASE){
@@ -115,31 +142,37 @@ public class ExecuteStatement {
     }
 
     public static Object alter(List tokens){
-        setAll();
+//        setAll();
         return TableStatements.alterTable(tokens);
     }
 
     public static Object insert(List tokens){
-        setAll();
+//        setAll();
         return DataStatements.insertData(tokens);
     }
 
     public static Object delete(List tokens){
-        setAll();
+//        setAll();
         return DataStatements.deleteData(tokens);
     }
 
     public static Object update(List tokens){
-        setAll();
+//        setAll();
         return DataStatements.updateData(tokens);
     }
 
-    public static Object truncate(List tokens){setAll();return TableStatements.truncateTable(tokens);};
+    public static Object truncate(List tokens){
+//        setAll();
+        return TableStatements.truncateTable(tokens);
+    };
 
-    public static Object select(List tokens){setAll();return DataStatements.selectData(tokens);}
+    public static Object select(List tokens){
+//        setAll();
+        return DataStatements.selectData(tokens);
+    }
 
     public static Object show(List tokens){
-        setAll();
+//        setAll();
         String out="Error: Show !";
         Token t= (Token) tokens.get(1);
         if(t.kind==TABLES){
@@ -151,11 +184,9 @@ public class ExecuteStatement {
     }
 
     public static Object use(List tokens){
-        System.out.println("use1");
-        setAll();
-        System.out.println("use2");
+//        setAll();
         int r= (int) DatabaseStatements.useDatabase(tokens);
-        System.out.println("====r====="+r);
+        System.out.println("====result====="+r);
         return r;
     }
 }

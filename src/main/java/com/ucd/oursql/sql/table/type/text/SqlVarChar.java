@@ -92,4 +92,16 @@ public class SqlVarChar implements SqlType {
         int re=this.string.compareTo(((SqlVarChar)o).string);
         return re;
     }
+
+    @Override
+    public SqlType add(SqlType a) throws Exception {
+        this.string=this.string+((SqlVarChar)a).string;
+        changeRange(this.string);
+        return this;
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        throw new Exception("Error:This type do not support AVE opertion.");
+    }
 }

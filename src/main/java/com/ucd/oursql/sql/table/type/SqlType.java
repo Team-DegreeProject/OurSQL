@@ -11,4 +11,6 @@ public interface SqlType extends Comparable {
     public void setScale(int i) throws Exception;
     public void setPrecision(int i) throws Exception;
     public void updateValue() throws Exception;
+    public SqlType add(SqlType a) throws Exception;
+    public void ave(int num) throws Exception;
 }

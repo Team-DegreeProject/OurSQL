@@ -430,9 +430,6 @@ public class OurSqlResultset implements ResultSet {
                     result[rowPosition][columnPosition] = value.toString();
                 }
                 columnPosition++;
-//                    String value = cglibBean.getValue(name).toString();
-//                    System.out.println("the value is: "+value+" name: "+name);
-//                    resultMap.put(name, value);
             }
             columnPosition = 0;
             rowPosition++;

@@ -47,8 +47,12 @@ public class SelectDataStatement {
 //        System.out.println("====from===");
 //        show.printTable(null);
 
+//        System.out.println("==========after where===========");
+//        show.printTable(null);
         List<List<Token>> columns= getColumns();
         show=show.selectSomeColumns(tablenames,columns);
+//        System.out.println("===========after select==========");
+//        show.printTable(null);
 //        System.out.println("====from===");
 //        show.printTable(null);
 //        show.printTable(null);
@@ -76,6 +80,63 @@ public class SelectDataStatement {
 
         return rs;
     }
+
+    public Table selectDataImplIn() throws Exception {
+//        HashMap from=getFrom();
+
+        List<List<Token>> tablenames= (List<List<Token>>) statement.get(3);
+//        String tablename= tablenames.get(0).get(0).image;
+//        Table table= FromStatement.from(tablename);
+        Table table= dealWithFrom();
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
+//        table.printTable(null);
+
+        List<List<Token>> whereConsition=getWhhereToken();
+        table=WhereStatament.whereImpl(table,whereConsition);
+
+//        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary_key")).printPK();
+//        table.printTable(null);
+
+        List distinctNames=checkDistinct();
+//        table.printTable(null);
+        Table show=DistinctStatement.distinctImpl(table,distinctNames);
+//        System.out.println("====from===");
+//        show.printTable(null);
+
+//        System.out.println("==========after where===========");
+//        show.printTable(null);
+        List<List<Token>> columns= getColumns();
+        show=show.selectSomeColumns(tablenames,columns);
+//        System.out.println("===========after select==========");
+//        show.printTable(null);
+//        System.out.println("====from===");
+//        show.printTable(null);
+//        show.printTable(null);
+
+
+        List<List<Token>> orderbys=getOrderByLists();
+        List datas=OrderByStatement.orderByImpl(show,orderbys,table);
+
+        Token off=checkOffset();
+        Token limit=checkLimit();
+        Token fetch=checkRowFetch();
+        datas=dealWithLimit(datas,limit,off,fetch);
+
+
+        if(datas==null){
+            datas=show.getTree().getDatas();
+        }
+        String output=show.printTable(datas);
+
+        System.out.println("=================12345=====================");
+        System.out.println(output);
+
+//        OurSqlResultset rs=new OurSqlResultset(datas,show.getPropertyMap());
+//        System.out.println("testRs:"+rs.getInt("id"));
+
+        return show;
+    }
+
 
     public List dealWithLimit(List cs,Token l,Token off,Token rowFetch) throws Exception {
         if(off!=null){
@@ -236,6 +297,7 @@ public class SelectDataStatement {
         HashMap inner= new HashMap();
         HashMap left= new HashMap();
         HashMap right= new HashMap();
+        HashMap full=new HashMap();
         List start= (List) statement.get(s+1);
         names.add(start);
 
@@ -243,7 +305,7 @@ public class SelectDataStatement {
             Object o=statement.get(i);
             if(o instanceof Token){
                 Token t=(Token)o;
-                if(t.kind==INNER){
+                if(t.kind==INNER || t.kind==CROSS){
                     Token nt= (Token) statement.get(i+2);
                     List rl=new ArrayList();
                     rl.add(nt);
@@ -264,6 +326,13 @@ public class SelectDataStatement {
                     List on= (List) statement.get(i+4);
                     names.add(rl);
                     right.put(rl,on);
+                }else if(t.kind==FULL){
+                    Token nt= (Token) statement.get(i+2);
+                    List fl=new ArrayList();
+                    fl.add(nt);
+                    List on= (List) statement.get(i+4);
+                    names.add(fl);
+                    full.put(fl,on);
                 }
             }
         }
@@ -272,6 +341,7 @@ public class SelectDataStatement {
         hashMap.put("inner",inner);
         hashMap.put("left",left);
         hashMap.put("right",right);
+        hashMap.put("full",full);
         return hashMap;
     }
 
@@ -282,6 +352,7 @@ public class SelectDataStatement {
         HashMap inner= (HashMap) from.get("inner");
         HashMap left= (HashMap) from.get("left");
         HashMap right= (HashMap) from.get("right");
+        HashMap full=(HashMap)from.get("full");
         Table table= InnerJoinStatement.innerJoinStartImpl(start);
 //        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
 
@@ -306,6 +377,10 @@ public class SelectDataStatement {
                 table= RightJoinStatement.rightJoinImpl(table,t2,on);
 //                System.out.println("right");
 //                table.printTable(null);
+            }else if(full.get(name)!=null){
+                List<Token> on= (List<Token>) full.get(name);
+                Table t2= FromStatement.from(ExecuteStatement.db.getDatabase(),name.get(0).image);
+                table= FullJoinStatement.fullJoinImpl(table,t2,on);
             }
         }
 

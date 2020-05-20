@@ -6,8 +6,6 @@ import com.ucd.oursql.sql.parsing.Token;
 import com.ucd.oursql.sql.storage.Storage.TreeSaver;
 import com.ucd.oursql.sql.storage.Storage.descriptorLoader;
 import com.ucd.oursql.sql.storage.Storage.descriptorSaver;
-import com.ucd.oursql.sql.table.BTree.CglibBean;
-import com.ucd.oursql.sql.table.Database;
 import com.ucd.oursql.sql.table.Table;
 import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 
@@ -28,6 +26,7 @@ public class RenameTableStatement {
     }
 
     public int renameTableImpl() throws Exception {
+
         Table database=ExecuteStatement.db.getDatabase();
         String oldName=((Token)statement.get(2)).image;
         String newName=((Token)statement.get(4)).image;
@@ -35,9 +34,16 @@ public class RenameTableStatement {
         List values=new ArrayList();
 //        att.add("table");
 //        att.add("tablename");
+
+        descriptorLoader descriptorLoader=new descriptorLoader();
+        Table testDB=descriptorLoader.loadFromFile(newName,ExecuteStatement.user.getUserName());
+        if(testDB!=null){
+            throw new Exception("Error: There is a folder with the same name.");
+        }
+
         Table change= WhereStatament.compare(database,"tablename",EQ,new SqlVarChar(oldName));
         values.add(new SqlVarChar(newName));
-        boolean bool=database.updateTable(att,values,change);
+        boolean bool=database.updateTable(att,values,change,1);
         if(bool==false){
 //            database.printTable(null);
             throw new Exception("Error:Rename");
@@ -46,13 +52,14 @@ public class RenameTableStatement {
 
         descriptorLoader dl=new descriptorLoader();
         Table t=new Table(dl.loadFromFile(oldName,ExecuteStatement.user.getUserName()));
-        TreeSaver tl= new TreeSaver();
-//        System.out.println(databaseName);
-        tl.deleteTable(oldName);
-//        Table t=database.getDatabase();
         t.getTableDescriptor().setTableName(newName);
         descriptorSaver ds=new descriptorSaver(t.getTd(),t.getPropertyMap(),t.getTree(),ExecuteStatement.user.getUserName());
         ds.saveAll();
+        TreeSaver tl= new TreeSaver();
+//        System.out.println(databaseName);
+        tl.deleteTable(oldName,ExecuteStatement.user.getUserName());
+//        Table t=database.getDatabase();
+
 
 //        List list= (List) change.getTree().getDatas();
 //        CglibBean c= (CglibBean) list.get(0);
@@ -62,9 +69,9 @@ public class RenameTableStatement {
 //        values.add(table);
 //        table.getTableDescriptor().setTableName(newName);
 //        bool=database.updateTable(namestt,values,change);
-
+        ExecuteStatement.updateDB();
         String output=ExecuteStatement.db.printDatabase();
-        return 1;
+        return 0;
     }
 
 }

@@ -66,7 +66,11 @@ public class OurSqlStatement implements Statement{
 		SqlParser parser = new SqlParser(target);
 		try {
 			Object result=parser.parse();
-			System.out.println("result: "+result);
+			if(result instanceof ResultSet){
+				return true;
+			}else{
+				return false;
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -104,11 +108,16 @@ public class OurSqlStatement implements Statement{
 		Object result = null;
 		try {
 			result=parser.parse();
-			System.out.println("result: "+result);
+			if(result instanceof ResultSet){
+				System.out.println("result: "+result);
+				return (ResultSet) result;
+			}else {
+				return null;
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return null;
 		}
-		return (ResultSet)result;
 	}
 
 	@Override
@@ -118,10 +127,15 @@ public class OurSqlStatement implements Statement{
 		try {
 			Object result=parser.parse();
 			System.out.println("result: "+result);
+			if(result instanceof Integer){
+				return (int)result;
+			}else{
+				return -1;
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return -1;
 		}
-		return 0;
 	}
 
 	@Override

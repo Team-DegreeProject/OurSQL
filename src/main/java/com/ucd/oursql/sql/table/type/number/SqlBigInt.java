@@ -73,7 +73,24 @@ public class SqlBigInt implements SqlType {
     }
 
     @Override
+    public SqlType add(SqlType a) throws Exception {
+        this.data=this.data+((SqlBigInt)a).data;
+        changeRange();
+        return this;
+    }
+
+    @Override
+    public void ave(int num) throws Exception {
+        this.data=this.data/num;
+        changeRange();
+    }
+
+    @Override
     public int compareTo(Object o) {
         return this.data.compareTo(((SqlBigInt)o).data);
+    }
+
+    public String toString(){
+        return this.data.toString();
     }
 }

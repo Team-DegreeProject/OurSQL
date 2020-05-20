@@ -1,8 +1,10 @@
 package com.ucd.oursql.sql.driver;
 
+import com.ucd.oursql.sql.login.RegristrationFunc;
 import com.ucd.oursql.sql.login.account;
 import com.ucd.oursql.sql.login.loginFunc;
 
+import java.io.File;
 import java.sql.*;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -29,6 +31,21 @@ public class OurSqlDriver implements Driver{
 				if(st.hasMoreTokens()) {
 					jdbc=st.nextToken();
 					if(jdbc.equals("OurSql")) {
+						File a=new File("userInformation/");
+						if(!a.exists()){
+							account acc=new account("user","test");
+//							account acc2=new account("user2","user2");
+//							account acc3=new account("user3","user3");
+//							account acc4=new account("user4","user4");
+							RegristrationFunc rf=new RegristrationFunc();
+//							RegristrationFunc rf2=new RegristrationFunc();
+//							RegristrationFunc rf3=new RegristrationFunc();
+//							RegristrationFunc rf4=new RegristrationFunc();
+							rf.register(acc);
+//							rf2.register(acc2);
+//							rf3.register(acc3);
+//							rf4.register(acc4);
+						}
 						return true;
 					}
 				}

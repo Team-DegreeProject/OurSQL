@@ -48,8 +48,8 @@ public class TreeSaver {
 //            student.addContent(id);
 //        }
             List objectList = BplusTree.getDatas();
-            HashMap<String, String> resultMap = new HashMap<>();
             for (Object o : objectList) {
+                HashMap<String, String> resultMap = new HashMap<>();
                 CglibBean cglibBean = (CglibBean) o;
                 for (String name : ColumnNameList) {
                     Object value = cglibBean.getValue(name);
@@ -67,11 +67,10 @@ public class TreeSaver {
                     Map.Entry entry = (Map.Entry) iter.next();
                     String key = (String) entry.getKey();
                     String val = (String) entry.getValue();
-
                     //将对应的内容和key添加到xml中
                     Element XML_entity = new Element(key).setText(val);
-                    System.out.println("!!!!!!!!!");
-                    System.out.println("The value of the val is: "+val);
+//                    System.out.println("!!!!!!!!!");
+//                    System.out.println("The value of the val is: "+val);
                     entity.addContent(XML_entity);
 
 
@@ -134,9 +133,9 @@ public class TreeSaver {
 
 
     }
-    public boolean deleteTable(String tableName){
+    public boolean deleteTable(String tableName,String userName){
 
-        File file = new File("data/" + tableName + "/");
+        File file = new File("data/"+userName+"/" + tableName + "/");
         if(!file.exists()){
             return false;
         }
@@ -151,7 +150,7 @@ public class TreeSaver {
                     return false;
                 }
             }else{
-                if(!this.deleteTable(f.getAbsolutePath())){
+                if(!this.deleteTable(f.getAbsolutePath(),userName)){
                     return false;
                 }
             }
