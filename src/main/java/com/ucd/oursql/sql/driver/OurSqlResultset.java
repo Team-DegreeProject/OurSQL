@@ -29,11 +29,11 @@ public class OurSqlResultset implements ResultSet {
 //    public OurSqlResultset() {
 //    }
 
-    private int next = 0;
+    private int next = -1;
 
     @Override
     public boolean next() throws SQLException {
-        if(next < datas.size()){
+        if(next < datas.size()-1){
             next++;
             return true;
         }else {
@@ -250,6 +250,7 @@ public class OurSqlResultset implements ResultSet {
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlInt")){
 //            System.out.println("next:==============="+next);
 //            System.out.println(datas==null);
+            System.out.println("next is :"+next);
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
             return Integer.valueOf(value);

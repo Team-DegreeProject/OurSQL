@@ -20,7 +20,7 @@ public class TestDriver {
             Statement st=conn.createStatement();
             st.executeUpdate("create database tt;");
             st.executeUpdate("use tt;");
-            st.executeUpdate("drop table person;");
+//            st.executeUpdate("drop table person;");
             st.executeUpdate("create TABLE person(id int primary key,date1 date,a1 bigint, a2 double, a3 float,a4 varchar);");
             SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
             java.util.Date date = sdf.parse( "2015-5-6 10:30:00" );
@@ -41,12 +41,13 @@ public class TestDriver {
             conn.close();
             while (rs.next()) {
                 int id=rs.getInt("id");
-                Date date1=rs.getDate("date1");
-                Long A1=rs.getLong("a1");
-                Double A2=rs.getDouble("a2");
-                Float A3=rs.getFloat("a3");
-                String A4=rs.getString("a4");
-                System.out.println(id+" "+date1+" "+A1+" "+A2+" "+A3+" "+A4);
+//                Date date1=rs.getDate("date1");
+//                Long A1=rs.getLong("a1");
+//                Double A2=rs.getDouble("a2");
+//                Float A3=rs.getFloat("a3");
+//                String A4=rs.getString("a4");
+//                System.out.println(id+" "+date1+" "+A1+" "+A2+" "+A3+" "+A4);
+                System.out.println("id is: "+id);
             }
 //            Class.forName("com.ucd.oursql.sql.driver.OurSqlDriver");
 //            OurSqlDriver osd=new OurSqlDriver();
