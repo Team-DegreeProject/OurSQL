@@ -285,8 +285,10 @@ public class OurSqlResultset implements ResultSet {
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlYear")){
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
+            value=removeQutationMark(value);
+            Year resultYear = Year.parse(value);
 //            return Year.parse(value.toCharArray());
-            return null;
+            return resultYear;
         }
         else {
             System.out.println("Uncorrect Data Structure");
@@ -342,7 +344,6 @@ public class OurSqlResultset implements ResultSet {
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlDate")){
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
-            System.out.println("date:"+value);
             value=removeQutationMark(value);
             return Date.valueOf(value);
         }
@@ -357,6 +358,7 @@ public class OurSqlResultset implements ResultSet {
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlTime")){
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
+            value=removeQutationMark(value);
             return Time.valueOf(value);
         }
         else {
@@ -370,7 +372,9 @@ public class OurSqlResultset implements ResultSet {
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlTimeStamp")){
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
-            return Timestamp.valueOf(value);
+            value=removeQutationMark(value);
+            Timestamp resultTimestamp = Timestamp.valueOf(value);
+            return resultTimestamp;
         }
         else {
             System.out.println("Uncorrect Data Structure");
