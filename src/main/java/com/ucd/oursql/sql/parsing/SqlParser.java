@@ -3299,16 +3299,17 @@ templist = new ArrayList<Object>();
       set();
            i = 1;
     }
-         if( i == 0)
-         {
-            list = templist;
+//         if( i == 0)
+//         {
+//            list = templist;
+//            saveListInSQL(list);
+//            System.out.println("Only one set");
+//         }
+//         else
+//         {
             saveListInSQL(list);
-            System.out.println("Only one set");
-         }
-         else
-         {
-            saveListInSQL(list);
-         }
+//         }
+
   }
 
   final public void set() throws ParseException {

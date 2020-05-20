@@ -2227,16 +2227,16 @@ void sets() :
  )*
 
  {
-         if( i == 0)
-         {
-            list = templist;
+//         if( i == 0)
+//         {
+//            list = templist;
+//            saveListInSQL(list);
+//            System.out.println("Only one set");
+//         }
+//         else
+//         {
             saveListInSQL(list);
-            System.out.println("Only one set");
-         }
-         else
-         {
-            saveListInSQL(list);
-         }
+//         }
      }
 }
 
