@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="person">
 <entity>
-<ID>3</ID>
+<a1>34</a1>
+<a2>5.6</a2>
+<a3>4.6</a3>
+<a4>"dfnvdjdfbmldbm"</a4>
+<id>3</id>
 <date1>'2015-05-06'</date1>
-<primary_key>ID:3</primary_key>
+<primary_key>id:3</primary_key>
 </entity>
 </table>

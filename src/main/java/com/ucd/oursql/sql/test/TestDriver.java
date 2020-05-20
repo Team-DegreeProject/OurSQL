@@ -20,11 +20,12 @@ public class TestDriver {
             Statement st=conn.createStatement();
             st.executeUpdate("create database tt;");
             st.executeUpdate("use tt;");
-            st.executeUpdate("create TABLE person(ID int primary key,date1 date,A1 bigint, A2 double, A3 float,A4 varchar);");
+            st.executeUpdate("drop table person;");
+            st.executeUpdate("create TABLE person(id int primary key,date1 date,a1 bigint, a2 double, a3 float,a4 varchar);");
             SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
             java.util.Date date = sdf.parse( "2015-5-6 10:30:00" );
             long lg = date.getTime(); // 日期 转 时间戳
-            String sql="INSERT into person (ID,date1,A1,A2,A3,A4) values (?,?,?,?,?,?);";
+            String sql="INSERT into person (id,date1,a1,a2,a3,a4) values (?,?,?,?,?,?);";
             pst=conn.prepareStatement(sql);
             pst.setInt(1,3);
             pst.setDate( 2, new java.sql.Date( lg ) );
@@ -33,7 +34,7 @@ public class TestDriver {
             pst.setFloat(5,4.6f);
             pst.setString(6,"dfnvdjdfbmldbm");
             pst.executeUpdate();
-            ResultSet rs=st.executeQuery("select * from person");
+            ResultSet rs=st.executeQuery("select * from person;");
             System.out.println(rs);
             st.close();
             pst.close();

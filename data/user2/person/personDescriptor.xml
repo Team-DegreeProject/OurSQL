@@ -4,7 +4,7 @@
 <schema>0</schema>
 <lockGranularity>R</lockGranularity>
 <primaryKey>
-<primaryColumnName>ID</primaryColumnName>
+<primaryColumnName>id</primaryColumnName>
 </primaryKey>
 <columnDescriptorList>
 <columnDescriptor>
@@ -23,7 +23,7 @@
 <Unique>true</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>ID</columnName>
+<columnName>id</columnName>
 <columnPosition>1</columnPosition>
 <DataTypeDescriptor>
 <typeId>113</typeId>
@@ -53,7 +53,7 @@
 <Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>A1</columnName>
+<columnName>a1</columnName>
 <columnPosition>3</columnPosition>
 <DataTypeDescriptor>
 <typeId>362</typeId>
@@ -68,7 +68,7 @@
 <Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>A2</columnName>
+<columnName>a2</columnName>
 <columnPosition>4</columnPosition>
 <DataTypeDescriptor>
 <typeId>75</typeId>
@@ -83,7 +83,7 @@
 <Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>A3</columnName>
+<columnName>a3</columnName>
 <columnPosition>5</columnPosition>
 <DataTypeDescriptor>
 <typeId>89</typeId>
@@ -98,7 +98,7 @@
 <Unique>false</Unique>
 </columnDescriptor>
 <columnDescriptor>
-<columnName>A4</columnName>
+<columnName>a4</columnName>
 <columnPosition>6</columnPosition>
 <DataTypeDescriptor>
 <typeId>210</typeId>
