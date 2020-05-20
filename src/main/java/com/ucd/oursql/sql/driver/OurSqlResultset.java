@@ -17,6 +17,8 @@ import java.util.*;
 
 import com.ucd.oursql.sql.storage.Storage.UnCorrectDataStructureException;
 
+import static com.ucd.oursql.sql.execution.DMLTool.removeQutationMark;
+
 public class OurSqlResultset implements ResultSet {
     List<CglibBean> datas;
     HashMap propertyMap;
@@ -29,11 +31,11 @@ public class OurSqlResultset implements ResultSet {
 //    public OurSqlResultset() {
 //    }
 
-    private int next = 0;
+    private int next = -1;
 
     @Override
     public boolean next() throws SQLException {
-        if(next < datas.size()){
+        if(next < datas.size()-1){
             next++;
             return true;
         }else {
@@ -184,15 +186,15 @@ public class OurSqlResultset implements ResultSet {
 
     @Override
     public String getString(String s) throws SQLException {
-        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.text.SqlString")){
+//        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.text.SqlString")){
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
             return value;
-        }
-        else {
-            System.out.println("Uncorrect Data Structure");
-            throw new UnCorrectDataStructureException();
-        }
+//        }
+//        else {
+//            System.out.println("Uncorrect Data Structure");
+//            throw new UnCorrectDataStructureException();
+//        }
 
     }
 
@@ -250,6 +252,7 @@ public class OurSqlResultset implements ResultSet {
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlInt")){
 //            System.out.println("next:==============="+next);
 //            System.out.println(datas==null);
+            System.out.println("next is :"+next);
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
             return Integer.valueOf(value);
@@ -339,6 +342,8 @@ public class OurSqlResultset implements ResultSet {
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.date.SqlDate")){
             CglibBean currentBean = datas.get(next);
             String value = currentBean.getValue(s).toString();
+            System.out.println("date:"+value);
+            value=removeQutationMark(value);
             return Date.valueOf(value);
         }
         else {
