@@ -20,7 +20,7 @@ public class TestDriver {
             Statement st=conn.createStatement();
             st.executeUpdate("create database tt;");
             st.executeUpdate("use tt;");
-            st.executeUpdate("drop table person;");
+//            st.executeUpdate("drop table person;");
             st.executeUpdate("create TABLE person(id int primary key,date1 date,a1 bigint, a2 double, a3 float,a4 varchar);");
             SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
             java.util.Date date = sdf.parse( "2015-5-6 10:30:00" );
