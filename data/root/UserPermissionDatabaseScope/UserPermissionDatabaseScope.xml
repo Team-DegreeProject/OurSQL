@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GBK"?>
+<table name="UserPermissionDatabaseScope">
+<entity>
+<databasename>tt</databasename>
+<user>user2</user>
+<primary_key>databasename:tt;user:user2</primary_key>
+</entity>
+</table>
