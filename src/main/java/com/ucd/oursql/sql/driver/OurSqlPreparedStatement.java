@@ -224,7 +224,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
 
     @Override
     public void setTime(int i, Time time) throws SQLException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String timeStr=sdf.format(time);
         findIndex(i,timeStr);
     }
