@@ -20,7 +20,8 @@ public class TestDriver {
             Statement st=conn.createStatement();
             st.executeUpdate("create database tt;");
             st.executeUpdate("use tt;");
-            st.executeUpdate("create TABLE person(ID int primary key,date1 date,A1 bigint, A2 double, A3 float,A4 varchar);");
+            st.executeUpdate("drop table person;");
+            st.executeUpdate("create TABLE person(id int primary key,date1 date,a1 bigint, a2 double, a3 float,a4 varchar);");
             SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
             java.util.Date date = sdf.parse( "2015-5-6 10:30:00" );
             long lg = date.getTime(); // 日期 转 时间戳
