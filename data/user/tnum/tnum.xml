@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="tnum">
 <entity>
-<id>1</id>
-<primary_key>id:1</primary_key>
+<rrea>12.0</rrea>
+<id>3</id>
+<primary_key>id:3</primary_key>
 <ddo>1.1</ddo>
 <iin>00000001</iin>
 </entity>

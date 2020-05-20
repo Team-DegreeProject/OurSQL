@@ -96,8 +96,15 @@ public class WhereStatament {
                 for(int i=0;i<btree.size();i++){
                     CglibBean temp= (CglibBean) btree.get(i);
                     Comparable c= (Comparable) temp.getValue(attribute);
-                    if(c.compareTo(compare)==0){
-                        returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                    System.out.println(c+"-----"+compare);
+                    if(c!=null){
+                        if(c.compareTo(compare)==0){
+                            returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                        }
+                    }else{
+                        if(compare==null){
+                            returnTree.insert(temp, (Comparable) temp.getValue("primary_key"));
+                        }
                     }
                 }
                 break;
