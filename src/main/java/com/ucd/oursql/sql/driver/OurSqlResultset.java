@@ -1,6 +1,8 @@
 package com.ucd.oursql.sql.driver;
 
 import com.ucd.oursql.sql.table.BTree.CglibBean;
+import com.ucd.oursql.sql.table.type.SqlType;
+import com.ucd.oursql.sql.table.type.number.SqlBigInt;
 import com.ucd.oursql.sql.table.type.text.SqlVarChar;
 import org.apache.tomcat.util.bcel.classfile.ClassFormatException;
 
@@ -223,11 +225,12 @@ public class OurSqlResultset implements ResultSet {
         }
     }
 
-    public BigInteger getBigInt(String s) throws SQLException{
+    public long getBigInt(String s) throws SQLException{
         if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlBigInt")){
             CglibBean currentBean = datas.get(next);
+            SqlBigInt columnData = (SqlBigInt) currentBean.getValue("s");
             String value = currentBean.getValue(s).toString();
-            return new BigInteger(value);
+            return columnData.getData();
         }
         else {
             System.out.println("Uncorrect Data Structure");
@@ -265,7 +268,16 @@ public class OurSqlResultset implements ResultSet {
 
     @Override
     public long getLong(String s) throws SQLException {
-        return 0;
+        if(getDataStructure(s,"com.ucd.oursql.sql.table.type.number.SqlBigInt")){
+            CglibBean currentBean = datas.get(next);
+            SqlBigInt columnData = (SqlBigInt) currentBean.getValue("s");
+            String value = currentBean.getValue(s).toString();
+            return columnData.getData();
+        }
+        else {
+            System.out.println("Uncorrect Data Structure");
+            throw new UnCorrectDataStructureException();
+        }
     }
 
     @Override
