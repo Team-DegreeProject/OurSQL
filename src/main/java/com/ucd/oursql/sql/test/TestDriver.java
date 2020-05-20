@@ -24,7 +24,7 @@ public class TestDriver {
             SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
             java.util.Date date = sdf.parse( "2015-5-6 10:30:00" );
             long lg = date.getTime(); // 日期 转 时间戳
-            String sql="INSERT into person (ID,date1,A1,A2,A3,A4) values (?,?,?,?,?,?);";
+            String sql="INSERT into person (id,date1,a1,a2,a3,a4) values (?,?,?,?,?,?);";
             pst=conn.prepareStatement(sql);
             pst.setInt(1,3);
             pst.setDate( 2, new java.sql.Date( lg ) );
@@ -33,11 +33,20 @@ public class TestDriver {
             pst.setFloat(5,4.6f);
             pst.setString(6,"dfnvdjdfbmldbm");
             pst.executeUpdate();
-            ResultSet rs=st.executeQuery("select * from person");
+            ResultSet rs=st.executeQuery("select * from person;");
             System.out.println(rs);
             st.close();
             pst.close();
             conn.close();
+            while (rs.next()) {
+                int id=rs.getInt("id");
+                Date date1=rs.getDate("date1");
+                Long A1=rs.getLong("a1");
+                Double A2=rs.getDouble("a2");
+                Float A3=rs.getFloat("a3");
+                String A4=rs.getString("a4");
+                System.out.println(id+" "+date1+" "+A1+" "+A2+" "+A3+" "+A4);
+            }
 //            Class.forName("com.ucd.oursql.sql.driver.OurSqlDriver");
 //            OurSqlDriver osd=new OurSqlDriver();
 //            conn = DriverManager.getConnection(URL, USER, PASSWORD);

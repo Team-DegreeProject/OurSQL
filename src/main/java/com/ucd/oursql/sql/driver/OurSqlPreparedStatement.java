@@ -67,10 +67,22 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     public void setByte(int i, byte b) throws SQLException {
         throw new SQLFeatureNotSupportedException();
     }
-
+    public void findIndex(int i,short s){
+        int index=-1;
+        if(sql.indexOf("?")!=0){
+            index=sql.indexOf("?");
+            for(int j=2; j<=i;j++){
+                index=sql.indexOf("?",index);
+            }
+        }
+        StringBuilder sb=new StringBuilder(sql);
+        sb.replace(index,index+1, String.valueOf(s));
+        sql=sb.toString();
+        System.out.println(sql);
+    }
     @Override
     public void setShort(int i, short i1) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+        findIndex(i,i1);
     }
     public void findIndex(int i,int s){
         int index=-1;
