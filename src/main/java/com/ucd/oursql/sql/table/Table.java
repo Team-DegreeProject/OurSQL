@@ -232,6 +232,7 @@ public class Table extends SqlConstantImpl {
 //            return false;
         }
 
+
         boolean checkNull=td.getColumnDescriptorList().checkNotNull(attributes,values);
 //        td.printTableDescriptor();
         if(checkNull==false){
@@ -284,8 +285,17 @@ public class Table extends SqlConstantImpl {
                 SqlType value= ((SqlType) maxValues.get(i)).addOne();
                 bean.setValue(name,value);
             }
-
-
+            //检测是否存在相同pk
+            List list=tree.getDatas();
+            for(int i=0;i<list.size();i++){
+                CglibBean c= (CglibBean) list.get(i);
+                Comparable pk2= (Comparable) c.getValue("primary_key");
+                if(pk.compareTo(pk2)==0){
+                    descriptorLoader dl=new descriptorLoader();
+                    this.tree=dl.loadFromFile(this.td.getTableName(),ExecuteStatement.user.getUserName()).getTree();
+                    throw new Exception("Error: Same primary key.");
+                }
+            }
             bean.setValue("primary_key",pk);
             tree.insert(bean, (SqlType) bean.getValue("primary_key"));//双primarykey
         }

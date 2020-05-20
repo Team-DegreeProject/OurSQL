@@ -60,16 +60,35 @@ public class PrimaryKey implements SqlType{
     public int compareTo(Object o) {
         PrimaryKey pk2=(PrimaryKey)o;
         int outcome=0;
+        List<String> names=this.names;
+        if(pk2.names.size()>this.names.size()){
+            names=pk2.names;
+        }
         for(int i=0;i<names.size();i++){
             Comparable c1= (Comparable) pkmap.get(names.get(i));
             Comparable c2= pk2.getPrimaryKey(names.get(i));
 //            System.out.println("c1:"+c1+";c2:"+c2);
 //            System.out.println(c1.getClass().getName()+"---"+c2.getClass().getName());
-            outcome=c1.compareTo(c2);
-            if(outcome!=0){
-                return outcome;
+            System.out.println(names.get(i)+":"+c1+"  "+c2);
+            if(c1==null&&c2!=null){
+                System.out.println("case 1");
+                return -1;
+            }else if(c2==null&&c1!=null){
+                System.out.println("case 2");
+                return 1;
             }
-            System.out.println(c1+"  "+c2+"  "+outcome);
+
+            if(c1==null&&c2==null){
+//                outcome=0;
+            }else{
+                System.out.println("case 3");
+                outcome=c1.compareTo(c2);
+                if(outcome!=0){
+                    return outcome;
+                }
+//                System.out.println(c1+"  "+c2+"  "+outcome);
+            }
+
 
         }
         return outcome;

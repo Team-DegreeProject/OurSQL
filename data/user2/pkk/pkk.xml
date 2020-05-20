@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="GBK"?>
+<table name="pkk">
+<entity>
+<id>1</id>
+<primary_key>id:1</primary_key>
+</entity>
+<entity>
+<macc>0</macc>
+<idd>1</idd>
+<primary_key>idd:1</primary_key>
+</entity>
+<entity>
+<macc>1</macc>
+<idd>2</idd>
+<primary_key>idd:2</primary_key>
+</entity>
+<entity>
+<macc>0</macc>
+<idd>1</idd>
+<id>1</id>
+<primary_key>id:1;idd:1</primary_key>
+</entity>
+</table>
