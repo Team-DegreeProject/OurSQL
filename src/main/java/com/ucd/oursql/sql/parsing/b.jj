@@ -611,7 +611,6 @@ void subquerySelect(Token d):
     t = d;
     saveTokenInList(t,subquerySql);
 
-
 }
 {
    // t =<SELECT>   {saveTokenInList(t,list);}
@@ -631,9 +630,6 @@ void subquerySelect(Token d):
         (subqueryWhere())?
         (subqueryGroupBy() ) ?
         (subqueryOrderBy() ) ?
-
-
-
 
     //{   showStructure(); }
     //(<STATEMENT_END> | <END>)
@@ -999,7 +995,6 @@ Object delete(Token d) :
 Object truncate(Token d) :
 {
     Token t;
-
     sql = new ArrayList<Object>();
 }
 {
@@ -1012,12 +1007,8 @@ Object truncate(Token d) :
    ( t = <ID>| t = <NAME>)
    {    saveTokenInSQL(t);  }
 
-
-
     showStructure()
     (<STATEMENT_END> | <END>)
-
-
 
    {
         Object a = ExecuteStatement.truncate(sql);
@@ -1300,9 +1291,45 @@ void Join():
     templist = new ArrayList<Object>();
 }
 {
-    (t = <INNER>|t=<LEFT>|t =<FULL>|t=<CROSS>|t=<RIGHT>)                 {saveTokenInSQL(t);}
+    (t = <INNER> {saveTokenInSQL(t);}
+        |t=<LEFT> {saveTokenInSQL(t);}
+        |t =<FULL> {saveTokenInSQL(t);}
+        |t=<CROSS> {saveTokenInSQL(t);}
+        |t=<RIGHT> {saveTokenInSQL(t);}
+    )?
     t = <JOIN>                  {saveTokenInSQL(t);}
-    (t = <NAME>|t = <ID>)       {saveTokenInSQL(t);}
+    (
+        (t = <NAME>  {saveTokenInSQL(t);}
+            |t = <ID>  {saveTokenInSQL(t);}
+        )
+        |
+        (
+          <LBRACKET>
+            (
+
+                        t=<SELECT>
+                        {System.out.println("SUB-SELECT!!");}
+                        subquerySelect(t)
+                        {saveListInSQL(subquerySql);}
+
+//                       {
+//                        saveTempListInList(subquerySql,templist1);
+//            //            saveTempListInList(templist1,templist);
+//            //            saveTempListInList(templist,list);
+//                        }
+
+                    )
+
+
+          <RBRACKET>
+        )
+(
+                t = <AS>{saveTokenInSQL(t);}
+                 (t = <NAME>  {saveTokenInSQL(t);}
+                    |t = <ID>  {saveTokenInSQL(t);}
+                 )
+           )?
+    )
     t = <ON>                    {saveTokenInSQL(t);}
     (t = <NAME>|t = <ID>)       {saveTokenInList(t,templist);}
     t = <EQ>                    {saveTokenInList(t,templist);}
@@ -1582,6 +1609,7 @@ void in () :
 
            // {saveTempListInList(subquerySql,list);}
            {
+//           saveListInSQL(list);
             saveTempListInList(subquerySql,templist1);
 //            saveTempListInList(templist1,templist);
 //            saveTempListInList(templist,list);
@@ -1711,6 +1739,17 @@ void rightCondition() :
           }
 
     | function()
+    |
+    (
+          <LBRACKET>
+          t=<SELECT>
+          subquerySelect(t)
+          {
+//              saveTempListInList(subquerySql,sql);
+                saveTempListInList(subquerySql,list);
+          }
+          <RBRACKET>
+    )
 }
 
 void subqueryrightCondition() :
@@ -1828,7 +1867,20 @@ void selectResult() :
          singlefunction()
       )
       |
-        (t = <ID>|t = <NAME>){saveTokenInList(t,templist);}
+        (
+            t = <ID>{saveTokenInList(t,templist);}
+            |t = <NAME>{saveTokenInList(t,templist);}
+            |(
+
+                    <LBRACKET>
+                    t=<SELECT>
+                    {System.out.println("SUB-SELECT!!");}
+                    subquerySelect(t)
+        //         {saveListInSQL(subquerySql);}
+                    { saveTempListInList(subquerySql,templist);}
+                     <RBRACKET>
+                )
+        )
     )
 
 
@@ -1890,10 +1942,15 @@ void table() :
     templist = new ArrayList<Object>();
 }
 {
-  (t =<NAME>|t =<ID>)    {saveTokenInList(t,templist);}
+
+    (
+         (t =<NAME>{saveTokenInList(t,templist);})
+        |(t =<ID>{saveTokenInList(t,templist);})
+     )
+
   (
-    (t =<NAME>|t =<ID>) {saveTokenInList(t,templist);}
-    |   (t =<AS>{saveTokenInList(t,templist);}
+
+      (t =<AS>{saveTokenInList(t,templist);}
              (t =<NAME>|t =<ID>){saveTokenInList(t,templist);}
         )
  )?
@@ -2170,16 +2227,16 @@ void sets() :
  )*
 
  {
-         if( i == 0)
-         {
-            list = templist;
+//         if( i == 0)
+//         {
+//            list = templist;
+//            saveListInSQL(list);
+//            System.out.println("Only one set");
+//         }
+//         else
+//         {
             saveListInSQL(list);
-            System.out.println("Only one set");
-         }
-         else
-         {
-            saveListInSQL(list);
-         }
+//         }
      }
 }
 
