@@ -41,7 +41,7 @@ public class SqlTimeStamp implements SqlType {
 
     @Override
     public String toString() {
-        return "'"+timestamp.toString()+"'";
+        return "'"+timestamp.toString().substring(0,timestamp.toString().length()-2)+"'";
     }
 
     @Override
