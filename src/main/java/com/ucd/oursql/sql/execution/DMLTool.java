@@ -374,8 +374,8 @@ public class DMLTool {
         newList.printColumnDescriptorList();
 //        System.out.println(newList.);
         TableDescriptor tableDescriptor=new TableDescriptor(td.getName(),td.getSchema(),newList.getNewColumnDescriptorList());
-        tableDescriptor.updatePriamryKey();
-        tableDescriptor.printTableDescriptor();
+//        tableDescriptor.updatePriamryKey();
+//        tableDescriptor.printTableDescriptor();
         return tableDescriptor;
     }
 
