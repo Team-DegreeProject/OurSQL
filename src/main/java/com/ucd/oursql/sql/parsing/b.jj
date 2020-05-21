@@ -1737,7 +1737,11 @@ void rightCondition() :
                saveTokenInList(t,templist);
                saveTempListInList(templist,list);
           }
-
+    |t = <TIMEORDATE>
+         {
+                saveTokenInList(t,templist);
+                saveTempListInList(templist,list);
+         }
     | function()
     |
     (
