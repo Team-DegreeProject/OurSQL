@@ -171,7 +171,7 @@ public class descriptorSaver {
                 columnListElement.addContent(columnElement);
                 //??????е?descriptor
                 ColumnDescriptor singleColumn = allDescriptor.getColumnDescriptor(i);
-                if (singleColumn !=null){
+                if (singleColumn.getColumnName() != null ){
                     System.out.println("the singlecolumn is:"+singleColumn);
                     System.out.println("the singlecolumn name is:"+singleColumn.getColumnName());
                     String columnName = singleColumn.getColumnName();
