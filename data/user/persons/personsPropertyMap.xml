@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<table>
+  <cc>com.ucd.oursql.sql.table.type.number.SqlInt</cc>
+  <max_limit>com.ucd.oursql.sql.table.type.number.SqlInt</max_limit>
+  <firstname>com.ucd.oursql.sql.table.type.text.SqlVarChar</firstname>
+  <address>com.ucd.oursql.sql.table.type.text.SqlVarChar</address>
+  <test>com.ucd.oursql.sql.table.type.number.SqlInt</test>
+  <city>com.ucd.oursql.sql.table.type.number.SqlDouble</city>
+  <id>com.ucd.oursql.sql.table.type.number.SqlInt</id>
+  <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
+  <lastname>com.ucd.oursql.sql.table.type.text.SqlVarChar</lastname>
+</table>
