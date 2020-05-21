@@ -95,6 +95,7 @@ public class AlterTableStatement {
             }
         }
         change.getTableDescriptor().printTableDescriptor();
+        change.printTable(null);
 
 //        TreeSaver ts=new TreeSaver();
 //        ts.deleteTable(change.getTableDescriptor().getTableName());
