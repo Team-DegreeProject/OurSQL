@@ -2,7 +2,10 @@
 
 <table>
   <max_limit>com.ucd.oursql.sql.table.type.number.SqlInt</max_limit>
+<<<<<<< HEAD
   <firstname>com.ucd.oursql.sql.table.type.text.SqlVarChar</firstname>
+=======
+>>>>>>> master
   <address>com.ucd.oursql.sql.table.type.text.SqlVarChar</address>
   <test>com.ucd.oursql.sql.table.type.number.SqlInt</test>
   <city>com.ucd.oursql.sql.table.type.text.SqlVarChar</city>
