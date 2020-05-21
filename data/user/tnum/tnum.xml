@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="GBK"?>
 <table name="tnum">
 <entity>
+<dde>111</dde>
 <id>2</id>
 <primary_key>id:2</primary_key>
 <ddo>1234567.33</ddo>
 <iin>00000002</iin>
 </entity>
 <entity>
+<dde>111</dde>
 <id>3</id>
 <primary_key>id:3</primary_key>
 <ddo>123.46</ddo>
 <iin>00000003</iin>
 </entity>
 <entity>
-<bi>1</bi>
+<bi>18</bi>
 <id>7</id>
 <primary_key>id:7</primary_key>
 <ddo>1.2</ddo>
-<iin>00000007</iin>
+<iin>00000022</iin>
 </entity>
 <entity>
-<bi>1</bi>
+<bi>18</bi>
 <id>10</id>
 <primary_key>id:10</primary_key>
 <ddo>1.2</ddo>
-<iin>00000001</iin>
+<iin>00000022</iin>
 </entity>
 </table>
