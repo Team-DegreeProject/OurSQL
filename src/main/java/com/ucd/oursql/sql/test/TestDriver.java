@@ -49,15 +49,6 @@ public class TestDriver {
                 String A4=rs.getString("a4");
                 System.out.println(id+" "+date1+" "+date2+" "+date3+" "+A1+" "+A2+" "+A3+" "+A4);
             }
-//            Class.forName("com.ucd.oursql.sql.driver.OurSqlDriver");
-//            OurSqlDriver osd=new OurSqlDriver();
-//            conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//            Statement st=conn.createStatement();
-//            st.executeQuery("create database tt;");
-            String sql2="create database ?;";
-            pst=conn.prepareStatement(sql);
-            pst.setString(1,"ttt");
-            pst.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
