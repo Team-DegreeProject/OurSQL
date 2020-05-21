@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<table>
+  <a1>com.ucd.oursql.sql.table.type.number.SqlBigInt</a1>
+  <a2>com.ucd.oursql.sql.table.type.number.SqlDouble</a2>
+  <a3>com.ucd.oursql.sql.table.type.number.SqlFloat</a3>
+  <a4>com.ucd.oursql.sql.table.type.text.SqlVarChar</a4>
+  <date3>com.ucd.oursql.sql.table.type.date.SqlTimeStamp</date3>
+  <id>com.ucd.oursql.sql.table.type.number.SqlInt</id>
+  <date2>com.ucd.oursql.sql.table.type.date.SqlTime</date2>
+  <date1>com.ucd.oursql.sql.table.type.date.SqlDate</date1>
+  <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
+</table>

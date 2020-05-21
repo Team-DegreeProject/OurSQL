@@ -166,7 +166,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
             }
         }
         StringBuilder sb=new StringBuilder(sql);
-        sb.replace(index,index+1,"\""+s+"\"");
+        sb.replace(index,index+1,s);
         sql=sb.toString();
         System.out.println(sql);
     }
@@ -207,6 +207,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
             }
         }
     s=buf.toString();
+    s="\""+s+"\"";
     findIndex(i,s);
     }
 
@@ -219,6 +220,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     public void setDate(int i, Date date) throws SQLException {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String dateStr=sdf.format(date);
+        dateStr="\""+dateStr+"\"";
         findIndex(i,dateStr);
     }
 
@@ -226,6 +228,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     public void setTime(int i, Time time) throws SQLException {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String timeStr=sdf.format(time);
+        timeStr="\""+timeStr+"\"";
         findIndex(i,timeStr);
     }
 
@@ -233,6 +236,7 @@ public class OurSqlPreparedStatement implements PreparedStatement {
     public void setTimestamp(int i, Timestamp timestamp) throws SQLException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timestampStr=sdf.format(timestamp);
+        timestampStr="\""+timestampStr+"\"";
         findIndex(i,timestampStr);
     }
 
