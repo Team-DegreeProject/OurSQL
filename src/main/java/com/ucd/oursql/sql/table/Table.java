@@ -557,7 +557,8 @@ public class Table extends SqlConstantImpl {
             propertyMap.remove(columnName);
             primaryKeys.remove(columnName);
         }
-        td.printTableDescriptor();
+//        System.out.println("===================test drop============");
+//        td.printTableDescriptor();
         BPlusTree newTree=new BPlusTree();
         List<CglibBean> data=tree.getDatas();
         List<String> columns=td.getColumnNamesList();
@@ -573,6 +574,7 @@ public class Table extends SqlConstantImpl {
         this.tree=newTree;
         td.updatePriamryKey();
         updatePrimaryKey();
+        System.out.println("!!!!!size:"+td.columnDescriptorList.size());
         descriptorSaver ds=new descriptorSaver(td,propertyMap,tree,ExecuteStatement.user.getUserName());
         ds.saveAll();
     }
