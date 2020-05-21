@@ -27,6 +27,7 @@ public class FromStatement {
         }
         descriptorLoader dl=new descriptorLoader();
         Table t=dl.loadFromFile(tableName,ExecuteStatement.user.getUserName());
+        t.printTable(null);
 //        System.out.println("====from====");
 //        t.getTd().printTableDescriptor();
         return t;

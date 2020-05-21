@@ -50,6 +50,7 @@ public class SelectDataStatement {
 //        System.out.println("==========after where===========");
 //        show.printTable(null);
         List<List<Token>> columns= getColumns();
+//        show.printTable(null);
         show=show.selectSomeColumns(tablenames,columns);
 //        System.out.println("===========after select==========");
 //        show.printTable(null);
@@ -355,7 +356,7 @@ public class SelectDataStatement {
         HashMap full=(HashMap)from.get("full");
         Table table= InnerJoinStatement.innerJoinStartImpl(start);
 //        ((PrimaryKey)((CglibBean)table.getTree().getDatas().get(0)).getValue("primary key")).printPK();
-
+//        table.printTable(null);
         for(int i=1;i<names.size();i++){
             List<Token> name=names.get(i);
             if(inner.get(name)!=null){

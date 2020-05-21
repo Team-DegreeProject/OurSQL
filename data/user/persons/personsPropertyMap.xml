@@ -5,7 +5,7 @@
   <firstname>com.ucd.oursql.sql.table.type.text.SqlVarChar</firstname>
   <address>com.ucd.oursql.sql.table.type.text.SqlVarChar</address>
   <test>com.ucd.oursql.sql.table.type.number.SqlInt</test>
-  <city>com.ucd.oursql.sql.table.type.number.SqlDouble</city>
+  <city>com.ucd.oursql.sql.table.type.text.SqlVarChar</city>
   <id>com.ucd.oursql.sql.table.type.number.SqlInt</id>
   <primary_key>com.ucd.oursql.sql.table.type.PrimaryKey</primary_key>
   <lastname>com.ucd.oursql.sql.table.type.text.SqlVarChar</lastname>

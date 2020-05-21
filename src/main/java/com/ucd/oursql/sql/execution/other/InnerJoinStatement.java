@@ -21,6 +21,7 @@ public class InnerJoinStatement {
         if(tokens.size()<2){
             String tablename= tokens.get(0).get(0).image;
             Table table= FromStatement.from(ExecuteStatement.db.getDatabase(),tablename);
+//            table.printTable(null);
 //            System.out.println("=========inner join===========");
 //            table.getTd().printTableDescriptor();
 //            Iterator it=table.getPropertyMap().keySet().iterator();
