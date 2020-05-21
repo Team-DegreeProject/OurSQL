@@ -34,7 +34,7 @@ public class descriptorLoader {
             }
         }catch (Exception e){
 //            e.printStackTrace();
-            return null;
+            System.out.println("is property map null !!!!!!!!!!!!!!!!!!");
         }
         return propertyMap;
     }
@@ -71,29 +71,33 @@ public class descriptorLoader {
             List<Element> columnDescriptors = columnDescriptorListElement.getChildren("columnDescriptor");
             for (Element eachColunm : columnDescriptors) {
                 //除了dataType全部的部分
-                String columnName = eachColunm.getChildText("columnName");
-                int columnPosition = Integer.valueOf(eachColunm.getChildText("columnPosition"));
-                long autoincStart = Long.valueOf(eachColunm.getChildText("autoincStart"));
-                boolean autoincInc = Boolean.valueOf(eachColunm.getChildText("autoincInc"));
-                long autoincValue = Long.valueOf(eachColunm.getChildText("autoincValue"));
-                String comment = eachColunm.getChildText("comment");
-                boolean unique = Boolean.parseBoolean(eachColunm.getChildText("Unique"));
 
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                String columnName = eachColunm.getChildText("columnName");
+                if (columnName != null){
+                    int columnPosition = Integer.valueOf(eachColunm.getChildText("columnPosition"));
+                    long autoincStart = Long.valueOf(eachColunm.getChildText("autoincStart"));
+                    boolean autoincInc = Boolean.valueOf(eachColunm.getChildText("autoincInc"));
+                    long autoincValue = Long.valueOf(eachColunm.getChildText("autoincValue"));
+                    String comment = eachColunm.getChildText("comment");
+                    boolean unique = Boolean.parseBoolean(eachColunm.getChildText("Unique"));
+
+                    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //                SqlType columnDefaultValue = DMLTool.convertToValue(columnName,eachColunm.getChildText("columnDefaultValue"),propertyMap);
 
-                //DateTypeDescriptor
-                Element dataTypeDescriptor = eachColunm.getChild("DataTypeDescriptor");
-                int typeId = Integer.valueOf(dataTypeDescriptor.getChildText("typeId"));
-                int precision = Integer.valueOf(dataTypeDescriptor.getChildText("precision"));
-                int scale = Integer.valueOf(dataTypeDescriptor.getChildText("scale"));
-                boolean isNullable = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isNullable"));
-                boolean primaryKey = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));
-                DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,precision,scale,isNullable,primaryKey);
+                    //DateTypeDescriptor
+                    Element dataTypeDescriptor = eachColunm.getChild("DataTypeDescriptor");
+                    int typeId = Integer.valueOf(dataTypeDescriptor.getChildText("typeId"));
+                    int precision = Integer.valueOf(dataTypeDescriptor.getChildText("precision"));
+                    int scale = Integer.valueOf(dataTypeDescriptor.getChildText("scale"));
+                    boolean isNullable = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isNullable"));
+                    boolean primaryKey = Boolean.parseBoolean(dataTypeDescriptor.getChildText("isPrimaryKey"));
+                    DataTypeDescriptor dataTypeDescriptor1 = new DataTypeDescriptor(typeId,precision,scale,isNullable,primaryKey);
 //                System.out.println("THE VALUE OF DATATYPE is:"+typeId);
 //                System.out.println("THE VALUE OF PRIMARYKEY is:"+primaryKey);
-                ColumnDescriptor columnDescriptor = new ColumnDescriptor(tableDescriptor,columnName,columnPosition,dataTypeDescriptor1,autoincStart,autoincInc,autoincValue,null,comment,unique);
-                columnDescriptorList.add(columnDescriptor);
+                    ColumnDescriptor columnDescriptor = new ColumnDescriptor(tableDescriptor,columnName,columnPosition,dataTypeDescriptor1,autoincStart,autoincInc,autoincValue,null,comment,unique);
+                    columnDescriptorList.add(columnDescriptor);
+                }
+
 
 
             }
@@ -107,7 +111,7 @@ public class descriptorLoader {
 
 
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             return null;
         }
 
@@ -121,6 +125,9 @@ public class descriptorLoader {
             TreeLoader tl = new TreeLoader();
             BPlusTree fileTree = tl.loadFromFile(tableName,propertyMap,td.getColumnDescriptorList(),userName);
             Table resultTable = new Table(td,fileTree,propertyMap);
+            System.out.println("is table descriptor null:"+td==null);
+
+            System.out.println("is tree null:"+fileTree==null);
             return resultTable;
         }
         catch (Exception e){
