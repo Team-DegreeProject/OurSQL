@@ -109,9 +109,7 @@ public class descriptorSaver {
                 e.setText(value);
 
                 OutputFormat format=OutputFormat.createPrettyPrint();
-                //生成不一样的编码
                 format.setEncoding("GBK");
-                //6.生成xml文件
                 File file=new File("data/"+userName+"/"+tableName+"/"+tableName+"PropertyMap.xml");
 
                 File fileParent = file.getParentFile();//判断是否存在
@@ -173,62 +171,67 @@ public class descriptorSaver {
                 columnListElement.addContent(columnElement);
                 //??????е?descriptor
                 ColumnDescriptor singleColumn = allDescriptor.getColumnDescriptor(i);
-                String columnName = singleColumn.getColumnName();
-                Element columnNameElement = new Element("columnName").setText(columnName);
-                columnElement.addContent(columnNameElement);
-                int columnPosition = singleColumn.getPosition();
-                Element columnPositionElement = new Element("columnPosition").setText(String.valueOf(columnPosition));
-                columnElement.addContent(columnPositionElement);
+                if (singleColumn !=null){
+                    System.out.println("the singlecolumn is:"+singleColumn);
+                    System.out.println("the singlecolumn name is:"+singleColumn.getColumnName());
+                    String columnName = singleColumn.getColumnName();
+                    Element columnNameElement = new Element("columnName").setText(columnName);
+                    columnElement.addContent(columnNameElement);
+                    int columnPosition = singleColumn.getPosition();
+                    Element columnPositionElement = new Element("columnPosition").setText(String.valueOf(columnPosition));
+                    columnElement.addContent(columnPositionElement);
 
-                //dataTypedescriptor???????е?????
-                DataTypeDescriptor typeDescriptor = singleColumn.getType();
-                Element DataTypeDescriptorElement = new Element("DataTypeDescriptor");
-                int typeId = typeDescriptor.getTypeId();
-                Element typeIdElement = new Element("typeId").setText(String.valueOf(typeId));
-                DataTypeDescriptorElement.addContent(typeIdElement);
-                int precision= typeDescriptor.getPrecision();
-                Element precisionElement = new Element("precision").setText(String.valueOf(precision));
-                DataTypeDescriptorElement.addContent(precisionElement);
-                int scale= typeDescriptor.getScale();
-                Element scaleElement = new Element("scale").setText(String.valueOf(scale));
-                DataTypeDescriptorElement.addContent(scaleElement);
-                boolean isNullable= typeDescriptor.isNullable();
-                Element isNullableElement = new Element("isNullable").setText(String.valueOf(isNullable));
-                DataTypeDescriptorElement.addContent(isNullableElement);
-                boolean isPrimaryKey= typeDescriptor.isPrimaryKey();
-                Element isPrimaryKeyElement = new Element("isPrimaryKey").setText(String.valueOf(isPrimaryKey));
-                DataTypeDescriptorElement.addContent(isPrimaryKeyElement);
+                    //dataTypedescriptor???????е?????
+                    DataTypeDescriptor typeDescriptor = singleColumn.getType();
+                    Element DataTypeDescriptorElement = new Element("DataTypeDescriptor");
+                    int typeId = typeDescriptor.getTypeId();
+                    Element typeIdElement = new Element("typeId").setText(String.valueOf(typeId));
+                    DataTypeDescriptorElement.addContent(typeIdElement);
+                    int precision= typeDescriptor.getPrecision();
+                    Element precisionElement = new Element("precision").setText(String.valueOf(precision));
+                    DataTypeDescriptorElement.addContent(precisionElement);
+                    int scale= typeDescriptor.getScale();
+                    Element scaleElement = new Element("scale").setText(String.valueOf(scale));
+                    DataTypeDescriptorElement.addContent(scaleElement);
+                    boolean isNullable= typeDescriptor.isNullable();
+                    Element isNullableElement = new Element("isNullable").setText(String.valueOf(isNullable));
+                    DataTypeDescriptorElement.addContent(isNullableElement);
+                    boolean isPrimaryKey= typeDescriptor.isPrimaryKey();
+                    Element isPrimaryKeyElement = new Element("isPrimaryKey").setText(String.valueOf(isPrimaryKey));
+                    DataTypeDescriptorElement.addContent(isPrimaryKeyElement);
 
-                //??dataDEscriptorELement????tableElement???
-                columnElement.addContent(DataTypeDescriptorElement);
+                    //??dataDEscriptorELement????tableElement???
+                    columnElement.addContent(DataTypeDescriptorElement);
 
-                long autoincStart = singleColumn.getAutoincStart();
-                Element autoincStartElement = new Element("autoincStart").setText(String.valueOf(autoincStart));
-                columnElement.addContent(autoincStartElement);
-                boolean autoincInc = singleColumn.isAutoincInc();
-                Element autoincIncElement = new Element("autoincInc").setText(String.valueOf(autoincInc));
-                columnElement.addContent(autoincIncElement);
+                    long autoincStart = singleColumn.getAutoincStart();
+                    Element autoincStartElement = new Element("autoincStart").setText(String.valueOf(autoincStart));
+                    columnElement.addContent(autoincStartElement);
+                    boolean autoincInc = singleColumn.isAutoincInc();
+                    Element autoincIncElement = new Element("autoincInc").setText(String.valueOf(autoincInc));
+                    columnElement.addContent(autoincIncElement);
 
-                long autoincValue = singleColumn.getAutoincValue();
-                Element autoincValueElement = new Element("autoincValue").setText(String.valueOf(autoincValue));
-                columnElement.addContent(autoincValueElement);
+                    long autoincValue = singleColumn.getAutoincValue();
+                    Element autoincValueElement = new Element("autoincValue").setText(String.valueOf(autoincValue));
+                    columnElement.addContent(autoincValueElement);
 
-                if(singleColumn.getComment() != null){
-                    String comment = singleColumn.getComment();
-                    Element commentElement = new Element("comment").setText(String.valueOf(comment));
-                    columnElement.addContent(commentElement);
+                    if(singleColumn.getComment() != null){
+                        String comment = singleColumn.getComment();
+                        Element commentElement = new Element("comment").setText(String.valueOf(comment));
+                        columnElement.addContent(commentElement);
+                    }
+
+
+                    if(singleColumn.getDefaultInfo() != null){
+                        String columnDefaultValue = singleColumn.getDefaultInfo().toString();
+                        Element columnDefaultValueElement = new Element("columnDefaultValue").setText(String.valueOf(columnDefaultValue));
+                        columnElement.addContent(columnDefaultValueElement);
+                    }
+
+                    boolean unique = singleColumn.isUnique();
+                    Element columnUniqueElement = new Element("Unique").setText(String.valueOf(unique));
+                    columnElement.addContent(columnUniqueElement);
                 }
 
-
-                if(singleColumn.getDefaultInfo() != null){
-                    String columnDefaultValue = singleColumn.getDefaultInfo().toString();
-                    Element columnDefaultValueElement = new Element("columnDefaultValue").setText(String.valueOf(columnDefaultValue));
-                    columnElement.addContent(columnDefaultValueElement);
-                }
-
-                boolean unique = singleColumn.isUnique();
-                Element columnUniqueElement = new Element("Unique").setText(String.valueOf(unique));
-                columnElement.addContent(columnUniqueElement);
 
 
             }
@@ -242,7 +245,7 @@ public class descriptorSaver {
 
             File file = new File("data/"+userName+"/"+tableName+"/"+tableName+"Descriptor.xml");
 
-            File fileParent = file.getParentFile();//判断是否存在
+            File fileParent = file.getParentFile();
             if (!fileParent.exists()) {
                 fileParent.mkdirs();
             }
