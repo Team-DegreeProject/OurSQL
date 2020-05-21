@@ -22,11 +22,6 @@ public class TestDriver {
             st.executeUpdate("use tt;");
 //            st.executeUpdate("drop table person;");
             st.executeUpdate("create TABLE person(id int primary key,date1 date,date2 time,date3 timestamp ,a1 bigint, a2 double, a3 float,a4 varchar);");
-//            SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
-//            java.util.Date date = sdf.parse( "2015-5-6 10:30:00" );
-//            SimpleDateFormat sdf1 = new SimpleDateFormat( "HH:mm:ss" );
-//            java.util.Time time = sdf.parse( "10:30:00" );
-//            long lg = date.getTime(); // 日期 转 时间戳
             Date time1=new Date(System.currentTimeMillis());
             Time time2=new Time(System.currentTimeMillis());
             Timestamp time3=new Timestamp(System.currentTimeMillis());
@@ -59,10 +54,10 @@ public class TestDriver {
 //            conn = DriverManager.getConnection(URL, USER, PASSWORD);
 //            Statement st=conn.createStatement();
 //            st.executeQuery("create database tt;");
-//            String sql="create database ?;";
-//            pst=conn.prepareStatement(sql);
-//            pst.setString(1,"tt");
-//            pst.executeUpdate();
+            String sql2="create database ?;";
+            pst=conn.prepareStatement(sql);
+            pst.setString(1,"ttt");
+            pst.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
