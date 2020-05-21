@@ -555,7 +555,9 @@ public class Table extends SqlConstantImpl {
             String columnName=((Token)tokens.get(i).get(2)).image;
             list.dropColumn(columnName);
             propertyMap.remove(columnName);
+            primaryKeys.remove(columnName);
         }
+        td.printTableDescriptor();
         BPlusTree newTree=new BPlusTree();
         List<CglibBean> data=tree.getDatas();
         List<String> columns=td.getColumnNamesList();
