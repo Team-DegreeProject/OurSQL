@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="GBK"?>
 
 <table>
+  <max_limit>com.ucd.oursql.sql.table.type.number.SqlInt</max_limit>
   <firstname>com.ucd.oursql.sql.table.type.text.SqlVarChar</firstname>
   <address>com.ucd.oursql.sql.table.type.text.SqlVarChar</address>
   <test>com.ucd.oursql.sql.table.type.number.SqlInt</test>
