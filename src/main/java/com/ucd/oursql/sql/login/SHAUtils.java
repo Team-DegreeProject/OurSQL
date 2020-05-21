@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 
 public class SHAUtils {
     public static String shaEncode(String inStr) throws Exception {
+        // this part of the code is based on the website https://blog.csdn.net/LucasXu01/article/details/82954991
         MessageDigest sha = null;
         try {
             sha = MessageDigest.getInstance("SHA");
@@ -12,7 +13,6 @@ public class SHAUtils {
             e.printStackTrace();
             return "";
         }
-
         byte[] byteArray = inStr.getBytes("UTF-8");
         byte[] SHABytes = sha.digest(byteArray);
         StringBuffer hexValue = new StringBuffer();
